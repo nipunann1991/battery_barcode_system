@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 24, 2017 at 07:37 PM
+-- Generation Time: Oct 21, 2017 at 09:16 PM
 -- Server version: 10.1.19-MariaDB
 -- PHP Version: 5.6.28
 
@@ -17,7 +17,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `pos`
+-- Database: `battary_barcode_system`
 --
 
 -- --------------------------------------------------------
@@ -37,8 +37,7 @@ CREATE TABLE `categories` (
 --
 
 INSERT INTO `categories` (`id`, `cat_name`, `cat_desc`) VALUES
-(1, 'Biscuit', 'All Kinds of Biscuits'),
-(2, 'Noodles', 'All Kinds of Noodles Packets');
+(1, 'Car Battery', 'All kinds  of 12v car batteries');
 
 -- --------------------------------------------------------
 
@@ -60,7 +59,7 @@ CREATE TABLE `company` (
 --
 
 INSERT INTO `company` (`id`, `name`, `address`, `tel`, `email`, `note`) VALUES
-(1, 'Zigma Web', '275/A Colombo Road, \nGampaha', '0332228887', 'nipunann0710@gmail.com', 'sdfsf');
+(1, 'Zigma Web', '275/A Colombo Road, \nGampaha', '0332228887', 'nipunann0710@gmail.com', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod\ntempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,\nquis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo\nconsequat. Duis aute irure dolor in reprehenderit in voluptate velit esse\ncillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non\nproident, sunt in culpa qui officia deserunt mollit anim id est laborum.');
 
 -- --------------------------------------------------------
 
@@ -81,9 +80,8 @@ CREATE TABLE `item` (
 --
 
 INSERT INTO `item` (`item_id`, `item_name`, `item_display_name`, `cat_id`, `image_url`) VALUES
-(1, 'Munchee  Milk Short Cake 85g1', 'Munchee  Milk Short Cake 85g', 1, 'assets/upload/milk.jpg'),
 (2, 'PRIMA SPECIAL NOODLES 430G', 'PRIMA SPECIAL NOODLES 430G', 2, 'assets/upload/images1.jpg'),
-(3, 'software', 'software', 1, 'assets/upload/8.png');
+(3, 'SW4. 5-6', 'SW4. 5-6', 1, 'assets/upload/');
 
 -- --------------------------------------------------------
 
@@ -94,34 +92,21 @@ INSERT INTO `item` (`item_id`, `item_name`, `item_display_name`, `cat_id`, `imag
 CREATE TABLE `item_stock` (
   `stock_id` int(11) NOT NULL,
   `barcode` varchar(50) NOT NULL,
+  `invoice_no` varchar(30) NOT NULL,
   `item_id` int(11) NOT NULL,
   `manufacture_id` varchar(50) NOT NULL,
   `sup_id` int(11) NOT NULL,
-  `buy_price` float NOT NULL,
-  `sell_price` float NOT NULL,
-  `quantity` int(11) NOT NULL,
-  `reorder_level` int(11) NOT NULL,
-  `curr_quantity` int(11) NOT NULL,
-  `discount` int(11) NOT NULL,
-  `discount_type` int(11) NOT NULL,
-  `net_amount` float NOT NULL,
-  `price_changable` int(11) NOT NULL DEFAULT '0',
-  `calc_item` int(11) NOT NULL DEFAULT '0',
-  `purchase_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `archived` int(1) NOT NULL
+  `package_id` int(11) NOT NULL,
+  `status` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `item_stock`
 --
 
-INSERT INTO `item_stock` (`stock_id`, `barcode`, `item_id`, `manufacture_id`, `sup_id`, `buy_price`, `sell_price`, `quantity`, `reorder_level`, `curr_quantity`, `discount`, `discount_type`, `net_amount`, `price_changable`, `calc_item`, `purchase_date`, `archived`) VALUES
-(14, 'PM9546', 2, 'PM9', 100, 185, 200, 50, 1, 50, 1, 2, 198, 1, 1, '2017-09-10 18:28:15', 0),
-(19, '10657373737009', 1, '0', 100, 45, 55, 100, 20, 100, 0, 1, 55, 0, 0, '2017-09-18 17:30:21', 0),
-(20, '7754487530847195', 3, '1000', 100, 30, 30, 100, 1, 100, 20, 2, 24, 1, 1, '2017-09-19 08:11:10', 0),
-(21, '5001409813407486', 2, '0', 100, 30, 70, 100, 10, 100, 10, 1, 60, 0, 0, '2017-09-19 10:30:54', 0),
-(22, '9581427559753612', 4, '34', 100, 100, 120, 100, 10, 1, 0, 2, 120, 1, 1, '2017-09-19 17:46:44', 0),
-(26, '1954596118413175', 3, '0', 0, 100, 150, 150, 20, 150, 10, 2, 135, 0, 0, '2017-09-23 03:50:11', 0);
+INSERT INTO `item_stock` (`stock_id`, `barcode`, `invoice_no`, `item_id`, `manufacture_id`, `sup_id`, `package_id`, `status`) VALUES
+(2, '5912123016183', 'AD20170303', 3, '12301', 100, 0, 1),
+(3, '66015656510163', 'E565', 3, '56565', 100, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -243,12 +228,12 @@ ALTER TABLE `supplier`
 -- AUTO_INCREMENT for table `item_stock`
 --
 ALTER TABLE `item_stock`
-  MODIFY `stock_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `stock_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `login`
 --
 ALTER TABLE `login`
-  MODIFY `login_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `login_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
