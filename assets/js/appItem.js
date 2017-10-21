@@ -604,43 +604,20 @@ app.controller('ItemsStockCtrl', ['$scope','$location', 'ajaxRequest', 'goTo', '
         ajaxRequest.post('ItemsController/getSingleItemFromStock', sendItemBarcode ).then(function(response) {
 
             $scope.getSingleItemFromStock = response.data.data[0]; 
- 
+            
+            console.log($scope.getSingleItemFromStock)
 
             $scope.barcode = $scope.getSingleItemFromStock.barcode;
+            $scope.invoice_id = $scope.getSingleItemFromStock.invoice_no;
             $scope.manufacture_id = $scope.getSingleItemFromStock.manufacture_id;
-            $scope.buy_price = parseInt($scope.getSingleItemFromStock.buy_price);
-            $scope.sell_price = parseInt($scope.getSingleItemFromStock.sell_price);
-            $scope.quantity = parseInt($scope.getSingleItemFromStock.quantity);
-            $scope.reorder_level = parseInt($scope.getSingleItemFromStock.reorder_level);
-            $scope.discount = parseInt($scope.getSingleItemFromStock.discount);
-            $scope.discount_type = $scope.getSingleItemFromStock.discount_type;
-            $scope.net_amount = parseInt($scope.getSingleItemFromStock.net_amount);
+            $scope.supplier = $scope.getSingleItemFromStock.sup_id;
 
-
-             // $scope.num = Math.floor((Math.random() * 10000000000000000) + 1);
-             //  $scope.barcode = $scope.num;
-
+             
               JsBarcode("#code128",  $scope.barcode , {  
                 width:2,
                 height:30,
                 fontSize: 14 
               }); 
-
-
-            if ($scope.getSingleItemFromStock.calc_item == 1) {
-              $scope.calc_item = true;
-              $scope.calc_item1 = 1;
-            }else{
-              $scope.calc_item1 = 0;
-            }
-
-
-            if ($scope.getSingleItemFromStock.price_changable == 1) {
-              $scope.price_changable = true;
-              $scope.price_changable1 = 1;
-            }else{
-              $scope.price_changable1 = 0;
-            }
 
             
         });
@@ -652,52 +629,17 @@ app.controller('ItemsStockCtrl', ['$scope','$location', 'ajaxRequest', 'goTo', '
 
 
     $scope.editStockItem = function(stock_id){
-   
-        var item_id = $routeParams.id; 
-        var barcode = $scope.barcode;
-        var manufacture_id = $scope.manufacture_id;
-        var buy_price = $scope.buy_price;
-        var sell_price = $scope.sell_price;
-        var quantity = $scope.quantity;
-        var reorder_level = $scope.reorder_level;
-        var discount = $scope.discount;
-        var discount_type = $scope.discount_type;
-        var net_amount = $scope.net_amount;
-        var price_changable = $scope.price_changable;
-        var calc_item = $scope.calc_item;
-
-        if ($scope.price_changable) { 
-          price_changable = 1;
-        }else{
-          price_changable = 0;
-        }
-
-
-        if ($scope.calc_item) { 
-          calc_item = 1;
-        }else{
-          calc_item = 0;
-        }
- 
-
+    
         var data = $.param({ 
-            stock_id : stock_id,
-            item_id: item_id,
-            barcode: barcode, 
-            manufacture_id: manufacture_id, 
-            buy_price: buy_price, 
-            sell_price: sell_price,
-            quantity: quantity, 
-            reorder_level: reorder_level, 
-            discount: discount, 
-            discount_type: discount_type, 
-            net_amount: net_amount,
-            price_changable: price_changable,
-            calc_item: calc_item,
+          item_id: $routeParams.id, 
+          stock_id: stock_id,
+          barcode: $scope.barcode,
+          sup_id: $scope.supplier,
+          manufacture_id: $scope.manufacture_id,
+          invoice_no: $scope.invoice_id,
         });
 
-        
-
+         
       ajaxRequest.post('ItemsController/updateItemsStock', data).then(function(response) {
         
           if (response.status == 200) {
