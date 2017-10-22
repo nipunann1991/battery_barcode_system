@@ -367,7 +367,13 @@ app.controller('editItemsCtrl', ['$scope', '$http', 'goTo', 'ajaxRequest', '$q',
         $scope.discount_type = $scope.getDetails.discount_type;
         $scope.net_amount = parseInt($scope.getDetails.net_amount);
 
-        $('.item_img').attr('style', 'background-image: url('+$scope.getDetails.image_url+')');
+        var image_url = $scope.getDetails.image_url;
+
+        if ($scope.getDetails.image_url.split('/')[2] == '') {
+          image_url = 'assets/images/upload-image.png';
+        }
+
+        $('.item_img').attr('style', 'background-image: url('+image_url+')');
 
   
 
@@ -547,8 +553,13 @@ app.controller('ItemsStockCtrl', ['$scope','$location', 'ajaxRequest', 'goTo', '
         $scope.num1 = Math.floor(Math.random() * 10000) + 1000;
         $scope.num2 = Math.floor(Math.random() * 10000) + 1000  
         
+         var image_url = $scope.getDetails.image_url;
 
-        $('.item_img').attr('style', 'background-image: url('+$scope.getDetails.image_url+')');
+        if ($scope.getDetails.image_url.split('/')[2] == '') {
+          image_url = 'assets/images/upload-image.png';
+        }
+
+        $('.item_img').attr('style', 'background-image: url('+image_url+')');
  
 
     });

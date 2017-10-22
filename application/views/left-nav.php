@@ -24,7 +24,13 @@
 		      	<i class="{{nav.page_icon}}"></i> {{nav.page_name}} <span class="caret pull-right" ng-if="nav.page_sublinks"></span></md-button> 
 
 		      	<ul class="collapse nav_{{nav.page_name}}" id="nav_{{nav.page_name}}" ng-if="nav.page_sublinks">
-			        <li><a ng-href="{{subnav.subpage_link}}" ng-repeat="subnav in nav.page_sublinks"> - &nbsp; {{subnav.subpage_name}}</a></li> 
+			        <li>
+
+						<md-button ng-href="{{subnav.subpage_link}}" ng-repeat="subnav in nav.page_sublinks" > 
+					      	- &nbsp; {{subnav.subpage_name}}
+					    </md-button> 
+
+			        </li> 
 			    </ul> 
 
 		    </li>
