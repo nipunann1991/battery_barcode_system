@@ -86,6 +86,7 @@
       <script src="<?php echo base_url(); ?>assets/js/appItem.js"></script>
       <script src="<?php echo base_url(); ?>assets/js/appSupplier.js"></script>
       <script src="<?php echo base_url(); ?>assets/js/appCategory.js"></script>
+      <script src="<?php echo base_url(); ?>assets/js/appPackage.js"></script>
       <script src="<?php echo base_url(); ?>assets/js/appSettings.js"></script>
       <script src="<?php echo base_url(); ?>assets/js/posApp.js"></script>
 

@@ -4,7 +4,7 @@
 
 $base_nav_color : #0c171d;
 $base_nav_color_light: lighten($base_nav_color, 5%);
-$nav_width: 200px;
+$nav_width: 120px;
 $font_size: 13px;
 $letter_spacing: 0.03rem;
 $form_border: #cfdadd;
@@ -171,7 +171,7 @@ $item_width: 120px;
 		}
 	}
 	
-	.left_nav 										{ width: $nav_width; position: fixed; height: inherit; background: $base_nav_color; z-index: 1001; transition: all 0.5s ease;
+	.left_nav  										{ width: $nav_width; position: fixed; height: inherit; background: $base_nav_color; z-index: 1001; transition: all 0.5s ease;
 		&.open 										{ left: 0; }
 		&.closed 									{ left: -$nav_width; }
 
@@ -197,12 +197,12 @@ $item_width: 120px;
 		}
 		.body										{ 
 			ul 										{
-				li 									{
-					ul.nav_item  					{
+				li 									{ border-bottom: 1px #13252f solid;
+					ul  							{
 						a 							{  font-size: $font_size - 1; letter-spacing: $letter_spacing; }
 					}
-					a 								{ padding: 10px 20px; font-size: $font_size - 1; position: relative; display: block; text-decoration: none; color: #fff;  letter-spacing: $letter_spacing; border-bottom: 1px $base_nav_color_light solid; font-weight: 400	; margin: 0; border: 0; border-radius: 0; text-align: left;
-						i 							{ font-size: 14px; vertical-align: text-top; margin-right: 5px;}
+					a 								{ padding: 10px 20px; font-size: $font_size - 2; position: relative; display: block; text-decoration: none; color: #fff;  letter-spacing: $letter_spacing; border-bottom: 1px $base_nav_color_light solid; font-weight: 400	; margin: 0; border: 0; border-radius: 0; text-align: center;
+						i 							{ font-size: 25px; margin-bottom: 5px; display: block; vertical-align: text-top; }
 						&:hover  					{ background: $base_nav_color_light; }
 						&:focus  					{ background: $base_nav_color_light; }
 						&.heading 					{
@@ -210,7 +210,7 @@ $item_width: 120px;
 						}
 						&.active  					{ background: $default_blue /* darken(, 3%);*/ }
 
-						span.caret 					{ margin-top: 6px; }
+						span.caret 					{ margin-top: 6px; position: absolute; }
 					}
 				}
 			}  

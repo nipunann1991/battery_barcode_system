@@ -1,10 +1,8 @@
+
 /*
 * ref: items.php
 */
   
-
-
-
 
 app.controller('ItemsCtrl', ['$scope','$location', 'ajaxRequest', 'goTo', 'messageBox' , 'Notification',
   function($scope, $location, ajaxRequest, goTo, messageBox, Notification) {

@@ -39,40 +39,34 @@ app.config(['$routeProvider', '$locationProvider', function ($routeProvider, $lo
 
 app.controller('navCtrl', function($scope) {
   
-  $scope.application_name = 'Barcode System';
+  $scope.application_name = 'Logo';
  
 
 
   $scope.nav_links = [
-    { page_name: 'Dashboard' ,page_icon: 'icon-dashboard' , page_link: '#/', page_sublinks: '' },
+    { page_name: 'Dashboard' ,page_icon: 'icon-icon' , page_link: '#/', page_sublinks: '' },
 
-    { page_name: 'POS App' ,page_icon: 'glyphicon glyphicon-qrcode' , page_link: '#/POS-app', page_sublinks: '' },
+    { page_name: 'Invoice' ,page_icon: 'icon-list' , page_link: '#/POS-app', page_sublinks: '' },
 
-    { page_name: 'Items' ,page_icon: 'icon-shopping-basket' , page_link: '#items' , page_sublinks: [
-        {subpage_name: 'View Items' ,subpage_icon: 'icon-shopping-basket' , subpage_link: '#items'},
-        {subpage_name: 'Add Items' ,subpage_icon: 'icon-shopping-basket' , subpage_link: '#items/add-item'}, 
-    ]},
+    { page_name: 'Items' ,page_icon: 'icon-car-battery' , page_link: '#items' ,  page_sublinks: ''},
 
-    { page_name: 'Package' ,page_icon: 'icon-shopping-basket' , page_link: '#package' , page_sublinks: [
-        {subpage_name: 'View Package' ,subpage_icon: 'icon-shopping-basket' , subpage_link: '#package'},
-        {subpage_name: 'Add Package' ,subpage_icon: 'icon-shopping-basket' , subpage_link: '#package/add-package'}, 
-    ]},
+    { page_name: 'Package' ,page_icon: 'icon-box' , page_link: '#package' ,  page_sublinks: '' },
 
-    { page_name: 'Categories' ,page_icon: 'icon-category' , page_link: '#categories' , page_sublinks: [
-      {subpage_name: 'View Category' ,subpage_icon: 'icon-shopping-basket' , subpage_link: '#categories'},
-        {subpage_name: 'Add Category' ,subpage_icon: 'icon-shopping-basket' , subpage_link: '#categories/add-category'},
+    { page_name: 'Categories' ,page_icon: 'icon-share' , page_link: '#categories' ,  page_sublinks: ''},
 
-    ]},
-    { page_name: 'Suppliers' ,page_icon: 'icon-worker-loading-boxes' , page_link: '#suppliers' , page_sublinks: [
-        {subpage_name: 'View Suppliers' ,subpage_icon: 'icon-shopping-basket' , subpage_link: '#suppliers'},
-        {subpage_name: 'Add Suppliers' ,subpage_icon: 'icon-shopping-basket' , subpage_link: '#suppliers/add-suppliers'}, 
-
-    ]},
+    { page_name: 'Suppliers' ,page_icon: 'icon-truck' , page_link: '#suppliers' , page_sublinks: ''},
  
    
     
-    { page_name: 'Settings' ,page_icon: 'glyphicon glyphicon-cog' , page_link: '#/settings', page_sublinks: '' },
+    { page_name: 'Settings' ,page_icon: 'icon-settings' , page_link: '#/settings', page_sublinks: '' },
   ];
 
 
 });
+
+
+    // { page_name: 'Suppliers' ,page_icon: 'icon-worker-loading-boxes' , page_link: '#suppliers' , page_sublinks: [
+    //     {subpage_name: 'View Suppliers' ,subpage_icon: 'icon-shopping-basket' , subpage_link: '#suppliers'},
+    //     {subpage_name: 'Add Suppliers' ,subpage_icon: 'icon-shopping-basket' , subpage_link: '#suppliers/add-suppliers'}, 
+
+    // ]},
