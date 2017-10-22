@@ -3,8 +3,10 @@
         <div class="col-sm-6 col-md-4 col-md-offset-4">
             <h1 class="text-center login-title">Barcode System</h1>
             <div class="account-wall">
+
                 <img class="profile-img" src="assets/images/default-avatar.png"
                     alt="">
+                <p class="error_login" ng-show="error" ng-class="{ 'animated flash' : error }">{{error}}</p>
                 <form class="form-signin form-horizontal" name="loginItemForm">
                 
                 <div class="form-group">

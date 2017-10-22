@@ -3,7 +3,7 @@
 	
 		<div class="head">
 			<div class="top"> 
-				<h2>View Item - {{item_display_name}} </h2>
+				<h2>View Item &amp; Stock </h2>
 		  		<span class="breadcrumb">{{breadcrumb}}</span>
 		  		<div class="clearfix"></div>
 			</div> 
@@ -13,7 +13,33 @@
 		
 		<div class="row profile_details">
 			
-		 	<div class="col-md-9">
+		 	
+			<div class="col-md-3">
+				<div class="mid" >
+					 
+			  		<a href="" id="edit{{gis.item_id}}" class="edit" ng-click="editItem(item_id)"><i class="icon-pencil-edit-button" aria-hidden="true"></i></a>
+			  		
+			    		<div class="item_img row">
+			    			<input type="file" file-model="myFile" id="imgInp" >
+			    		</div>
+			    	
+			        <div class="">
+			        	<h2>{{item_display_name}} </h2>
+			        	<p>{{item_name}}</p>
+			        	<ul> 
+			        		<li><strong>Categoty ID: </strong> {{category_id}}</li>
+			        		<li><strong>Categoty Name: </strong> {{category_name}}</li>
+			        		<!-- <li><strong>Supplier ID: </strong>{{supplier_id}}</li>
+			        		<li><strong>Supplier Name: </strong>{{supplier_name}}</li> -->
+			        		
+			        	</ul>
+			        </div>
+			      
+			        <div class="clearfix"></div>
+			  	</div> 
+			</div>
+
+			<div class="col-md-9">
 				<div class="body"> 
 					<div class="top_bar"> 
 
@@ -24,9 +50,11 @@
 					</div>
 					
 
-				    <table datatable="ng" class="row-border hover table table-responsive table-bordered table-striped">
+				    <table datatable="ng"   dt-options="dtOptions" dt-column-defs="dtColumnDefs" class="row-border hover table table-responsive table-bordered table-striped">
 					    <thead>
 						    <tr>
+						    	
+						    	<th class="hide">stock_id</th>
 						        <th>Barcode</th>
 						        <th title="Manufacture Id">Manufacture ID</th>  
 						        <th>Invoice No</th>
@@ -39,6 +67,7 @@
 					    </thead>
 					    <tbody>
 						    <tr ng-repeat="gis in getSingleIteminStock" > <!-- ng-class="{ 'active_item' : gis.archived ==  '0'}" -->
+						    	<td class="hide">{{gis.stock_id}}</td>
 						        <td> <a href="#items/view-barcode/{{gis.barcode}}">{{gis.barcode}}</a></td> 
 						        <td>{{gis.manufacture_id}}</td>
 						        <td>{{gis.invoice_no}}</td>
@@ -233,30 +262,6 @@
 
 						 
 				</div>
-			</div>
-			<div class="col-md-3">
-				<div class="mid" >
-					 
-			  		<a href="" id="edit{{gis.item_id}}" class="edit" ng-click="editItem(item_id)"><i class="icon-pencil-edit-button" aria-hidden="true"></i></a>
-			  		
-			    		<div class="item_img row">
-			    			<input type="file" file-model="myFile" id="imgInp" >
-			    		</div>
-			    	
-			        <div class="">
-			        	<h2>{{item_display_name}} </h2>
-			        	<p>{{item_name}}</p>
-			        	<ul> 
-			        		<li><strong>Categoty ID: </strong> {{category_id}}</li>
-			        		<li><strong>Categoty Name: </strong> {{category_name}}</li>
-			        		<!-- <li><strong>Supplier ID: </strong>{{supplier_id}}</li>
-			        		<li><strong>Supplier Name: </strong>{{supplier_name}}</li> -->
-			        		
-			        	</ul>
-			        </div>
-			      
-			        <div class="clearfix"></div>
-			  	</div> 
 			</div>
 		</div>
 </div>

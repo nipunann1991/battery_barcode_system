@@ -101,6 +101,26 @@ class Pages extends CI_Controller {
 		$this->load->view('templates/categories/edit-categories');
 	}
 
+
+	/*
+	* Package
+	*/
+
+
+	public function package(){
+		$this->load->view('templates/package/package');
+	}
+
+
+	public function addPackage(){
+		$this->load->view('templates/package/add-package');
+	}
+
+	public function editPackage(){
+		$this->load->view('templates/package/edit-package');
+	}
+
+
 	
 
 	/*

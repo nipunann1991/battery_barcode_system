@@ -92,21 +92,6 @@ app.controller('addItemsCtrl', ['$scope', '$http', 'goTo', 'ajaxRequest', '$q' ,
     $scope.breadcrumb = 'Warn';
     $scope.animated_class = 'animated fadeIn';
 
-     
-
-    // $scope.calc_item1 = 1;
-    // $scope.price_changable1 = 1; 
-
-    // $scope.calc_item = true;
-    // $scope.price_changable = true; 
-    // $scope.net_amount = 0.00;
-    // $scope.buy_price = 0.00;
-    // $scope.sell_price = 0.00;
-    // $scope.discount = 0;
-    // $scope.quantity = $scope.reorder_level = 1;
-    // $scope.discount_type = '2';
-
- 
     
     
     
@@ -156,9 +141,6 @@ app.controller('addItemsCtrl', ['$scope', '$http', 'goTo', 'ajaxRequest', '$q' ,
     };
 
     
-    
-
-    
 
 
     $scope.close = function(){
@@ -172,19 +154,8 @@ app.controller('addItemsCtrl', ['$scope', '$http', 'goTo', 'ajaxRequest', '$q' ,
         var item_id = $scope.item_id;
         var item_name = $scope.item_name;
         var item_display_name =  $scope.item_display_name;
-        // var supplier = $scope.supplier;
         var category = $scope.category;
-        // var barcode = $scope.barcode;
-        // var manufacture_id = $scope.manufacture_id;
-        // var buy_price = $scope.buy_price;
-        // var sell_price = $scope.sell_price;
-        // var quantity = $scope.quantity;
-        // var reorder_level = $scope.reorder_level;
-        // var discount = $scope.discount;
-        // var discount_type = $scope.discount_type;
-        // var net_amount = $scope.net_amount;
-        // var price_changable = $scope.price_changable1;
-        // var calc_item = $scope.calc_item1;
+      
 
         var data_item = $.param({ 
             item_id: item_id, 
@@ -196,89 +167,36 @@ app.controller('addItemsCtrl', ['$scope', '$http', 'goTo', 'ajaxRequest', '$q' ,
         });
 
 
-        // var data_item_stock = $.param({ 
-
-        //     item_id: item_id, 
-        //     barcode: barcode,
-        //     manufacture_id: manufacture_id,
-        //     buy_price: buy_price,
-        //     sell_price: sell_price,
-        //     quantity: quantity,
-        //     reorder_level: reorder_level,
-        //     curr_quantity: quantity,
-        //     discount: discount,
-        //     discount_type: discount_type,
-        //     net_amount: net_amount,
-        //     calc_item: calc_item,
-        //     price_changable: price_changable,
-        //     sup_id: supplier,
-
-        // });
-
 
          
         ajaxRequest.post('ItemsController/addItem', data_item ).then(function(response) {
 
-           
 
             if (response.status == 200) {
 
-            var file = $scope.myFile;
-            var uploadUrl = "index.php/ItemsController/fileUpload";
-            var text = $scope.name;
+              var file = $scope.myFile;
+              var uploadUrl = "index.php/ItemsController/fileUpload";
+              var text = $scope.name;
 
-            fileUpload.uploadFileToUrl(file, uploadUrl, text, item_id);
+              fileUpload.uploadFileToUrl(file, uploadUrl, text, item_id);
 
-                  if (response.status == 200) {
-                      Notification.success('New item has been added successfully.');
-                      $scope.resetForm();
+              if (response.status == 200) {
+                  Notification.success('New item has been added successfully.');
+                  $scope.resetForm();
 
-                   }else if(response.status == 500 || response.status == 404){
-                      Notification.error('An error occured while adding item. Please try again.'); 
-                   }  
+              }else if(response.status == 500 || response.status == 404){
+                Notification.error('An error occured while adding item. Please try again.'); 
 
-              // ajaxRequest.post('ItemsController/addItemStock', data_item_stock ).then(function(response) {
-
-                  
-              // });
+              }  
 
 
              }else if(response.status == 500 || response.status == 404){
                 Notification.error('An error occured while adding item. Please try again.'); 
              } 
             
-        });
-
-
-        
-
+        });   
     };
 
-
-
-    // $scope.net_price = function(){
-
-
-    //   if (isNaN($scope.sell_price)) {
-    //     $scope.net_amount = 0;
-    //   }else{ 
-  
-    //       switch($scope.discount_type){
- 
-    //         case '1' :  $scope.net_amount = $scope.sell_price - $scope.discount;
-    //                   break;
-
-    //         case '2' :  $scope.net_amount = $scope.sell_price - ( $scope.sell_price * $scope.discount / 100 );
-    //                   break;
-
-    //         default: break
-    //       }
-         
-    //   }
-
-    //   return $scope.net_amount;
-       
-    // };
 
 
     $scope.navigateTo = function ( path ) {
@@ -527,19 +445,20 @@ app.controller('editItemsCtrl', ['$scope', '$http', 'goTo', 'ajaxRequest', '$q',
 * ref: view-item-stock.php
 */
 
-app.controller('ItemsStockCtrl', ['$scope','$location', 'ajaxRequest', 'goTo', 'messageBox' , 'Notification', '$routeParams', 'barcodeNo', 
-  function($scope, $location, ajaxRequest, goTo, messageBox, Notification, $routeParams, barcodeNo) {
+app.controller('ItemsStockCtrl', ['$scope','$location', 'ajaxRequest', 'goTo', 'messageBox' , 'Notification', '$routeParams', 'barcodeNo', 'DTOptionsBuilder',  
+  function($scope, $location, ajaxRequest, goTo, messageBox, Notification, $routeParams, barcodeNo, DTOptionsBuilder ) {
 
     $scope.title = 'View Stock';
     $scope.breadcrumb = 'Warn';
     $scope.animated_class = 'animated fadeIn';
  
-    var sendItemID =  $.param({ item_id: $routeParams.id })
+    var sendItemID = $.param({ item_id: $routeParams.id })
+
+    $scope.dtOptions = DTOptionsBuilder.newOptions().withOption('order', [[0, 'desc']]);
  
 
     ajaxRequest.post('ItemsController/getSingleItemJoined', sendItemID ).then(function(response) {
 
-        
         $scope.getDetails = response.data.data[0];
         $scope.stock_id = $scope.getDetails.stock_id; 
         $scope.item_id = $scope.getDetails.item_id;

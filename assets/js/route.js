@@ -12,6 +12,10 @@ app.config(['$routeProvider', '$locationProvider', function ($routeProvider, $lo
     .when("/items/view-item-stock/:id", { templateUrl : "index.php/Pages/viewItemStock",  css: 'style.css' })
     .when("/items/view-barcode/:barcode", { templateUrl : "index.php/Pages/viewBarcode",  css: 'style.css' })
 
+    .when("/package", {  templateUrl : "index.php/Pages/package",  css: 'style.css' })
+    .when("/package/add-package", {  templateUrl : "index.php/Pages/addPackage",  css: 'style.css' })
+    .when("/package/edit-package/:id", {  templateUrl : "index.php/Pages/editPackage",  css: 'style.css' })
+
     .when("/categories", {  templateUrl : "index.php/Pages/categories",  css: 'style.css' })
     .when("/categories/add-category", {  templateUrl : "index.php/Pages/addCategories",  css: 'style.css' })
     .when("/categories/edit-category/:id", {  templateUrl : "index.php/Pages/editCategories",  css: 'style.css' })
@@ -48,6 +52,12 @@ app.controller('navCtrl', function($scope) {
         {subpage_name: 'View Items' ,subpage_icon: 'icon-shopping-basket' , subpage_link: '#items'},
         {subpage_name: 'Add Items' ,subpage_icon: 'icon-shopping-basket' , subpage_link: '#items/add-item'}, 
     ]},
+
+    { page_name: 'Package' ,page_icon: 'icon-shopping-basket' , page_link: '#package' , page_sublinks: [
+        {subpage_name: 'View Package' ,subpage_icon: 'icon-shopping-basket' , subpage_link: '#package'},
+        {subpage_name: 'Add Package' ,subpage_icon: 'icon-shopping-basket' , subpage_link: '#package/add-package'}, 
+    ]},
+
     { page_name: 'Categories' ,page_icon: 'icon-category' , page_link: '#categories' , page_sublinks: [
       {subpage_name: 'View Category' ,subpage_icon: 'icon-shopping-basket' , subpage_link: '#categories'},
         {subpage_name: 'Add Category' ,subpage_icon: 'icon-shopping-basket' , subpage_link: '#categories/add-category'},

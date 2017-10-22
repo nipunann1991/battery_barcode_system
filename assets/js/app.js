@@ -72,6 +72,7 @@ app.controller('logCtrl', ['$scope', function($scope) {
 
 app.controller('loginFormCtrl', ['$scope','ajaxRequest', '$q', function($scope, ajaxRequest, $q ) {
 
+  $scope.error = '';
   
   $scope.login = function(){
 
@@ -93,7 +94,7 @@ app.controller('loginFormCtrl', ['$scope','ajaxRequest', '$q', function($scope, 
           location.reload();
 
         }else{
-          alert(2)
+          $scope.error = "Login error. Please insert your username and password correctly";
         }
 
     });

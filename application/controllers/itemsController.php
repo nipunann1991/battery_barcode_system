@@ -92,7 +92,7 @@ class ItemsController extends CommonController {
         $search_index = array(
 			'columns' => 'i.*, s.sup_name' ,   
 			'table' => 'item_stock i, supplier s ',
-			'data' => 'item_id= "'.$this->input->post('item_id').'" order by stock_id DESC',
+			'data' => 'i.item_id= '.$this->input->post('item_id').' ORDER BY i.stock_id DESC',
 		);
 
 		return $this->selectCustomData__($search_index);
