@@ -41,6 +41,7 @@ md-content 											{ background: transparent; }
 .inner_form 										{ background: #f9f9f9; border: 1px $form_border solid; margin: 20px 0 0 0; padding: 20px 0; }
 .btn 												{ border: 0; border-radius: 0%; @include transitions(all,1s,ease); font-weight: 500; font-size: $font_size; letter-spacing: 0.03rem; text-transform: uppercase;  padding: 8px 20px; }
 .quick_summery										{ margin-bottom: 40px}
+
 .net_price 											{ text-align: right; padding-top: 10px; margin-top: 10px;  border-top: 3px #e2e2e2 solid; 
 	p 												{ margin-bottom: 3px; }
 } 
@@ -53,6 +54,10 @@ md-content 											{ background: transparent; }
 }
 .btn_remove 										{ background-color: $default_red; color: #fff; 
 	&:hover, &:focus, &:active						{ color: #fff; background-color: darken( $default_red, 10%) !important; }
+}
+
+.btn_purple 										{ background-color: $default_purple; color: #fff; 
+	&:hover, &:focus, &:active						{ color: #fff; background-color: darken( $default_purple, 10%) !important; }
 }
 .loader 											{ width: inherit; height: inherit; background-color: rgba(255, 255, 255, 0.67); background-image: url(../images/flickr.gif);     background-repeat: no-repeat; background-position: 50%;  background-size: 65px; position: absolute; z-index: 1005; top: 0; 
 	.mdl-progress 									{ width: 100%; position: absolute; top: 50%; }
@@ -288,6 +293,34 @@ $item_width: 120px;
 							}
 						}
 					}  
+
+					.add_items_package 				{ border-top: 1px $table_border_color solid; padding: 20px 0; margin-top: 20px; 
+						.item_list 					{ margin-top: 20px;
+							ul 						{
+								li 					{
+									.batt_details 	{ float: left; 
+										span.title 	{ font-size: 21px; display: block; margin: 5px 0; }
+										span.category 	{}
+									}
+									svg.barcode 	{ float: left;  }
+								}
+							}
+						}
+
+						#tbl_package_items_wrapper	{ margin: 0; padding: 0;
+							table#tbl_package_items { margin: 0; 
+								&.dataTable tbody th { padding: 5px 10px; 
+									a 				{ color: $default_purple; font-size: 16px; text-decoration: none;
+										&:hover 	{ color: darken($default_red, 15%) } 
+									}
+								}
+							}
+							.dataTables_filter,
+							.dataTables_length 		{ display: none; }
+						}
+
+	
+					}
 				}
 			} 
 		}

@@ -3,7 +3,7 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class CommonController extends CI_Controller { 
+class commoncontroller extends CI_Controller { 
 
 	function __construct() {
 		parent::__construct(); 

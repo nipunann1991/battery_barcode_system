@@ -2,7 +2,7 @@
 
 <?php
 
-include 'commonController.php';
+include 'CommonController.php';
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
