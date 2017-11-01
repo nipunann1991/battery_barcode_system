@@ -79,18 +79,7 @@
 									        </th>
 									    </tr>
 								    </tbody>
-								</table>
-
-								<!-- <ul>
-									<li>
-										<div class="batt_details">
-											<span class="title">SW4. 5-6</span>
-											<span class="category">Car Battery</span>
-										</div>
-										
-										<div class="clearfix"></div>
-									</li>
-								</ul> -->
+								</table> 
 							</div>
 							 
 						</div>

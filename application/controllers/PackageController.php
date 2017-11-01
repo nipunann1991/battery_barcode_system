@@ -13,6 +13,11 @@ class PackageController extends CommonController {
 		$this->load->model('commonQueryModel'); 
 	}
 
+
+	public function getItems(){ 
+        return $this->getAllData__('package'); 
+    }
+
  
  	public function getSingleItem(){   
 
@@ -24,13 +29,25 @@ class PackageController extends CommonController {
 
 		return $this->selectCustomData__($search_index);   
     }
+
+
+    public function getAutoIncrementID(){   
+ 
+		return $this->getAutoIncrementID__('package');   
+    }
     
 
     public function updateSingleItem(){ 
 
 		$dataset = $this->input->post(); 
-		return $this->updateData__('item', $dataset, " item_id =".$dataset['item_id']);
+		return $this->updateData__('item_stock', $dataset, " stock_id =".$dataset['stock_id']);
  
+	}
+
+	public function addItem(){
+
+		$dataset = $this->input->post();
+		return $this->insertData__('package', $dataset); 
 	}
 	 
 

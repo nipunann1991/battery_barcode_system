@@ -15,27 +15,25 @@
 	    <table datatable="ng" class="row-border hover table table-responsive table-bordered table-striped">
 		    <thead>
 			    <tr >
-			        <th>Item Id</th>
-			        <th>Item Name</th> 
-			        <th>Item Display Name</th> 
-			        <th>Category</th>  
+			        <th>Package Id</th>
+			        <th>Package Barcode</th> 
+			        <th>Items</th>  
 			        <th> </th>
 			    </tr>
 		    </thead>
 		    <tbody>
 			    <tr ng-repeat="gi in getItem">
-			        <td> <a href="" ng-click="viewItemStock(gi.item_id)">{{gi.item_id}}</a> </td>
-			        <td> <a href="" ng-click="viewItemStock(gi.item_id)">{{gi.item_name}}</a> </td>
-			        <td>{{gi.item_name}}</td>
-			        <td>{{gi.cat_name}}</td> 
+			        <td> <a href="" ng-click="viewItemStock(gi.item_id)">{{gi.pkg_id}}</a> </td>
+			        <td> <a href="" ng-click="viewItemStock(gi.item_id)">{{gi.pkg_barcode}}</a> </td>
+			        <td>{{gi.pkg_items}}</td> 
 			        <td  width="100">  
-						<a href="" id="view_stock{{gi.item_id}}" class="view_stock" ng-click="viewItemStock(gi.item_id)"> 
+						<a href="" id="view_stock{{gi.pkg_id}}" class="view_stock" ng-click="viewItemStock(gi.pkg_id)"> 
 						 	<i class="glyphicon glyphicon-eye-open" title="View Stock" aria-hidden="true"></i>
 						</a>
-			        	<a href="" id="edit{{gi.item_id}}" ng-if="role_access" class="edit" title="Edit Items" ng-click="editItem(gi.item_id)">
+			        	<a href="" id="edit{{gi.pkg_id}}" ng-if="role_access" class="edit" title="Edit Items" ng-click="editItem(gi.pkg_id)">
 			        		<i class="icon-pencil-edit-button" aria-hidden="true"></i>
 			        	</a>
-			        	<a href="" id="delete{{gi.item_id}}" ng-if="role_access" ng-click="deleteItem(gi.item_id)" class="delete" title="Delete Items" >
+			        	<a href="" id="delete{{gi.pkg_id}}" ng-if="role_access" ng-click="deleteItem(gi.pkg_id)" class="delete" title="Delete Items" >
 			        		<i class="icon-rubbish-bin" aria-hidden="true"></i>
 			        	</a>
 			        </td>

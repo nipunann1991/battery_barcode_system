@@ -26,6 +26,18 @@ class commoncontroller extends CI_Controller {
         
     }
 
+
+    public function getAutoIncrementID__($table){
+
+        $data["results"] = $this->commonQueryModel->getAutoIncrementID($table); 
+        return $this->output->set_output(json_encode($data["results"], JSON_PRETTY_PRINT));
+
+        
+    }
+
+
+    
+
     public function selectLastIndex__($search_index){
 
         $data["results"] = $this->commonQueryModel->selectLastIndex($search_index); 

@@ -63,6 +63,36 @@ class CommonQueryModel extends CI_Model{
        
     }
 
+
+    
+
+    public function getAutoIncrementID($table){
+
+        $select_query = "SELECT AUTO_INCREMENT FROM information_schema.TABLES WHERE TABLE_NAME = '".$table."';" ;
+ 
+        $query = $this->db->query($select_query); 
+
+        if (!$query) {
+
+        	$output = array(
+				'status' => 500 , 
+				'data' => 'Query Error',
+			);
+
+			return $output;
+
+		}else{
+
+			$output = array(
+				'status' => 200 , 
+				'data' => $query->result(),
+			);
+			return $output;
+		}
+
+       
+    }
+
     public function selectLastIndex($search_index){
 
         $select_query = "SELECT `".$search_index['search_index']."` FROM `".$search_index['table']."` ORDER BY `".$search_index['search_index']."` DESC LIMIT 1 " ;
