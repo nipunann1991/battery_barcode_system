@@ -388,9 +388,6 @@ app.controller('editItemsCtrl', ['$scope', '$http', 'goTo', 'ajaxRequest', '$q',
         var calc_item = $scope.calc_item1;
 
 
-
- 
-
         var data = $.param({ 
             item_id: item_id, 
             item_name: item_name, 
@@ -399,9 +396,6 @@ app.controller('editItemsCtrl', ['$scope', '$http', 'goTo', 'ajaxRequest', '$q',
 
         });
 
-
-
-        
 
       ajaxRequest.post('ItemsController/updateItems', data).then(function(response) {
         
@@ -482,6 +476,11 @@ app.controller('ItemsStockCtrl', ['$scope','$location', 'ajaxRequest', 'goTo', '
     });
 
  
+
+    $scope.viewPackage = function(package_id){ 
+      goTo.page('package/view-package/'+package_id);
+    };
+
     $scope.getBarcode = function(){ 
       $scope.barcode = $scope.num1+''+$scope.manufacture_id+''+$scope.num2;
       barcodeNo.generateBarcode($scope.barcode);

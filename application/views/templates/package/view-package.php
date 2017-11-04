@@ -1,9 +1,9 @@
-<div ng-controller="ItemsStockCtrl" class="page_inner {{animated_class}}">
+<div ng-controller="viewPackageCtrl" class="page_inner {{animated_class}}">
 	
 	
 		<div class="head">
 			<div class="top"> 
-				<h2>View Item &amp; Stock </h2>
+				<h2>{{title}} </h2>
 		  		<span class="breadcrumb">{{breadcrumb}}</span>
 		  		<div class="clearfix"></div>
 			</div> 
@@ -14,83 +14,63 @@
 		<div class="row profile_details">
 			
 		 	
-			<div class="col-md-3">
+			<div class="col-md-4">
 				<div class="mid" >
 					 
-			  		<a href="" id="edit{{gis.item_id}}" class="edit" ng-click="editItem(item_id)"><i class="icon-pencil-edit-button" aria-hidden="true"></i></a>
+			  		<a href="" id="edit{{gis.item_id}}" class="edit" ng-click="editPackage()"><i class="icon-pencil-edit-button" aria-hidden="true"></i></a>
 			  		
-			    		<div class="item_img row">
+			    		<div class="item_img row hide">
 			    			<input type="file" file-model="myFile" id="imgInp" >
 			    		</div>
-			    	
-			        <div class="">
-			        	<h2>{{item_display_name}} </h2>
-			        	<p>{{item_name}}</p>
-			        	<ul> 
-			        		<li><strong>Categoty ID: </strong> {{category_id}}</li>
-			        		<li><strong>Categoty Name: </strong> {{category_name}}</li>
-			        		<!-- <li><strong>Supplier ID: </strong>{{supplier_id}}</li>
-			        		<li><strong>Supplier Name: </strong>{{supplier_name}}</li> -->
-			        		
-			        	</ul>
-			        </div>
+				    	
+		                <svg id="code128" class="barcode" ></svg>
+		              
+				        <div class="">
+				        	
+				        	<ul> 
+				        		<li><strong>Package ID: </strong> {{pkg_id}}</li>
+				        		<li><strong>Barcode: </strong> {{pkg_barcode}}</li>
+				        		<li><strong>Note: </strong> {{note}}</li> 
+				        		
+				        	</ul>
+				        </div>
 			      
 			        <div class="clearfix"></div>
 			  	</div> 
 			</div>
 
-			<div class="col-md-9">
+			<div class="col-md-8">
 				<div class="body"> 
 					<div class="top_bar"> 
 
-						<md-button ng-click="navigateTo('items')"  class="top"><i class="icon-list-with-dots" aria-hidden="true"></i> View Items List</md-button> 
-						<md-button ng-click="openModalAddStock()" class="top"><i class="icon-plus-sign-in-a-black-circle" aria-hidden="true"></i> Add new battery</md-button>
-						 
+						<md-button ng-click="editPackage()"  class="top"><i class="icon-list-with-dots" aria-hidden="true"></i> View Package List</md-button>   
 						<div class="clearfix"></div>
 					</div>
 					
 
-				    <table datatable="ng"   dt-options="dtOptions" dt-column-defs="dtColumnDefs" class="row-border hover table table-responsive table-bordered table-striped">
+				    <table datatable="ng" class="row-border datatable hover table table-responsive table-bordered table-striped">
 					    <thead>
-						    <tr>
-						    	
-						    	<th class="hide">stock_id</th>
-						        <th>Barcode</th>
-						        <th title="Manufacture Id">Manufacture ID</th>  
+						    <tr >
+						        <th>#Index</th>
+						        <th>Item Name</th> 
+						        <th>Category</th> 
 						        <th>Invoice No</th>
-						        <th>Supplier</th>
-						        <th>Package</th>
-						        <th>Status</th>
-						       
-						        <th ng-if="role_access"> </th>
+						        <th>Barcode</th>
+						        <th class="hide"></th>   
 						    </tr>
 					    </thead>
 					    <tbody>
-						    <tr ng-repeat="gis in getSingleIteminStock" > <!-- ng-class="{ 'active_item' : gis.archived ==  '0'}" -->
-						    	<td class="hide">{{gis.stock_id}}</td>
-						        <td> <a href="#items/view-barcode/{{gis.barcode}}">{{gis.barcode}}</a></td> 
-						        <td>{{gis.manufacture_id}}</td>
-						        <td>{{gis.invoice_no}}</td>
-						        <td>{{gis.sup_name}}</td>
-						        <td>
-						        	<span ng-show="gis.package_id == '0'" >-</span>
-						        	<span ng-show="gis.package_id == '1'" >{{gis.package_id}}</span> 
-						        </td>
-						        <td>
-						        	<span ng-show="gis.status == '0'" class="label label-danger" >Sold</span>
-						        	<span ng-show="gis.package_id == '0' && gis.status == '1'" class="label label-success"  >In Stock</span>
-						        	<span ng-click="viewPackage(gis.package_id)" ng-show="gis.package_id > '0' && gis.status == '1'" class="label label-warning"  >Packed</span>
-						        </td>
-
-						        <td ng-if="role_access"> 
-						        
-			 						<a href="" id="edit{{gis.stock_id}}" title="Edit Stock" class="edit" ng-click="openEditStockModal(gis.stock_id)"><i class="icon-pencil-edit-button" aria-hidden="true"></i></a><a href="" title="Delete Stock" id="delete{{gis.stock_id}}" ng-click="deleteItem(gis.stock_id)" class="delete" ><i class="icon-rubbish-bin" aria-hidden="true"></i></a>
-			 						
-						        </td>
+					    	<tr ng-repeat="gi in getItemList" >
+						        <td>#{{ $index + 1 }}</td>
+						        <td><a href="" ng-click="viewItemStock(gi.item_id)">{{gi.item_name}}</a></td> 
+						        <td>{{gi.cat_name}}</td> 
+						        <td>{{gi.invoice_no}}</td> 
+						        <td>{{gi.barcode}}</td>
+						        <td class="hide"></td> 
+						         
 						    </tr>
-
 					    </tbody>
-					</table>
+					</table> 
 
 
 					<div id="myModalAdd" class="modal fade" role="dialog">

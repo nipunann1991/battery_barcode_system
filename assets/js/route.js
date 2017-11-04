@@ -15,6 +15,7 @@ app.config(['$routeProvider', '$locationProvider', function ($routeProvider, $lo
     .when("/package", {  templateUrl : "index.php/Pages/package",  css: 'style.css' })
     .when("/package/add-package", {  templateUrl : "index.php/Pages/addPackage",  css: 'style.css' })
     .when("/package/edit-package/:id", {  templateUrl : "index.php/Pages/editPackage",  css: 'style.css' })
+    .when("/package/view-package/:id", {  templateUrl : "index.php/Pages/viewPackage",  css: 'style.css' })
 
     .when("/categories", {  templateUrl : "index.php/Pages/categories",  css: 'style.css' })
     .when("/categories/add-category", {  templateUrl : "index.php/Pages/addCategories",  css: 'style.css' })
@@ -24,7 +25,8 @@ app.config(['$routeProvider', '$locationProvider', function ($routeProvider, $lo
     .when("/suppliers/add-suppliers", {  templateUrl : "index.php/Pages/addSupplier",  css: 'style.css' })
     .when("/suppliers/edit-suppliers/:id", {  templateUrl : "index.php/Pages/editSupplier",  css: 'style.css' })
 
-    .when("/POS-app", { templateUrl : "index.php/Pages/POS",  css: 'style.css' })
+    .when("/invoice", { templateUrl : "index.php/Pages/invoice",  css: 'style.css' })
+    .when("/invoice/new-invoice", { templateUrl : "index.php/Pages/newInvoice",  css: 'style.css' })
 
     .when("/settings", { templateUrl : "index.php/Pages/settings",  css: 'style.css' })
 
@@ -46,7 +48,7 @@ app.controller('navCtrl', function($scope) {
   $scope.nav_links = [
     { page_name: 'Dashboard' ,page_icon: 'icon-icon' , page_link: '#/', page_sublinks: '' },
 
-    { page_name: 'Invoice' ,page_icon: 'icon-list' , page_link: '#/POS-app', page_sublinks: '' },
+    { page_name: 'Invoice' ,page_icon: 'icon-list' , page_link: '#/invoice', page_sublinks: '' },
 
     { page_name: 'Items' ,page_icon: 'icon-car-battery' , page_link: '#items' ,  page_sublinks: ''},
 

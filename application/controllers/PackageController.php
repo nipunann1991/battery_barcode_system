@@ -31,6 +31,29 @@ class PackageController extends CommonController {
     }
 
 
+    public function getItemsInPackage(){   
+
+        $search_index = array(
+			'columns' => 'i.item_name, c.cat_name, ist.*' ,   
+			'table' => 'item i, item_stock ist, categories c',
+			'data' => 'i.cat_id = c.id AND i.item_id = ist.item_id AND ist.package_id="'.$this->input->post('package_id').'" ',
+		);
+
+		return $this->selectCustomData__($search_index);   
+    }
+
+    public function getSinglePackage(){   
+
+        $search_index = array(
+			'columns' => '*' ,   
+			'table' => 'package',
+			'data' => 'pkg_id="'.$this->input->post('package_id').'"',
+		);
+
+		return $this->selectCustomData__($search_index);   
+    }
+
+
     public function getAutoIncrementID(){   
  
 		return $this->getAutoIncrementID__('package');   

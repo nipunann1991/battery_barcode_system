@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>Zigma POS</title>
+    <title>Mike Flora | Barcode System</title>
 
     <!-- Bootstrap -->
     <link href="assets/css/bootstrap.min.css" rel="stylesheet">
@@ -88,7 +88,7 @@
       <script src="<?php echo base_url(); ?>assets/js/appCategory.js"></script>
       <script src="<?php echo base_url(); ?>assets/js/appPackage.js"></script>
       <script src="<?php echo base_url(); ?>assets/js/appSettings.js"></script>
-      <script src="<?php echo base_url(); ?>assets/js/posApp.js"></script>
+      <script src="<?php echo base_url(); ?>assets/js/invoiceApp.js"></script>
 
       <script src="<?php echo base_url(); ?>assets/js/route.js"></script>
 

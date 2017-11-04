@@ -41,7 +41,6 @@ md-content 											{ background: transparent; }
 .inner_form 										{ background: #f9f9f9; border: 1px $form_border solid; margin: 20px 0 0 0; padding: 20px 0; }
 .btn 												{ border: 0; border-radius: 0%; @include transitions(all,1s,ease); font-weight: 500; font-size: $font_size; letter-spacing: 0.03rem; text-transform: uppercase;  padding: 8px 20px; }
 .quick_summery										{ margin-bottom: 40px}
-
 .net_price 											{ text-align: right; padding-top: 10px; margin-top: 10px;  border-top: 3px #e2e2e2 solid; 
 	p 												{ margin-bottom: 3px; }
 } 
@@ -69,7 +68,7 @@ button.blue 										{ background: $dafault_light_blue !important; color: #fff;
 }
 .error_login  										{ font-size: 12px; line-height: 14px; text-align: center; margin-bottom: 15px; background: #e41e1e; padding: 10px; color: #fff; }
 //.modal-open .modal 									{ display: -ms-flexbox; display: -webkit-flex; display: flex; -ms-flex-align: center; -webkit-align-items: center; -webkit-box-align: center; align-items: center; }
-.label 												{ font-weight: 300; font-size: 11px; padding: 2px 10px; 
+.label 												{ font-weight: 400; font-size: 11px; padding: 2px 10px; 
 	&.label-success 								{ background-color: $green_btn; }
 	&.label-warning 								{ background-color: $default_yellow; }
 	&.label-danger 									{ background-color: $default_red; }
@@ -230,8 +229,8 @@ $item_width: 120px;
 				.head 								{ margin-bottom: 10px; 
 					h2 								{ font-size: $font_size + 12; margin-bottom: 15px; float: left; }
 					.breadcrumb 					{ float: right; font-size: $font_size - 2; background: none;  margin: 0;} 
-					button 							{ font-size: $font_size  ; text-transform: capitalize; letter-spacing: $letter_spacing; background: $default_purple; color: #ffffff; padding: 2px 15px; font-weight: 500; font-family: inherit; line-height: 32px; height: auto; margin-bottom: 10px;
-						&:hover 					{ background: darken($default_purple, 10%); }
+					button 							{ font-size: $font_size  ; text-transform: capitalize; letter-spacing: $letter_spacing; background: $green_btn; color: #ffffff; padding: 2px 15px; font-weight: 500; font-family: inherit; line-height: 32px; height: auto; margin-bottom: 10px;
+						&:hover 					{ background: darken($green_btn, 10%); }
 					}
 				}
 				.mid 								{ margin-bottom: 20px; padding: 25px; background: #fefefe; box-shadow: 0px 1px 6px rgba(0,0,0,0.15); position: relative;
@@ -247,6 +246,7 @@ $item_width: 120px;
 						}
 					} 
 					
+					svg.barcode 					{ margin-top: 20px; position: relative; left: -5px; }
 				}
 				.body 								{ padding: 20px; margin-bottom: 50px; background: #fff; @include box_shadow();  font-size: $font_size - 1 ;
 					.top_bar 						{ border-bottom: 1px #e8e7e7 solid;
@@ -279,7 +279,7 @@ $item_width: 120px;
 							}
 							tbody 					{
 								tr 					{
-									td 				{ border : 0; padding: 6px 18px; border-top: 1px $table_border_color solid; border-right: 1px $table_border_color solid; 
+									td 				{ border : 0; padding: 6px 8px; border-top: 1px $table_border_color solid; border-right: 1px $table_border_color solid; 
 										a.links 	{ margin-right: 5px; text-decoration: none; color: $default_purple; font-size: 14px;
 											&:hover {  color: darken($default_red, 15%) }
 										}
@@ -294,7 +294,7 @@ $item_width: 120px;
 						}
 					}  
 
-					.add_items_package 				{ border-top: 1px $table_border_color solid; padding: 20px 0; margin-top: 20px; 
+					.add_items_package 				{ border-top: 1px #efefef solid; border-bottom: 1px #efefef solid; padding: 30px 0; margin: 20px 0; 
 						.item_list 					{ margin-top: 20px;
 							ul 						{
 								li 					{
@@ -318,8 +318,27 @@ $item_width: 120px;
 							.dataTables_filter,
 							.dataTables_length 		{ display: none; }
 						}
-
+						
+						.form-control 				{ border-radius: 0; box-shadow: none;  font-family: 'Montserrat', sans-serif;  font-size: $font_size;
+							&:hover, &:focus 		{ border: 1px $default_purple solid; }
+						}
 	
+					}
+
+					.invoice 						{
+						.header 					{ padding-bottom: 15px;  border-bottom: 1px #ddd solid;
+							.block 					{
+								&.right				{ text-align: right; }
+							}
+							h3 						{ font-size: $font_size + 4; margin-bottom: 5px; 
+								span 				{ font-weight: 300; }
+							}
+							p 						{ line-height: 17px; 
+								strong 				{ font-weight: 500; }
+							}
+						}
+						.invoice_body 				{ line-height: 17px; padding: 15px 0;
+						}
 					}
 				}
 			} 

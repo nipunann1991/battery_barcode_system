@@ -1,4 +1,4 @@
-<div ng-controller="addPackageCtrl" class="page_inner {{animated_class}}">
+<div ng-controller="editPackageCtrl" class="page_inner {{animated_class}}">
 	<div class="head">
 		<div class="top"> 
 			<h2>{{title}}</h2>
@@ -45,8 +45,8 @@
 				 
 			  	 
 				<div class="col-md-12 add_items_package">	
-					<div class="row"> 
 
+					<div class="row">  
 						<div class="col-lg-6">
 						    <div class="input-group">
 						      <input type="text" class="form-control" ng-model="item_barcode" placeholder="Search for item">
@@ -75,15 +75,15 @@
 									    </tr>
 								    </thead>
 								    <tbody>
-								    	<tr ng-repeat="gi in getItem" >
-									        <th>#{{  $index + 1 }}</th>
+								    	<tr ng-repeat="gi in getItemList" >
+									        <th>#{{ $index + 1 }}</th>
 									        <th>{{gi.item_name}}</th> 
 									        <th>{{gi.cat_name}}</th> 
 									        <th>{{gi.invoice_no}}</th> 
 									        <th>{{gi.barcode}}</th> 
 									        <!-- <th><svg id="code128sm" class="barcode" ></svg></th>   -->
 									        <th>
-												<a href="" id="delete{{$index}}" ng-if="role_access" ng-click="deleteItem(gi.barcode, $index )" class="delete ng-scope" title="Delete Items">
+												<a href="" id="delete{{gi.id}}" ng-if="role_access" ng-click="deleteItem(gi.stock_id, gi.barcode , $index)" class="delete ng-scope" title="Delete Items">
 									        		<i class="icon-rubbish-bin" aria-hidden="true"></i>
 									        	</a>
 									        </th>
@@ -102,7 +102,7 @@
 	        </div>
 	        	         	      
 		  	 <div class="form-group" >
-				<div class="col-md-12"  ng-show="getItem.length > 1"> 
+				<div class="col-md-12"  ng-show="getItemList.length > 1"> 
 					<md-button class="btn_add" type="button" id="add_item" ng-click="addItem()">Save Package</md-button>
 					<md-button class="btn-default" ng-click="close()">Close</md-button>
 

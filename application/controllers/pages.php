@@ -120,6 +120,9 @@ class Pages extends CI_Controller {
 		$this->load->view('templates/package/edit-package');
 	}
 
+	public function viewPackage(){  
+		$this->load->view('templates/package/view-package');
+	}
 
 	
 
@@ -151,11 +154,15 @@ class Pages extends CI_Controller {
 	
 
 	/*
-	* Settings
+	* Invoice
 	*/
 
-	 public function POS(){ 
-		$this->load->view('templates/POS-app/index');
+	public function invoice(){ 
+		$this->load->view('templates/invoice/invoices');
+	}
+
+	public function newInvoice(){ 
+		$this->load->view('templates/invoice/new-invoice');
 	}
 
 
