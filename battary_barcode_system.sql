@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 21, 2017 at 09:16 PM
+-- Generation Time: Nov 04, 2017 at 09:10 PM
 -- Server version: 10.1.19-MariaDB
 -- PHP Version: 5.6.28
 
@@ -59,7 +59,18 @@ CREATE TABLE `company` (
 --
 
 INSERT INTO `company` (`id`, `name`, `address`, `tel`, `email`, `note`) VALUES
-(1, 'Zigma Web', '275/A Colombo Road, \nGampaha', '0332228887', 'nipunann0710@gmail.com', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod\ntempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,\nquis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo\nconsequat. Duis aute irure dolor in reprehenderit in voluptate velit esse\ncillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non\nproident, sunt in culpa qui officia deserunt mollit anim id est laborum.');
+(1, 'Mike Flora Pvt Ltd', '275/A Colombo Road, \nGampaha', '0332228887', 'nipunann0710@gmail.com', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod\ntempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,\nquis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo\nconsequat. Duis aute irure dolor in reprehenderit in voluptate velit esse\ncillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non\nproident, sunt in culpa qui officia deserunt mollit anim id est laborum.');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `invoice`
+--
+
+CREATE TABLE `invoice` (
+  `invoice_id` int(20) NOT NULL,
+  `invoice_date` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -80,8 +91,9 @@ CREATE TABLE `item` (
 --
 
 INSERT INTO `item` (`item_id`, `item_name`, `item_display_name`, `cat_id`, `image_url`) VALUES
-(2, 'PRIMA SPECIAL NOODLES 430G', 'PRIMA SPECIAL NOODLES 430G', 2, 'assets/upload/images1.jpg'),
-(3, 'SW4. 5-6', 'SW4. 5-6', 1, 'assets/upload/');
+(3, 'SW4. 5-6', 'SW4. 5-6', 1, 'assets/upload/Null24.jpg'),
+(4, 'SW 5 12V', 'SW 5 12V', 1, 'assets/upload/'),
+(5, 'SW5-6C', 'SW5-6C', 1, 'assets/upload/');
 
 -- --------------------------------------------------------
 
@@ -96,7 +108,7 @@ CREATE TABLE `item_stock` (
   `item_id` int(11) NOT NULL,
   `manufacture_id` varchar(50) NOT NULL,
   `sup_id` int(11) NOT NULL,
-  `package_id` int(11) NOT NULL,
+  `package_id` int(11) NOT NULL DEFAULT '0',
   `status` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -105,8 +117,12 @@ CREATE TABLE `item_stock` (
 --
 
 INSERT INTO `item_stock` (`stock_id`, `barcode`, `invoice_no`, `item_id`, `manufacture_id`, `sup_id`, `package_id`, `status`) VALUES
-(2, '5912123016183', 'AD20170303', 3, '12301', 100, 0, 1),
-(3, '66015656510163', 'E565', 3, '56565', 100, 0, 1);
+(2, '5912123016183', 'AD20170303', 3, '12301', 100, 12, 1),
+(3, '8188565656DE9788', 'E565', 3, '565656DE', 100, 0, 1),
+(4, '9949121213217102', '55659', 3, '12121321', 100, 0, 0),
+(5, '9657yuiyi6790', 'utyu', 3, 'yuiyi', 100, 0, 1),
+(6, '9750FC15101710565', 'SL20170303LL', 5, 'FC151017', 100, 12, 1),
+(7, '4378445634569981', '456456465', 4, '44563456', 100, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -129,6 +145,26 @@ INSERT INTO `login` (`login_id`, `username`, `password`, `role_id`) VALUES
 (1, 'admin', '0192023a7bbd73250516f069df18b500', 0),
 (2, 'Nipuna', '656176c3a3131f7d729539cf642ac59e', 2),
 (4, 'sameera@gmail.com', '6b10f545cf1888bde3edf30086068929', 2);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `package`
+--
+
+CREATE TABLE `package` (
+  `pkg_id` double NOT NULL,
+  `pkg_barcode` varchar(50) NOT NULL,
+  `pkg_items` varchar(1000) NOT NULL,
+  `note` varchar(200) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `package`
+--
+
+INSERT INTO `package` (`pkg_id`, `pkg_barcode`, `pkg_items`, `note`) VALUES
+(12, 'P041120178031184925', '', '');
 
 -- --------------------------------------------------------
 
@@ -191,6 +227,12 @@ ALTER TABLE `company`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `invoice`
+--
+ALTER TABLE `invoice`
+  ADD PRIMARY KEY (`invoice_id`);
+
+--
 -- Indexes for table `item`
 --
 ALTER TABLE `item`
@@ -207,6 +249,12 @@ ALTER TABLE `item_stock`
 --
 ALTER TABLE `login`
   ADD PRIMARY KEY (`login_id`);
+
+--
+-- Indexes for table `package`
+--
+ALTER TABLE `package`
+  ADD PRIMARY KEY (`pkg_id`);
 
 --
 -- Indexes for table `roles`
@@ -228,12 +276,17 @@ ALTER TABLE `supplier`
 -- AUTO_INCREMENT for table `item_stock`
 --
 ALTER TABLE `item_stock`
-  MODIFY `stock_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `stock_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT for table `login`
 --
 ALTER TABLE `login`
   MODIFY `login_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+--
+-- AUTO_INCREMENT for table `package`
+--
+ALTER TABLE `package`
+  MODIFY `pkg_id` double NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
