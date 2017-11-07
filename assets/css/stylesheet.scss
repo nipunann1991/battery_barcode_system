@@ -325,19 +325,35 @@ $item_width: 120px;
 	
 					}
 
-					.invoice 						{
+					&.invoice 						{ padding: 50px;
 						.header 					{ padding-bottom: 15px;  border-bottom: 1px #ddd solid;
 							.block 					{
 								&.right				{ text-align: right; }
 							}
 							h3 						{ font-size: $font_size + 4; margin-bottom: 5px; 
+								&.company_name 		{ font-size: $font_size + 7;}
 								span 				{ font-weight: 300; }
 							}
 							p 						{ line-height: 17px; 
 								strong 				{ font-weight: 500; }
 							}
 						}
-						.invoice_body 				{ line-height: 17px; padding: 15px 0;
+						.invoice_body 				{ line-height: 17px; padding: 20px 0;
+							h2 						{ font-size: 20px; margin-bottom: 15px; }
+
+							.item_list 				{ 
+								ul.item_list_inner 	{ border-top: 4px #eee solid; margin-top: 20px;
+									.head 			{ padding: 10px; background: #f9f9f9; margin-bottom: 0; font-size: $font_size + 1; font-weight: 500; border-bottom: 1px #eee solid; }
+									li 				{ overflow: hidden; border-bottom: 1px #eee solid;
+										p 			{ font-size: $font_size +2 ; font-weight: 500; margin-top: 10px; }
+										i 			{ font-size: $font_size - 2 }
+										a.delete 	{ margin-top: 15px; display: block; color: $default_purple; text-decoration: none; 
+											&:hover { color: lighten( $default_purple, 15%);}
+											i 		{ font-size: 19px; }
+										}
+									}
+								}
+							}
 						}
 					}
 				}

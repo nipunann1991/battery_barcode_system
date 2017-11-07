@@ -26,7 +26,9 @@ app.controller('invoiceCtrl', ['$scope','ajaxRequest', '$q', 'goTo', function($s
 
 
 
-app.controller('newinvoiceCtrl', ['$scope','ajaxRequest', '$q', 'goTo', 'Notification', '$filter', function($scope, ajaxRequest, $q, goTo, Notification, $filter ) {
+app.controller('newinvoiceCtrl', ['$scope','ajaxRequest', '$q', 'goTo', 'Notification', '$filter', 'barcodeNoSmall', 
+	function($scope, ajaxRequest, $q, goTo, Notification, $filter, barcodeNoSmall ) {
+
 
     $scope.title = 'New Invoice';
     $scope.breadcrumb = 'Home > New Invoice'; 
@@ -39,12 +41,86 @@ app.controller('newinvoiceCtrl', ['$scope','ajaxRequest', '$q', 'goTo', 'Notific
     $scope.time = $filter('date')($scope.currTime, "HH:mm:ss");
 
     $scope.invoice_no = 'INV'+$scope.date.replace(/-/g, '')+""+$scope.time.replace(/:/g, '');
+ 	$scope.itemList = [];
+ 	$scope.item_barcodes = [];
+ 	$scope.item_package_barcodes = [];
+ 	$scope.package_item = []
+
+
  
+
 
     $scope.navigateTo = function(path){ 
     	goTo.page( path );
     };
 
+
+    $scope.searchItem = function(){ 
+
+    	var data = $.param({ barcode: $scope.item_barcode })
+
+    	if ($scope.item_barcode.startsWith("P")) {
+
+    		ajaxRequest.post('InvoiceController/getItemsInPackage', data ).then(function(response) { 
+    			$scope.getItemsInPackage = response.data.data;  
+
+    			//$scope.itemList.push($scope.getItemsInPackage[0])
+
+    			for (var i = 0; i < $scope.getItemsInPackage.length; i++) {
+    				 
+    				$scope.item_barcodes.push($scope.getItemsInPackage[i].barcode)
+    			}
+
+    			$scope.package_item.push({barcode_id: $scope.item_barcode, package: $scope.getItemsInPackage });
+    			$scope.item_barcode = '';  
+    			console.log($scope.item_barcodes);
+    		});
+
+    	}else{
+
+    	
+    	
+	    	ajaxRequest.post('InvoiceController/getSingleItem', data ).then(function(response) { 
+
+
+	    		$scope.getSingleItem =  response.data.data;  
+	 
+	    		if ( $scope.getSingleItem.length != 0) {
+				
+	    			if (response.status == 200) {
+			    		  
+			    		if($scope.item_barcodes.indexOf($scope.item_barcode) != -1) {
+			            	Notification.error('Item exists in current invoice. Please try again with a new barcode.');
+							
+						}else{
+
+							$scope.itemList.push($scope.getSingleItem[0]);
+			    			$scope.item_barcodes.push($scope.item_barcode);
+			    			$scope.item_barcode = ''; 
+			    			console.log($scope.item_barcodes);
+
+						} 
+			    		
+			    	} 
+
+
+				}else{
+			        Notification.error('Item not found.');
+
+			    }
+	    		 
+
+		    });
+  		
+  		}
+  		//getItemsInPackage
+    }
+
+    $scope.deleteItem = function(deleteItem){
+    	alert(deleteItem)
+    }
+
+    	
     
 
     ajaxRequest.post('InvoiceController/getCompanyDetails' ).then(function(response) {
@@ -57,7 +133,7 @@ app.controller('newinvoiceCtrl', ['$scope','ajaxRequest', '$q', 'goTo', 'Notific
 			$scope.email = $scope.getCompanyDetails.email;
 			$scope.tel = $scope.getCompanyDetails.tel;
 
-			console.log($scope.getCompanyDetails)
+			
  
 	    }else if(response.status == 500 || response.status == 404){
 	       console.log('An error occured while updating package. Please try again.'); 

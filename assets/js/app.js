@@ -150,10 +150,10 @@ app.factory('barcodeNoSmall',  function() {
     return {
         generateBarcode: function(barcode) {
            
-           JsBarcode("#code128sm", barcode , {  
-              width:1.2,
-              height:10,
-              fontSize: 11 
+           JsBarcode("html .code128sm", barcode , {  
+              width:1.5,
+              height:20,
+              fontSize: 12 
             });
 
         }

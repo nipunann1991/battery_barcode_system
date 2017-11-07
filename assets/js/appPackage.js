@@ -113,7 +113,7 @@ app.controller('addPackageCtrl', ['$scope', '$filter','$location', 'ajaxRequest'
                     
                     if (typeof $scope.response != "undefined") {
   
-           	 			if(Item_barcodes.indexOf($scope.item_barcode) !== -1) {
+           	 			if(Item_barcodes.indexOf($scope.item_barcode) != -1) {
 	                    	Notification.error('Item exists in current list. Please try again with a new barcode.');
 							
 						}else{
