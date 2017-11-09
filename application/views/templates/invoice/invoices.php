@@ -23,9 +23,9 @@
 			    </tr>
 		    </thead>
 		    <tbody>
-			    <tr ng-repeat="gi in getItem">
-			        <td> <a href="" ng-click="viewPackageStock(gi.pkg_id)">{{gi.pkg_id}}</a> </td> 
-			        <td>{{gi.note}}</td> 
+			    <tr ng-repeat="gi in getInvoiceList">
+			        <td> <a href="" ng-click="viewPackageStock(gi.pkg_id)">{{gi.invoice_id}}</a> </td> 
+			        <td>{{gi.invoice_no}}</td> 
 			        <th> </th>
 			        <td  width="100">  
 						<a href="" id="view_stock{{gi.pkg_id}}" class="view_stock" ng-click="viewPackageStock(gi.pkg_id)"> 

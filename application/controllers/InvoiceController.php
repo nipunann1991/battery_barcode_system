@@ -7,8 +7,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class InvoiceController extends CommonController {
 
 
- 	public function getItems(){ 
-        return $this->getAllData__('item'); 
+ 	public function getInvoiceList(){ 
+        return $this->getAllData__('invoice'); 
     }
 
     public function getCompanyDetails(){ 
@@ -38,6 +38,20 @@ class InvoiceController extends CommonController {
 
 		return $this->selectCustomData__($search_index);   
     }
+
+
+    public function saveInvoice(){ 
+
+		$dataset = $this->input->post(); 
+		return $this->updateData__('item_stock', $dataset, " barcode ='".$dataset['barcode']."'");
+ 
+	}
+
+	public function addInvoice(){
+
+		$dataset = $this->input->post();
+		return $this->insertData__('invoice', $dataset); 
+	}
 
 
 }

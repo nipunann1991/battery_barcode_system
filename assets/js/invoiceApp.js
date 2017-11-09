@@ -4,17 +4,16 @@ app.controller('invoiceCtrl', ['$scope','ajaxRequest', '$q', 'goTo', function($s
     $scope.breadcrumb = 'Home > Invoice'; 
 
 
-    $scope.getItems = function(){
+    $scope.getInvoiceList = function(){
 
-      ajaxRequest.post('PosController/getItems').then(function(response) {
-          $scope.getItems = response.data.data;  
-           
+      ajaxRequest.post('InvoiceController/getInvoiceList').then(function(response) {
+          $scope.getInvoiceList = response.data.data;   
 
       });
       
     };
 
-    $scope.getItems();
+    $scope.getInvoiceList();
 
 
     $scope.navigateTo = function(path){ 
@@ -120,6 +119,55 @@ app.controller('newinvoiceCtrl', ['$scope','ajaxRequest', '$q', 'goTo', 'Notific
     	alert(deleteItem)
     }
 
+
+    $scope.saveInvoice = function(){
+
+
+    		    angular.forEach($scope.item_barcodes, function(value, key) {
+				   console.log(value, key)
+
+				   var data = $.param({ invoice_id: 1 ,  barcode: value, status: 0,  })	 
+    	   
+			    	ajaxRequest.post('InvoiceController/saveInvoice' ,data ).then(function(response) {
+						
+						if (response.status == 200) { 
+							 
+	                    	Notification.success('Invoice has been added saved.');
+							 console.log('Added.');
+							
+				 
+					    }else if(response.status == 500 || response.status == 404){
+					       console.log('An error occured while updating package. Please try again.'); 
+					    } 
+
+					});
+
+				});
+
+    	
+	 
+				
+    	
+     
+  //   	var date = $filter('date')($scope.currDate, "yyyy-MM-dd");
+  //   	var data = $.param({ invoice_no: $scope.invoice_no, invoice_date: date  })
+
+	 //    ajaxRequest.post('InvoiceController/addInvoice' ,data ).then(function(response) {
+			
+		// 	if (response.status == 200) { 
+				 
+		// 		 console.log('Added.');
+				
+	 
+		//     }else if(response.status == 500 || response.status == 404){
+		//        console.log('An error occured while updating package. Please try again.'); 
+		//     } 
+
+		// });
+
+
+
+    }
     	
     
 

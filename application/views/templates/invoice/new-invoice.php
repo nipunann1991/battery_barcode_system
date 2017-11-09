@@ -91,14 +91,19 @@
 										</div>
 									</li>
 								</ul>
-							</div>
-
-							<!-- <svg class="barcode code128sm hide" jsbarcode-value="" ></svg>  -->
-						</div>
-
- 					</div>
-				 	
+							</div> 
+						</div> 
+ 					</div> 
  				</div>
+ 				 
+				<div class="col-md-12 invoice_btn" ng-show="item_barcodes.length > 0 " > 
+					<div class="pull-right">
+						<md-button class="btn_purple " type="button" ng-click="saveInvoice()">Save Invoice</md-button>
+						<md-button class="btn-default" ng-click="print()">Print</md-button> 
+					</div> 
+					<div class="clearfix"></div>
+				</div> 
+				 
  			</div>
  		</div>	
 		<div class="clearfix"></div>

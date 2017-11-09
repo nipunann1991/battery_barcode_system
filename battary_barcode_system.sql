@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 04, 2017 at 09:10 PM
+-- Generation Time: Nov 09, 2017 at 01:08 AM
 -- Server version: 10.1.19-MariaDB
 -- PHP Version: 5.6.28
 
@@ -68,9 +68,18 @@ INSERT INTO `company` (`id`, `name`, `address`, `tel`, `email`, `note`) VALUES
 --
 
 CREATE TABLE `invoice` (
-  `invoice_id` int(20) NOT NULL,
+  `invoice_id` double NOT NULL,
+  `invoice_no` varchar(25) NOT NULL,
   `invoice_date` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `invoice`
+--
+
+INSERT INTO `invoice` (`invoice_id`, `invoice_no`, `invoice_date`) VALUES
+(1, 'INV09112017051445', '0000-00-00'),
+(2, 'INV09112017051631', '2017-11-09');
 
 -- --------------------------------------------------------
 
@@ -109,20 +118,21 @@ CREATE TABLE `item_stock` (
   `manufacture_id` varchar(50) NOT NULL,
   `sup_id` int(11) NOT NULL,
   `package_id` int(11) NOT NULL DEFAULT '0',
-  `status` int(11) NOT NULL
+  `status` int(11) NOT NULL,
+  `invoice_id` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `item_stock`
 --
 
-INSERT INTO `item_stock` (`stock_id`, `barcode`, `invoice_no`, `item_id`, `manufacture_id`, `sup_id`, `package_id`, `status`) VALUES
-(2, '5912123016183', 'AD20170303', 3, '12301', 100, 12, 1),
-(3, '8188565656DE9788', 'E565', 3, '565656DE', 100, 0, 1),
-(4, '9949121213217102', '55659', 3, '12121321', 100, 0, 0),
-(5, '9657yuiyi6790', 'utyu', 3, 'yuiyi', 100, 0, 1),
-(6, '9750FC15101710565', 'SL20170303LL', 5, 'FC151017', 100, 12, 1),
-(7, '4378445634569981', '456456465', 4, '44563456', 100, 0, 1);
+INSERT INTO `item_stock` (`stock_id`, `barcode`, `invoice_no`, `item_id`, `manufacture_id`, `sup_id`, `package_id`, `status`, `invoice_id`) VALUES
+(2, '5912123016183', 'AD20170303', 3, '12301', 100, 12, 1, 0),
+(3, '8188565656DE9788', 'E565', 3, '565656DE', 100, 0, 1, 1),
+(4, '9949121213217102', '55659', 3, '12121321', 100, 0, 0, 0),
+(5, '8079645458284', 'SL000656', 3, '64545', 100, 0, 1, 0),
+(6, '9750FC15101710565', 'SL20170303LL', 5, 'FC151017', 100, 12, 1, 0),
+(7, '4378445634569981', '456456465', 4, '44563456', 100, 0, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -272,6 +282,11 @@ ALTER TABLE `supplier`
 -- AUTO_INCREMENT for dumped tables
 --
 
+--
+-- AUTO_INCREMENT for table `invoice`
+--
+ALTER TABLE `invoice`
+  MODIFY `invoice_id` double NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `item_stock`
 --
