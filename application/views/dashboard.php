@@ -16,16 +16,16 @@
 		<div class="row_ quick_summery">
 			<div class="col-sm-3 iblock">
 				<div class="iblock_inner purple"> 
-					<h2>562</h2>
-					<h3>Sales Today</h3>
-					<i class="icon-shopping-basket"></i>
+					<h2>5</h2>
+					<h3>Invoices Today</h3>
+					<i class="icon-list"></i>
 				</div>
 			</div>
 			<div class="col-sm-3 iblock">
 				<div class="iblock_inner blue">
 					<h2>{{products}}</h2>
 					<h3>Total Products</h3>
-					<i class="icon-shopping-basket"></i>
+					<i class="icon-car-battery"></i>
 				</div>
 			</div>
 			<div class="col-sm-3 iblock">
@@ -39,7 +39,7 @@
 				<div class="iblock_inner pink">
 					<h2>{{supplier}}</h2>
 					<h3>Total Suppliers</h3>
-					<i class="icon-worker-loading-boxes"></i>
+					<i class="icon-truck"></i>
 				</div>
 			</div>
 			<div class="clearfix"></div>

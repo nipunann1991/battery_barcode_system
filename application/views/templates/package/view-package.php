@@ -15,21 +15,19 @@
 			
 		 	
 			<div class="col-md-4">
-				<div class="mid" >
-					 
-			  		<a href="" id="edit{{gis.item_id}}" class="edit" ng-click="editPackage()"><i class="icon-pencil-edit-button" aria-hidden="true"></i></a>
-			  		
+				<div class="mid" >  
 			    		<div class="item_img row hide">
 			    			<input type="file" file-model="myFile" id="imgInp" >
 			    		</div>
 				    	
 		                <svg id="code128" class="barcode" ></svg>
 		              
-				        <div class="">
-				        	
+				        <div class="package_details_inner"> 
+				        	<a href="" ng-show="status == 1" id="edit{{gis.item_id}}" class="edit" ng-click="editPackage()"><i class="icon-pencil-edit-button" aria-hidden="true"></i></a>
 				        	<ul> 
 				        		<li><strong>Package ID: </strong> {{pkg_id}}</li>
-				        		<li><strong>Barcode: </strong> {{pkg_barcode}}</li>
+				        		<li><strong>Barcode: </strong> {{pkg_barcode}}</li> 
+				        		<li><strong>Status: </strong> <span class="label " ng-class="label">{{labelText}}</span></li>
 				        		<li><strong>Note: </strong> {{note}}</li> 
 				        		
 				        	</ul>
@@ -43,7 +41,7 @@
 				<div class="body"> 
 					<div class="top_bar"> 
 
-						<md-button ng-click="editPackage()"  class="top"><i class="icon-list-with-dots" aria-hidden="true"></i> View Package List</md-button>   
+						<md-button ng-click="navigateTo('package')"  class="top"><i class="icon-list-with-dots" aria-hidden="true"></i> View Package List</md-button>   
 						<div class="clearfix"></div>
 					</div>
 					

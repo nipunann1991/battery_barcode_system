@@ -20,6 +20,11 @@ app.controller('invoiceCtrl', ['$scope','ajaxRequest', '$q', 'goTo', function($s
     	goTo.page( path );
     };
 
+    $scope.viewInvoice = function(id){ 
+    	goTo.page( 'invoice/view-invoice/'+id );
+    }
+    	
+
     
 }]);
 
@@ -44,10 +49,7 @@ app.controller('newinvoiceCtrl', ['$scope','ajaxRequest', '$q', 'goTo', 'Notific
  	$scope.item_barcodes = [];
  	$scope.item_package_barcodes = [];
  	$scope.package_item = []
-
-
  
-
 
     $scope.navigateTo = function(path){ 
     	goTo.page( path );
@@ -60,11 +62,11 @@ app.controller('newinvoiceCtrl', ['$scope','ajaxRequest', '$q', 'goTo', 'Notific
 
     	if ($scope.item_barcode.startsWith("P")) {
 
+
     		ajaxRequest.post('InvoiceController/getItemsInPackage', data ).then(function(response) { 
+    			
     			$scope.getItemsInPackage = response.data.data;  
-
-    			//$scope.itemList.push($scope.getItemsInPackage[0])
-
+  
     			for (var i = 0; i < $scope.getItemsInPackage.length; i++) {
     				 
     				$scope.item_barcodes.push($scope.getItemsInPackage[i].barcode)
@@ -73,11 +75,12 @@ app.controller('newinvoiceCtrl', ['$scope','ajaxRequest', '$q', 'goTo', 'Notific
     			$scope.package_item.push({barcode_id: $scope.item_barcode, package: $scope.getItemsInPackage });
     			$scope.item_barcode = '';  
     			console.log($scope.item_barcodes);
+
     		});
+
 
     	}else{
 
-    	
     	
 	    	ajaxRequest.post('InvoiceController/getSingleItem', data ).then(function(response) { 
 
@@ -112,7 +115,7 @@ app.controller('newinvoiceCtrl', ['$scope','ajaxRequest', '$q', 'goTo', 'Notific
 		    });
   		
   		}
-  		//getItemsInPackage
+  		 
     }
 
     $scope.deleteItem = function(deleteItem){
@@ -120,56 +123,66 @@ app.controller('newinvoiceCtrl', ['$scope','ajaxRequest', '$q', 'goTo', 'Notific
     }
 
 
+ 
+
     $scope.saveInvoice = function(){
+ 
+
+	    var date = $filter('date')($scope.currDate, "yyyy-MM-dd");
+    	var data = $.param({ invoice_no: $scope.invoice_no, invoice_date: date, no_of_items: $scope.item_barcodes.length  })
 
 
-    		    angular.forEach($scope.item_barcodes, function(value, key) {
-				   console.log(value, key)
+    	/* Get auto increment ID*/
 
-				   var data = $.param({ invoice_id: 1 ,  barcode: value, status: 0,  })	 
-    	   
-			    	ajaxRequest.post('InvoiceController/saveInvoice' ,data ).then(function(response) {
-						
-						if (response.status == 200) { 
-							 
-	                    	Notification.success('Invoice has been added saved.');
-							 console.log('Added.');
-							
+		ajaxRequest.post('InvoiceController/getAutoIncrementID' ).then(function(response) {
+	
+			if (response.status == 200) { 
 				 
-					    }else if(response.status == 500 || response.status == 404){
-					       console.log('An error occured while updating package. Please try again.'); 
-					    } 
+				$scope.getInsertedId = response.data.data[0].AUTO_INCREMENT; 
 
-					});
+				/* Insert Invoice*/
+			    ajaxRequest.post('InvoiceController/addInvoice' ,data ).then(function(response) {
+					
+					if (response.status == 200) {  
+
+		    			angular.forEach($scope.item_barcodes, function(value, key) { 
+
+						   var data = $.param({ invoice_id: $scope.getInsertedId,  barcode: value, status: 0  })	 
+				   
+					    	ajaxRequest.post('InvoiceController/saveInvoice' ,data ).then(function(response) {
+								
+								if (response.status == 200) { 
+						 			Notification.success('Invoice has been added saved.');
+
+						 			$scope.navigateTo('invoice');
+
+							    }else if(response.status == 500 || response.status == 404){
+							       console.log('An error occured while updating package. Please try again.'); 
+
+							    } 
+
+							});
+
+						});
+
+						
+			 
+				    }else if(response.status == 500 || response.status == 404){
+				       console.log('An error occured while updating package. Please try again.'); 
+				    } 
 
 				});
-
-    	
-	 
-				
-    	
-     
-  //   	var date = $filter('date')($scope.currDate, "yyyy-MM-dd");
-  //   	var data = $.param({ invoice_no: $scope.invoice_no, invoice_date: date  })
-
-	 //    ajaxRequest.post('InvoiceController/addInvoice' ,data ).then(function(response) {
-			
-		// 	if (response.status == 200) { 
-				 
-		// 		 console.log('Added.');
 				
 	 
-		//     }else if(response.status == 500 || response.status == 404){
-		//        console.log('An error occured while updating package. Please try again.'); 
-		//     } 
+		    }else if(response.status == 500 || response.status == 404){
+		       console.log('An error occured while updating package. Please try again.'); 
+		    } 
 
-		// });
-
-
+		});
+ 
 
     }
-    	
-    
+ 
 
     ajaxRequest.post('InvoiceController/getCompanyDetails' ).then(function(response) {
 		
@@ -180,7 +193,6 @@ app.controller('newinvoiceCtrl', ['$scope','ajaxRequest', '$q', 'goTo', 'Notific
 			$scope.company_address = $scope.getCompanyDetails.address;
 			$scope.email = $scope.getCompanyDetails.email;
 			$scope.tel = $scope.getCompanyDetails.tel;
-
 			
  
 	    }else if(response.status == 500 || response.status == 404){
@@ -190,4 +202,109 @@ app.controller('newinvoiceCtrl', ['$scope','ajaxRequest', '$q', 'goTo', 'Notific
 	});
 
     
+}]);
+
+
+app.controller('viewInvoiceCtrl', ['$scope','ajaxRequest', '$q', 'goTo', 'Notification', '$filter', 'barcodeNoSmall', '$routeParams', 
+	function($scope, ajaxRequest, $q, goTo, Notification, $filter, barcodeNoSmall, $routeParams ) {
+
+	$scope.title = 'View Invoice';
+    $scope.breadcrumb = 'Home > View Invoice'; 
+    $scope.itemList = []; 
+ 	$scope.package_item = [];
+ 	$scope.item_package_id = [];
+ 	$scope.item_package_barcodes = [];
+
+    var data =  $.param({ invoice_id: $routeParams.id });
+
+    $scope.navigateTo = function(path){ 
+    	goTo.page( path );
+    };
+
+
+    ajaxRequest.post('InvoiceController/getCompanyDetails' ).then(function(response) {
+		
+		if (response.status == 200) { 
+			
+			$scope.getCompanyDetails =  response.data.data[0]; 
+			$scope.company_name = $scope.getCompanyDetails.name;
+			$scope.company_address = $scope.getCompanyDetails.address;
+			$scope.email = $scope.getCompanyDetails.email;
+			$scope.tel = $scope.getCompanyDetails.tel;
+ 
+ 
+	    }else if(response.status == 500 || response.status == 404){
+	       console.log('An error occured while updating package. Please try again.'); 
+	    } 
+
+	});
+ 
+
+	ajaxRequest.post('InvoiceController/getSingleInvoice', data ).then(function(response) {
+		
+		if (response.status == 200) { 
+			
+			$scope.getInvoiceDetails =  response.data.data[0]; 
+			$scope.invoice_no = $scope.getInvoiceDetails.invoice_no;
+			$scope.invoice_date = $scope.getInvoiceDetails.invoice_date; 
+ 
+	    }else if(response.status == 500 || response.status == 404){
+	       console.log('An error occured while updating package. Please try again.'); 
+	    } 
+
+	});
+
+	
+	ajaxRequest.post('InvoiceController/getSingleItemsInvoiced', data ).then(function(response) {
+		
+		if (response.status == 200) { 
+			
+			$scope.getSingleItemsInvoiced = response.data.data;
+ 
+	    }else if(response.status == 500 || response.status == 404){
+	       console.log('An error occured while updating package. Please try again.'); 
+	    } 
+
+	})
+
+
+	ajaxRequest.post('InvoiceController/getPackageInvoiced', data ).then(function(response) {
+		
+		if (response.status == 200) {  
+			
+			$scope.getItemsInPackage = response.data.data;  
+
+			for (var i =  0; i < $scope.getItemsInPackage.length; i++) {
+
+					var package_data =  $.param({ package_id: $scope.getItemsInPackage[i].pkg_id });
+
+					ajaxRequest.post('InvoiceController/getItemsInPackage', package_data ).then(function(response) {
+						$scope.getPackageInvoiced  = response.data.data; 
+						console.log($scope.getPackageInvoiced);
+
+					});
+
+				// if($scope.item_package_id.indexOf($scope.getItemsInPackage[i].package_id) != -1) { 
+							
+				// }else{ 
+				// 	$scope.item_package_id.push($scope.getItemsInPackage[i].package_id)
+				// } 
+			 	
+			} 
+
+			console.log($scope.getItemsInPackage); 
+
+ 
+	    }else if(response.status == 500 || response.status == 404){
+	       console.log('An error occured while updating package. Please try again.'); 
+	    } 
+
+	})
+
+	
+
+
+
+
+
 }]);

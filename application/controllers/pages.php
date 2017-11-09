@@ -166,6 +166,14 @@ class Pages extends CI_Controller {
 	}
 
 
+	public function viewInvoice(){ 
+		$this->load->view('templates/invoice/view-invoice');
+	}
+
+
+	
+
+
 
 
 

@@ -161,7 +161,7 @@ app.controller('addPackageCtrl', ['$scope', '$filter','$location', 'ajaxRequest'
 		        		var data = $.param({  
 				            package_id: $scope.pkg_id, 
 				            stock_id: item[i].stock_id,  
-				 
+				 			status: 1,
 				        });
 
 
@@ -259,7 +259,22 @@ app.controller('viewPackageCtrl', ['$scope', '$filter','$location', 'ajaxRequest
 		
 		if (response.status == 200) { 
 			
-			$scope.getItemList =  response.data.data; 
+			$scope.getItemList =  response.data.data;  
+
+			$scope.labelText = 'In Stock';
+			$scope.label = 'label-success';
+
+			// console.log($scope.getItemList[0].invoice_id)
+
+			 if ($scope.getItemList[0].invoice_id == '0') {
+			 	$scope.label = 'label-success';
+			 	$scope.labelText = 'In Stock';
+			 	$scope.status = 1;
+			 }else{
+			 	$scope.label = 'label-danger';
+			 	$scope.labelText = 'Sold';
+			 	$scope.status = 0;
+			 }
  
 	    }else if(response.status == 500 || response.status == 404){
 	       console.log('An error occured while updating package. Please try again.'); 
@@ -310,11 +325,14 @@ app.controller('editPackageCtrl', ['$scope', '$filter','$location', 'ajaxRequest
 				
 				$scope.getItemList =  response.data.data; 
 
-				console.log($scope.getItemList[0])
+				 
+
+			 
 
 				for (var i = 0; i < $scope.getItemList.length; i++) {
 					item.push($scope.getItemList[i]);  
-	   				Item_barcodes.push($scope.getItemList[i].barcode);
+	   				Item_barcodes.push($scope.getItemList[i].barcode); 
+
 				}
  
 	 
