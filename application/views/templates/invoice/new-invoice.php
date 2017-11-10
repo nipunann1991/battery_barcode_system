@@ -44,9 +44,9 @@
 							<div ng-show="package_item != ''" ng-repeat="pkg in package_item" class="multiple_items"> 
 
 								<ul class="item_list_inner">
-									<div class="head">
+									<li class="head">
 										Package: #{{$index + 1}} - {{pkg.barcode_id}}  
-									</div>
+									</li>
 									<li ng-repeat="gip in pkg.package">    
 										<div class="col-md-6">
 											<p>{{gip.barcode}}</p>

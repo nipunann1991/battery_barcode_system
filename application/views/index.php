@@ -39,9 +39,7 @@
     
 		  <div class="right_content {{classContent}}">
 	        <div class="wrapper">
-	        	<div class="loader hide">
-	        		 
-	        	</div>
+	        	<div class="loader  "> </div>
 	            <div id="page" class="page" ng-view> 
 	                 
 	            </div>

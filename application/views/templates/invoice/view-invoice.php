@@ -11,9 +11,9 @@
 		<md-button ng-click="navigateTo('invoice')" ><i class="icon-plus-sign-in-a-black-circle" aria-hidden="true"></i>  View Invoice List </md-button> 
 	</div>
  
-	<div class="body invoice"> 
+	<div class="body invoice" > 
 
-	 	<div class="col-md-12 ">
+	 	<div class="col-md-12 " id="invoice">
  			<div class="header row">
  				<div class="col-md-6 block left">
  					<h3 class="company_name">{{company_name}}</h3>
@@ -36,24 +36,19 @@
 
 							<div ng-show="package_item != ''" ng-repeat="pkg in package_item" class="multiple_items"> 
 
-								<ul class="item_list_inner">
+								<ul class="item_list_inner ">
 									<div class="head">
 										Package: #{{$index + 1}} - {{pkg.barcode_id}}  
 									</div>
 									<li ng-repeat="gip in pkg.package">    
-										<div class="col-md-6">
+										<div class="col-md-6 details">
 											<p>{{gip.barcode}}</p>
 											<i>{{gip.item_name}} / {{gip.cat_name}} / manufacture: {{gip.manufacture_id}} ~  PKGid{{gip.package_id}}</i>
 										</div>
-										<div class="col-md-5">   
+										<div class="col-md-6 gen_bk">   
 											<svg class="barcode code128sm pull-right" jsbarcode-value="{{gip.barcode}}"  jsbarcode-height="20" jsbarcode-width="1.5"  jsbarcode-fontSize="12"></svg>  
 
-										</div>
-										<div class="col-md-1 text-center">
-											<a href="" ng-click="deleteItem(gip.barcode)" class="delete" title="Delete Items" >
-								        		<i class="icon-rubbish-bin" aria-hidden="true"></i>
-								        	</a>
-										</div>
+										</div> 
 									</li>
 								</ul>
 
@@ -61,44 +56,38 @@
 
 
 							
-							<div ng-show="itemList != ''" class="single_item"> 
-								<ul class="item_list_inner">
+							<div ng-show="getSingleItemsInvoiced != ''" class="single_item"> 
+								<script>JsBarcode("html .barcode" ).init();</script>
+								<ul class="item_list_inner margin0">
 									<li class="head">
 										Single Items
 									</li>
-									<li ng-repeat="il in itemList">   <!--  -->
-										<div class="col-md-6">
+									<li ng-repeat="il in getSingleItemsInvoiced">   <!--  -->
+										<div class="col-md-6 details">
 											<p>{{il.barcode}}</p>
 											<i>{{il.item_name}} / {{il.cat_name}} / manufacture: {{il.manufacture_id}} </i>
 										</div>
-										<div class="col-md-5">  
-
-											<script>JsBarcode("html .barcode" ).init();</script>
+										<div class="col-md-6 gen_bk">   
 											<svg class="barcode code128sm pull-right" jsbarcode-value="{{il.barcode}}"  jsbarcode-height="20" jsbarcode-width="1.5"  jsbarcode-fontSize="12"></svg>  
 
 										</div>
-										<div class="col-md-1 text-center">
-											<a href="" ng-click="deleteItem(il.barcode)" class="delete" title="Delete Items" >
-								        		<i class="icon-rubbish-bin" aria-hidden="true"></i>
-								        	</a>
-										</div>
+										 
 									</li>
 								</ul>
 							</div> 
+							 
 						</div> 
  					</div> 
- 				</div>
- 				 
-				<div class="col-md-12 invoice_btn" ng-show="item_barcodes.length > 0 " > 
-					<div class="pull-right">
-						<md-button class="btn_purple " type="button" ng-click="saveInvoice()">Save Invoice</md-button>
-						<md-button class="btn-default" ng-click="print()">Print</md-button> 
-					</div> 
-					<div class="clearfix"></div>
-				</div> 
-				 
+ 				</div> 
  			</div>
  		</div>
+ 		<div class="col-md-12 invoice_btn"" > 
+			<div class="pull-right">
+			<!-- 	<md-button class="btn_purple " type="button" ng-click="saveInvoice()">Save Invoice</md-button> -->
+				<md-button class="btn_purple" ng-click="printDiv()">Print</md-button> 
+			</div> 
+			<div class="clearfix"></div>
+		</div> 
 		<div class="clearfix"></div>
 	</div>	
 

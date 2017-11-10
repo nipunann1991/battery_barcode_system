@@ -324,10 +324,7 @@ app.controller('editPackageCtrl', ['$scope', '$filter','$location', 'ajaxRequest
 			if (response.status == 200) { 
 				
 				$scope.getItemList =  response.data.data; 
-
-				 
-
-			 
+ 
 
 				for (var i = 0; i < $scope.getItemList.length; i++) {
 					item.push($scope.getItemList[i]);  

@@ -44,9 +44,9 @@ class InvoiceController extends CommonController {
     public function getSingleItemsInvoiced(){   
 
         $search_index = array(
-			'columns' => 'i.item_name, c.cat_name, ist.*, p.* ' ,   
-			'table' => 'item_stock ist, package p, item i, categories c',
-			'data' => 'i.cat_id = c.id AND ist.package_id = p.pkg_id AND i.item_id = ist.item_id AND ist.invoice_id="'.$this->input->post('invoice_id').'" AND ist.package_id = 0',
+			'columns' => 'i.item_name, c.cat_name, ist.* ' ,   
+			'table' => 'item_stock ist, item i, categories c',
+			'data' => 'i.cat_id = c.id AND i.item_id = ist.item_id AND ist.invoice_id="'.$this->input->post('invoice_id').'" AND ist.package_id = 0',
 		);
 
 		return $this->selectCustomData__($search_index);   
@@ -69,10 +69,19 @@ class InvoiceController extends CommonController {
 
         $search_index = array(
 			'columns' => 'i.item_name, c.cat_name, ist.*, p.* ' ,   
-			'table' => 'item_stock ist, package p, item i, categories c',
+			'table' => 'item_stock1 ist, package p, item i, categories c',
 			'data' => 'i.cat_id = c.id AND ist.package_id = p.pkg_id AND i.item_id = ist.item_id AND ist.package_id="'.$this->input->post('package_id').'" AND ist.package_id <> 0',
 		);
 
+		return $this->selectCustomData__($search_index);   
+    }
+
+   public function getItemsInPackageBK(){   
+        $search_index = array(
+			'columns' => 'i.item_name, c.cat_name, ist.* ' ,   
+			'table' => 'item_stock ist, package p, item i, categories c',
+			'data' => 'i.cat_id = c.id AND ist.package_id = p.pkg_id AND i.item_id = ist.item_id AND p.pkg_barcode="'.$this->input->post('barcode').'" ',
+		);
 		return $this->selectCustomData__($search_index);   
     }
  
@@ -80,6 +89,14 @@ class InvoiceController extends CommonController {
 
 		$dataset = $this->input->post(); 
 		return $this->updateData__('item_stock', $dataset, " barcode ='".$dataset['barcode']."'");
+ 
+	}
+
+
+	public function savePackageInfo(){ 
+
+		$dataset = $this->input->post(); 
+		return $this->updateData__('package', $dataset, " pkg_id ='".$dataset['pkg_id']."'");
  
 	}
 

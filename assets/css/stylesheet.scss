@@ -35,6 +35,7 @@ button 												{
 .active_item 										{ background: #f1f1f1 !important; }
 .help-block 										{ margin: 0; }
 .noPrint 											{ display: block; margin: auto !important; }
+.margin0 											{ margin: 0 !important;}
 md-content 											{ background: transparent; }
 .md-button.top_btn 									{ margin-bottom: 15px}
 .padding0 											{ padding: 0;}
@@ -342,14 +343,14 @@ $item_width: 120px;
 							}
 						}
 						.invoice_body 				{ line-height: 17px; padding: 20px 0;
-							h2 						{ font-size: 20px; margin-bottom: 15px; }
+							h2 						{ font-size: $font_size + 4; margin-bottom: 15px; }
 
 							.item_list 				{ 
-								ul.item_list_inner 	{ border-top: 4px #eee solid; margin-top: 20px;
-									.head 			{ padding: 10px; background: #f9f9f9; margin-bottom: 0; font-size: $font_size + 2; font-weight: 500; border-bottom: 1px #eee solid; }
+								ul.item_list_inner 	{ border: 1px #eee solid; border-top: 4px #eee solid; margin-bottom: 20px;
+									.head 			{ padding: 6px 15px; background: #f9f9f9; margin-bottom: 0; font-size: $font_size; letter-spacing: 0.02rem; font-weight: 500; border-bottom: 1px #eee solid; }
 									li 				{ overflow: hidden; border-bottom: 1px #eee solid;
-										p 			{ font-size: $font_size +2 ; letter-spacing: 0.01rem; font-weight: 500; margin-top: 10px; }
-										i 			{ font-size: $font_size - 1; letter-spacing: 0.01rem; }
+										p 			{ font-size: $font_size; letter-spacing: 0.02rem; font-weight: 500; margin-top: 10px; }
+										i 			{ font-size: $font_size - 2; letter-spacing: 0.01rem; color: #7b7b7b; }
 										a.delete 	{ margin-top: 15px; display: block; color: $default_purple; text-decoration: none; 
 											&:hover { color: lighten( $default_purple, 15%);}
 											i 		{ font-size: 19px; }
@@ -439,8 +440,18 @@ md-checkbox 										{ margin-bottom: 5px}
 
 @media print {
 
-  	.left_nav, .noPrint 	{ display: none; }
- 	.right_content 			{ width: 100%;}
+  	.left_nav, .noPrint 	{ display: none  !important; }
+  	.invoice				{ height: 100% !important; width: 100% !important; position: relative !important; top: 0 !important; left: 0 !important; margin: 0 !important;}
+  	#page .head 			{ display: none  !important; }
+  	#page li.head 			{ display: block  !important; }
+  	#page .body 			{ padding: 0  !important; height: 100% !important; width: 100% !important; position: absolute !important; left: 0 !important; }
+  	#page .header .right 	{ width: 50% !important; float: right !important; }
+  	#page .header .left 	{ width: 50% !important; float: left !important; }
+  	#page .header 			{ overflow: hidden ;}
+ 	.right_content 			{ width: 100% !important; position: absolute !important; top: 0 !important;}
+ 	.details 				{ width: 70% !important; float: left !important; }
+ 	.gen_bk 				{ width: 30% !important; float: left !important; }
+ 	button 					{ display: none  !important; }
 
 }
 

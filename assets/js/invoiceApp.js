@@ -49,6 +49,7 @@ app.controller('newinvoiceCtrl', ['$scope','ajaxRequest', '$q', 'goTo', 'Notific
  	$scope.item_barcodes = [];
  	$scope.item_package_barcodes = [];
  	$scope.package_item = []
+ 	$scope.package_ids = []
  
 
     $scope.navigateTo = function(path){ 
@@ -63,18 +64,23 @@ app.controller('newinvoiceCtrl', ['$scope','ajaxRequest', '$q', 'goTo', 'Notific
     	if ($scope.item_barcode.startsWith("P")) {
 
 
-    		ajaxRequest.post('InvoiceController/getItemsInPackage', data ).then(function(response) { 
+    		ajaxRequest.post('InvoiceController/getItemsInPackageBK', data ).then(function(response) { 
     			
     			$scope.getItemsInPackage = response.data.data;  
   
     			for (var i = 0; i < $scope.getItemsInPackage.length; i++) {
     				 
     				$scope.item_barcodes.push($scope.getItemsInPackage[i].barcode)
+    				
+
+    				if ($scope.package_ids.indexOf($scope.getItemsInPackage[i].package_id) == -1) {
+    					$scope.package_ids.push($scope.getItemsInPackage[i].package_id)
+    				}
     			}
 
     			$scope.package_item.push({barcode_id: $scope.item_barcode, package: $scope.getItemsInPackage });
     			$scope.item_barcode = '';  
-    			console.log($scope.item_barcodes);
+    			console.log($scope.package_ids);
 
     		});
 
@@ -172,6 +178,15 @@ app.controller('newinvoiceCtrl', ['$scope','ajaxRequest', '$q', 'goTo', 'Notific
 				    } 
 
 				});
+
+
+				// for (var i =  0; i < $scope.package_ids.length; i++) {
+
+				// 	var data = $.param({ invoice_id: $scope.package_ids[],  barcode: value, status: 0  })
+				// 	ajaxRequest.post('InvoiceController/savePackageInfo' ,data ).then(function(response) {
+
+				// 	});
+				// }
 				
 	 
 		    }else if(response.status == 500 || response.status == 404){
@@ -179,7 +194,9 @@ app.controller('newinvoiceCtrl', ['$scope','ajaxRequest', '$q', 'goTo', 'Notific
 		    } 
 
 		});
- 
+
+
+ 		console.log( $scope.item_barcodes)
 
     }
  
@@ -214,6 +231,7 @@ app.controller('viewInvoiceCtrl', ['$scope','ajaxRequest', '$q', 'goTo', 'Notifi
  	$scope.package_item = [];
  	$scope.item_package_id = [];
  	$scope.item_package_barcodes = [];
+
 
     var data =  $.param({ invoice_id: $routeParams.id });
 
@@ -260,6 +278,8 @@ app.controller('viewInvoiceCtrl', ['$scope','ajaxRequest', '$q', 'goTo', 'Notifi
 		if (response.status == 200) { 
 			
 			$scope.getSingleItemsInvoiced = response.data.data;
+
+			console.log($scope.getSingleItemsInvoiced)
  
 	    }else if(response.status == 500 || response.status == 404){
 	       console.log('An error occured while updating package. Please try again.'); 
@@ -272,27 +292,23 @@ app.controller('viewInvoiceCtrl', ['$scope','ajaxRequest', '$q', 'goTo', 'Notifi
 		
 		if (response.status == 200) {  
 			
-			$scope.getItemsInPackage = response.data.data;  
+			$scope.getPackageInvoiced = response.data.data;  
 
-			for (var i =  0; i < $scope.getItemsInPackage.length; i++) {
+			for (var i =  0; i < $scope.getPackageInvoiced.length; i++) { 
 
-					var package_data =  $.param({ package_id: $scope.getItemsInPackage[i].pkg_id });
+					var package_data =  $.param({ package_id: $scope.getPackageInvoiced[i].pkg_id });
+					var pkg_barcode = $scope.getPackageInvoiced[i].pkg_barcode;
 
 					ajaxRequest.post('InvoiceController/getItemsInPackage', package_data ).then(function(response) {
-						$scope.getPackageInvoiced  = response.data.data; 
-						console.log($scope.getPackageInvoiced);
+						$scope.getItemsInPackage  = response.data.data; 
+						$scope.package_item.push({ barcode_id: pkg_barcode, package: $scope.getItemsInPackage });
+					}); 
 
-					});
+				 //$scope.package_item
 
-				// if($scope.item_package_id.indexOf($scope.getItemsInPackage[i].package_id) != -1) { 
-							
-				// }else{ 
-				// 	$scope.item_package_id.push($scope.getItemsInPackage[i].package_id)
-				// } 
-			 	
 			} 
 
-			console.log($scope.getItemsInPackage); 
+		
 
  
 	    }else if(response.status == 500 || response.status == 404){
@@ -300,6 +316,11 @@ app.controller('viewInvoiceCtrl', ['$scope','ajaxRequest', '$q', 'goTo', 'Notifi
 	    } 
 
 	})
+
+
+	$scope.printDiv = function() {
+	   window.print();
+	} 
 
 	
 
