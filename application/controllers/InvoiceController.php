@@ -69,19 +69,22 @@ class InvoiceController extends CommonController {
 
         $search_index = array(
 			'columns' => 'i.item_name, c.cat_name, ist.*, p.* ' ,   
-			'table' => 'item_stock1 ist, package p, item i, categories c',
-			'data' => 'i.cat_id = c.id AND ist.package_id = p.pkg_id AND i.item_id = ist.item_id AND ist.package_id="'.$this->input->post('package_id').'" AND ist.package_id <> 0',
+			'table' => 'item_stock ist, package p, item i, categories c',
+			'data' => 'i.cat_id = c.id AND ist.package_id = p.pkg_id AND i.item_id = ist.item_id AND ist.package_id="'.$this->input->post('package_id').'" AND ist.package_id <> 0 ',
 		);
 
-		return $this->selectCustomData__($search_index);   
+		return $this->selectCustomData__($search_index); 
+
     }
 
    public function getItemsInPackageBK(){   
+        
         $search_index = array(
 			'columns' => 'i.item_name, c.cat_name, ist.* ' ,   
 			'table' => 'item_stock ist, package p, item i, categories c',
-			'data' => 'i.cat_id = c.id AND ist.package_id = p.pkg_id AND i.item_id = ist.item_id AND p.pkg_barcode="'.$this->input->post('barcode').'" ',
+			'data' => 'i.cat_id = c.id AND ist.package_id = p.pkg_id AND i.item_id = ist.item_id AND p.pkg_barcode="'.$this->input->post('barcode').'" AND p.invoice_id = 0 ',
 		);
+
 		return $this->selectCustomData__($search_index);   
     }
  

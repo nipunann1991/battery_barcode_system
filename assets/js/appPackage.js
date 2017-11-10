@@ -146,6 +146,7 @@ app.controller('addPackageCtrl', ['$scope', '$filter','$location', 'ajaxRequest'
         	var data_pkg = $.param({ 
 	           
 	            pkg_barcode: $scope.barcode, 
+	            status: 1,
 	            note: $scope.note,   
 
 	        });
@@ -329,7 +330,6 @@ app.controller('editPackageCtrl', ['$scope', '$filter','$location', 'ajaxRequest
 				for (var i = 0; i < $scope.getItemList.length; i++) {
 					item.push($scope.getItemList[i]);  
 	   				Item_barcodes.push($scope.getItemList[i].barcode); 
-
 				}
  
 	 

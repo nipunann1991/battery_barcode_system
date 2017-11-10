@@ -50,7 +50,7 @@ app.controller('newinvoiceCtrl', ['$scope','ajaxRequest', '$q', 'goTo', 'Notific
  	$scope.item_package_barcodes = [];
  	$scope.package_item = []
  	$scope.package_ids = []
- 
+ 	var package_ids;
 
     $scope.navigateTo = function(path){ 
     	goTo.page( path );
@@ -70,7 +70,16 @@ app.controller('newinvoiceCtrl', ['$scope','ajaxRequest', '$q', 'goTo', 'Notific
   
     			for (var i = 0; i < $scope.getItemsInPackage.length; i++) {
     				 
-    				$scope.item_barcodes.push($scope.getItemsInPackage[i].barcode)
+    				
+
+    					if($scope.item_barcodes.indexOf($scope.item_barcode) != -1) {
+			            	Notification.error('Item exists in current invoice. Please try again with a new barcode.');
+							
+						}else{
+
+							$scope.item_barcodes.push($scope.getItemsInPackage[i].barcode)
+
+						} 
     				
 
     				if ($scope.package_ids.indexOf($scope.getItemsInPackage[i].package_id) == -1) {
@@ -81,6 +90,9 @@ app.controller('newinvoiceCtrl', ['$scope','ajaxRequest', '$q', 'goTo', 'Notific
     			$scope.package_item.push({barcode_id: $scope.item_barcode, package: $scope.getItemsInPackage });
     			$scope.item_barcode = '';  
     			console.log($scope.package_ids);
+
+    			package_ids = $scope.package_ids;
+
 
     		});
 
@@ -171,7 +183,15 @@ app.controller('newinvoiceCtrl', ['$scope','ajaxRequest', '$q', 'goTo', 'Notific
 
 						});
 
-						
+						for (var i =  0; i < package_ids.length; i++) {
+
+							var data = $.param({ pkg_id: package_ids[i], invoice_id: $scope.getInsertedId,  status: 0  });
+
+							ajaxRequest.post('InvoiceController/savePackageInfo' ,data ).then(function(response) {
+
+							});
+
+						}
 			 
 				    }else if(response.status == 500 || response.status == 404){
 				       console.log('An error occured while updating package. Please try again.'); 
@@ -180,13 +200,9 @@ app.controller('newinvoiceCtrl', ['$scope','ajaxRequest', '$q', 'goTo', 'Notific
 				});
 
 
-				// for (var i =  0; i < $scope.package_ids.length; i++) {
+				
 
-				// 	var data = $.param({ invoice_id: $scope.package_ids[],  barcode: value, status: 0  })
-				// 	ajaxRequest.post('InvoiceController/savePackageInfo' ,data ).then(function(response) {
-
-				// 	});
-				// }
+				console.log(package_ids)
 				
 	 
 		    }else if(response.status == 500 || response.status == 404){
@@ -303,13 +319,7 @@ app.controller('viewInvoiceCtrl', ['$scope','ajaxRequest', '$q', 'goTo', 'Notifi
 						$scope.getItemsInPackage  = response.data.data; 
 						$scope.package_item.push({ barcode_id: pkg_barcode, package: $scope.getItemsInPackage });
 					}); 
-
-				 //$scope.package_item
-
 			} 
-
-		
-
  
 	    }else if(response.status == 500 || response.status == 404){
 	       console.log('An error occured while updating package. Please try again.'); 
