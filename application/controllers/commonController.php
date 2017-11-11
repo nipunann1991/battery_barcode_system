@@ -27,6 +27,13 @@ class commoncontroller extends CI_Controller {
     }
 
 
+    public function getLoginData__($search_index){
+
+       	return $this->commonQueryModel->selectCustomData($search_index); 
+        
+    }
+
+
     public function getAutoIncrementID__($table){
 
         $data["results"] = $this->commonQueryModel->getAutoIncrementID($table); 

@@ -169,9 +169,13 @@ $item_width: 120px;
 }
 .dashboard 											{ height: inherit; width: inherit; padding: 0;
 	.navbar 										{ z-index: 999; background-color: $default_purple; border: 0; height: 50px;  @include box_shadow();
-		.navigation_items 							{ padding-top: 10px;  padding-right: 15px; 
+		.navigation_items 							{ padding-top: 5px;  padding-right: 15px; 
 			ul 										{ padding: 0;
-				li 									{ position: relative; }
+				li 									{ position: relative; 
+					a.md-icon-button 				{ font-size: 20px; color: #fff; 
+						&:hover 					{ color: $default_red; }
+					}
+				}
 			}
 		}
 	}
@@ -453,6 +457,7 @@ md-checkbox 										{ margin-bottom: 5px}
  	.details 				{ width: 70% !important; float: left !important; }
  	.gen_bk 				{ width: 30% !important; float: left !important; }
  	button 					{ display: none  !important; }
+ 	i 						{ font-size: 11px;  letter-spacing: 0.01rem; color: #7b7b7b }
 
 }
 

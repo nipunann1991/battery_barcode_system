@@ -15,22 +15,37 @@ app.config(function(NotificationProvider) {
 
 
 
-app.controller('logCtrl', ['$scope', function($scope) {
+app.controller('logCtrl', ['$scope', 'ajaxRequest', function($scope, ajaxRequest) {
 
-  var loginStatus =  JSON.parse(sessionStorage.getItem('loginStatus'))
-  $scope.role_access = true;
+  ajaxRequest.post('SupplierController/getSessionData').then(function(response) {
 
-   if (loginStatus != null) {
-        $scope.loginStatus = 'true';
-        $scope.name = loginStatus.username;
-        $scope.role = loginStatus.role;
-        $scope.role_id = loginStatus.role_id;
+      var getSessionData = response.data.user;
 
-        if ($scope.role_id == 2) {
-          $scope.role_access = false;
-        } 
+      if (typeof getSessionData != 'undefined') {
 
-   }
+        sessionStorage.setItem('loginStatus', JSON.stringify(getSessionData));
+
+        var loginStatus =  JSON.parse(sessionStorage.getItem('loginStatus'))
+        $scope.role_access = true;
+
+         if (loginStatus != null) {
+              $scope.loginStatus = 'true';
+              $scope.name = loginStatus.username;
+              $scope.role = loginStatus.role;
+              $scope.role_id = loginStatus.role_id;
+
+              if ($scope.role_id == 2) {
+                $scope.role_access = false;
+              } 
+
+         }
+
+      }
+      
+
+  });
+
+  
 
 
 
@@ -61,6 +76,22 @@ app.controller('logCtrl', ['$scope', function($scope) {
      timeController.clock.time = Date.now();}, 
      timeController.clock.interval);
   };
+
+
+  $scope.logout = function($interval) {
+
+    ajaxRequest.post('SupplierController/clearSessionData').then(function(response) {
+
+      if (response.data.status == 200) {
+        sessionStorage.clear();
+        location.reload();
+      }
+ 
+  
+
+    });
+
+  };
  
     
 }]);
@@ -76,30 +107,36 @@ app.controller('loginFormCtrl', ['$scope','ajaxRequest', '$q', function($scope, 
   
   $scope.login = function(){
 
-    $scope.data = $.param({ 
-        username: $scope.email, 
-        password: $scope.password,  
-    }); 
+    if (($scope.email == '' || $scope.password == '') || ( typeof $scope.email == 'undefined' || typeof $scope.password == 'undefined') ) {
+      $scope.error = "Login error. Username or Password can't be empty feilds.";
 
-    ajaxRequest.post('SupplierController/getLoginCredentials', $scope.data).then(function(response) {
-        $scope.getLogin = response.data.data;   
-        
-        if ( $scope.getLogin.length != 0) { 
+    }else{
 
+  
+      $scope.data = $.param({ 
+          username: $scope.email, 
+          password: $scope.password,  
+      }); 
+
+      ajaxRequest.post('SupplierController/getLoginCredentials', $scope.data).then(function(response) {
+          $scope.getLogin = response.data.data;   
+          console.log( $scope.getLogin );
           
-          var loginStatus = { status: true, username: $scope.getLogin[0].username, role: $scope.getLogin[0].role_name, role_id: $scope.getLogin[0].role_id }
-          sessionStorage.setItem('loginStatus', JSON.stringify(loginStatus));
-          $scope.loginStatus = true;
-          
-          location.reload();
+          if ( $scope.getLogin.length != 0 ) {  
+            
+            var loginStatus = { status: true, username: $scope.getLogin[0].username, role: $scope.getLogin[0].role_name, role_id: $scope.getLogin[0].role_id }
+            sessionStorage.setItem('loginStatus', JSON.stringify(loginStatus));
+            $scope.loginStatus = true;
+            
+           location.reload();
 
-        }else{
-          $scope.error = "Login error. Please insert your username and password correctly";
-        }
+          }else{
+            $scope.error = "Login error. Please insert your username and password correctly";
+          }
 
-    });
- 
+      });
 
+    } 
 
   }
 

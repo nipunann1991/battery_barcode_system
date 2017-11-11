@@ -12,6 +12,8 @@
 	</div>
 	<div class="navigation_items pull-right">
 	      
-
+		<ul>
+			<li><md-button href="javascript:void(0)"  class="md-icon-button" ng-click="logout()"><i class="glyphicon glyphicon-off"></i></<md-button></li>
+		</ul>
 	</div> 
 </div>

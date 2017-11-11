@@ -154,6 +154,7 @@ class CommonQueryModel extends CI_Model{
 
         $select_query =  "INSERT INTO ".$insert_vals['table']." (".$insert_vals['columns'].") VALUES (".$insert_vals['values'].")" ;
         $query = $this->db->query($select_query); 
+        $insert_id = $this->db->insert_id();
 
         if (!$query) {
 
@@ -168,7 +169,7 @@ class CommonQueryModel extends CI_Model{
 
 			$output = array(
 				'status' => 200 , 
-				'data' => 'Success',
+				'data' => (object) array('status_message' => 'Success', 'inserted_id' => $insert_id )  
 			);
 
 			return $output; 

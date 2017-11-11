@@ -8,7 +8,7 @@ class SupplierController extends CommonController {
 
 	function __construct() {
 		parent::__construct(); 
-		$this->load->model('commonQueryModel'); 
+		$this->load->model('commonQueryModel');  
 	}
 
 	public function getLoginCredentials(){   
@@ -19,8 +19,43 @@ class SupplierController extends CommonController {
 			'data' => 'username= "'.$this->input->post('username').'" AND password= "'.md5($this->input->post('password')).'" AND l.role_id = r.role_id',
 		);
 
+         
+       	$data["results"] = $this->getLoginData__($search_index); 
+
+      	if (sizeof($data["results"]['data']) > 0) {
+
+       	   $session_data = array('username' =>  $data["results"]['data'][0]->username, 'login_id' => $data["results"]['data'][0]->login_id, 'role' => $data["results"]['data'][0]->role_name, 'role_id'=> $data["results"]['data'][0]->role_id, 'status' => true ); 
+
+	      	$_SESSION["user"] = $session_data; 
+
+	        $this->session;
+
+      	}
+
+     
 		return $this->selectCustomData__($search_index);   
     }
+
+
+    public function getSessionData(){
+    
+    	$data["results"] = $_SESSION;
+    	return $this->output->set_output(json_encode($data["results"], JSON_PRETTY_PRINT));
+    }
+
+    public function clearSessionData(){
+    
+    	session_destroy();
+
+    	$data["results"] = array(
+			'status' => 200 , 
+			'data' => 'Logged out successfull',
+		);
+
+    	return $this->output->set_output(json_encode($data["results"], JSON_PRETTY_PRINT));
+
+    }
+    
 
     public function getSuppliers(){  
        return $this->getAllData__('supplier');    

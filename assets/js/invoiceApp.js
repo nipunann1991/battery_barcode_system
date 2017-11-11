@@ -150,69 +150,55 @@ app.controller('newinvoiceCtrl', ['$scope','ajaxRequest', '$q', 'goTo', 'Notific
     	var data = $.param({ invoice_no: $scope.invoice_no, invoice_date: date, no_of_items: $scope.item_barcodes.length  })
 
 
-    	/* Get auto increment ID*/
 
-		ajaxRequest.post('InvoiceController/getAutoIncrementID' ).then(function(response) {
-	
+
+		ajaxRequest.post('InvoiceController/addInvoice' ,data ).then(function(response) {
+			
+
 			if (response.status == 200) { 
+
+				var getInsertedId = response.data.data.inserted_id; 
 				 
-				$scope.getInsertedId = response.data.data[0].AUTO_INCREMENT; 
-
-				/* Insert Invoice*/
-			    ajaxRequest.post('InvoiceController/addInvoice' ,data ).then(function(response) {
+				angular.forEach($scope.item_barcodes, function(value, key) { 
+					 
+					var invoice_data = $.param({ invoice_id: getInsertedId ,  barcode: value, status: 0  })
 					
-					if (response.status == 200) {  
+					ajaxRequest.post('InvoiceController/saveInvoice' ,invoice_data ).then(function(response) {
+										
+						if (response.status == 200) { 
+				 			Notification.success('Invoice has been added saved.');
 
-		    			angular.forEach($scope.item_barcodes, function(value, key) { 
+				 			$scope.navigateTo('invoice');
 
-						   var data = $.param({ invoice_id: $scope.getInsertedId,  barcode: value, status: 0  })	 
-				   
-					    	ajaxRequest.post('InvoiceController/saveInvoice' ,data ).then(function(response) {
-								
-								if (response.status == 200) { 
-						 			Notification.success('Invoice has been added saved.');
+					    }else if(response.status == 500 || response.status == 404){
+					       console.log('An error occured while updating package. Please try again.'); 
 
-						 			$scope.navigateTo('invoice');
+					    } 
 
-							    }else if(response.status == 500 || response.status == 404){
-							       console.log('An error occured while updating package. Please try again.'); 
-
-							    } 
-
-							});
-
-						});
-
-						for (var i =  0; i < package_ids.length; i++) {
-
-							var data = $.param({ pkg_id: package_ids[i], invoice_id: $scope.getInsertedId,  status: 0  });
-
-							ajaxRequest.post('InvoiceController/savePackageInfo' ,data ).then(function(response) {
-
-							});
-
-						}
-			 
-				    }else if(response.status == 500 || response.status == 404){
-				       console.log('An error occured while updating package. Please try again.'); 
-				    } 
-
+					});
 				});
 
+				for (var i = 0; i < package_ids.length; i++) {
 
-				
+					var package_data = $.param({ pkg_id: package_ids[i], invoice_id: getInsertedId,  status: 0  });
+					
+					ajaxRequest.post('InvoiceController/savePackageInfo' ,package_data ).then(function(response) {
 
-				console.log(package_ids)
-				
-	 
-		    }else if(response.status == 500 || response.status == 404){
+					});
+
+				}
+
+			}else if(response.status == 500 || response.status == 404){
 		       console.log('An error occured while updating package. Please try again.'); 
+
 		    } 
 
 		});
 
 
- 		console.log( $scope.item_barcodes)
+
+
+ 		console.log(data)
 
     }
  
