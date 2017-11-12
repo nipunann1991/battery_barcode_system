@@ -18,6 +18,14 @@ class commoncontroller extends CI_Controller {
 
     }
 
+
+    public function getAllDataDT__($table_name){
+
+        $data["results"] = $this->commonQueryModel->selectAllDataDT($table_name); 
+        return $data["results"];
+
+    }
+
     public function selectCustomData__($search_index){
 
         $data["results"] = $this->commonQueryModel->selectCustomData($search_index); 

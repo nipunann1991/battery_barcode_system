@@ -25,7 +25,7 @@ class CommonQueryModel extends CI_Model{
 			return $output;
 
 		}else{
-
+  
 			$output = array(
 				'status' => 200 , 
 				'data' => $query->result(),
@@ -34,6 +34,45 @@ class CommonQueryModel extends CI_Model{
 		}
 
        
+    }
+
+
+    public function selectAllDataDT($table){
+
+        $select_query = "SELECT * FROM `$table`" ;
+        $query = $this->db->query($select_query); 
+
+        if (!$query) {
+
+        	$output = array(
+				'status' => 500 , 
+				'data' => 'Query Error',
+			);
+
+			return $output;
+
+		}else{
+  
+			$output = $query->result();
+			return $output;
+		}
+
+       
+    }
+
+
+
+    function count_filtered($table)
+    {
+        $select_query = "SELECT * FROM `$table`" ;
+        $query = $this->db->query($select_query); 
+        return $query->num_rows();
+    }
+
+    public function count_all($table)
+    {
+        $this->db->from($table);
+        return $this->db->count_all_results();
     }
 
 

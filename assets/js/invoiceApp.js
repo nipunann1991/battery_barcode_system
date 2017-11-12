@@ -1,4 +1,5 @@
-app.controller('invoiceCtrl', ['$scope','ajaxRequest', '$q', 'goTo', function($scope, ajaxRequest, $q, goTo ) {
+app.controller('invoiceCtrl', ['$scope','ajaxRequest', '$q', 'goTo', 'DTOptionsBuilder', 'DTColumnBuilder', 
+	function($scope, ajaxRequest, $q, goTo, DTOptionsBuilder, DTColumnBuilder ) {
 
     $scope.title = 'Invoice';
     $scope.breadcrumb = 'Home > Invoice'; 
@@ -6,12 +7,31 @@ app.controller('invoiceCtrl', ['$scope','ajaxRequest', '$q', 'goTo', function($s
 
     $scope.getInvoiceList = function(){
 
-      ajaxRequest.post('InvoiceController/getInvoiceList').then(function(response) {
-          $scope.getInvoiceList = response.data.data;   
-
-      });
+      var vm = this;
+	    vm.dtOptions = DTOptionsBuilder.newOptions()
+        .withOption('ajax', {
+         		 
+         url: 'index.php/InvoiceController/getInvoiceList',
+         type: 'GET'
+     })
+      
+     .withDataProp('data')
+ 		.withOption('processing', true) 
+   		.withOption('serverSide', true) 
+   		.withOption('paging', true) 
+        .withDisplayLength(10) 
+        .withOption('aaSorting',[0,'asc']);
+	    vm.dtColumns = [
+	        DTColumnBuilder.newColumn('invoice_id').withTitle('Invoice Id'),
+	        DTColumnBuilder.newColumn('invoice_no').withTitle('Invoice No'), 
+	        DTColumnBuilder.newColumn('invoice_date').withTitle('Invoice Date'), 
+	        DTColumnBuilder.newColumn('no_of_items').withTitle('No of Items'), 
+	    ];
       
     };
+
+
+
 
     $scope.getInvoiceList();
 
@@ -28,6 +48,8 @@ app.controller('invoiceCtrl', ['$scope','ajaxRequest', '$q', 'goTo', function($s
     
 }]);
 
+
+ 
 
 
 app.controller('newinvoiceCtrl', ['$scope','ajaxRequest', '$q', 'goTo', 'Notification', '$filter', 'barcodeNoSmall', 

@@ -162,6 +162,37 @@ app.factory('goTo', ['$location', function($location) {
 }]);
 
 
+
+app.factory('myService', ['$http','$q', function($http,$q){
+  
+  return {
+      get : function(){
+
+    var deferred = $q.defer();
+    $http({
+        method : "GET",
+        url : "http://l-lin.github.io/angular-datatables/archives/data.json", 
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+
+    }).then(function success(response) { 
+        deferred.resolve(response); 
+
+    }, function error(response) {
+        deferred.resolve(response); 
+         console.log('error')
+    });
+ 
+    $q.when(deferred.promise); 
+
+  },
+
+  };
+
+ 
+ 
+}]);
+
+
 /*
 *  Generate Barcode 
 */

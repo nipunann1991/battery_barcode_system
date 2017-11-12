@@ -14,7 +14,7 @@
 
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <!-- Include all compiled plugins (below), or include individual files as needed -->
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-resource/1.6.6/angular-resource.min.js"></script>
 <script src="http://l-lin.github.io/angular-datatables/archives/vendor/datatables/media/js/jquery.dataTables.js"></script>
 
 
