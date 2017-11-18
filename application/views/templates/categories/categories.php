@@ -28,7 +28,7 @@
 			        <td>{{gc.cat_desc}}</td> 
 			        <td> 
  
-			        	<a href="" id="edit{{gc.id}}" class="edit" ng-click="editCategory(gc.id)"><i class="icon-pencil-edit-button" aria-hidden="true"></i></a><a href="" id="delete{{gc.id}}" ng-click="deleteCategory(gc.id)" class="delete" ><i class="icon-rubbish-bin" aria-hidden="true"></i></a>
+			        	<a href="" id="edit{{gc.id}}" class="edit" ng-click="editCategory(gc.id)"><i class="icon-pencil-edit-button" aria-hidden="true"></i></a><a href="" ng-if="role_access" id="delete{{gc.id}}" ng-click="deleteCategory(gc.id)" class="delete" ><i class="icon-rubbish-bin" aria-hidden="true"></i></a>
 			        </td>
 			    </tr> 
 		    </tbody> 

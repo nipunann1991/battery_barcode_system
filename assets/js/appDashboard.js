@@ -5,31 +5,40 @@ app.controller('dashboardCtrl', ['$scope','$location', 'ajaxRequest', 'goTo', 'm
     $scope.breadcrumb = 'Dashboard';
     $scope.animated_class = 'animated fadeIn'; 
 
-    ajaxRequest.post('DashboardController/getCountProducts').then(function(response) {
-        $scope.getCountProducts = response.data.data[0];   
-        $scope.products =$scope.getCountProducts.count;
+
+    ajaxRequest.post('DashboardController/getDashboardDetails').then(function(response) {
+       console.log(response.data)
+       $scope.invoices = response.data.invoices;
+       $scope.suppliers = response.data.suppliers;
+       $scope.items = response.data.items;
     });
 
-    ajaxRequest.post('DashboardController/getRecentProducts').then(function(response) {
+     ajaxRequest.post('DashboardController/getRecentProducts').then(function(response) {
         $scope.getRecentProducts = response.data.data;   
         console.log($scope.getRecentProducts)
     });
 
-    ajaxRequest.post('DashboardController/getCountSupplires').then(function(response) {
-        $scope.getCountSupplires = response.data.data[0];   
-        $scope.supplier =$scope.getCountSupplires.count;
-    });
+    
 
     
 
     $scope.getChart = function(){
     	var chart = c3.generate({
 		    bindto: '#chart',
+
 		    data: {
 		      columns: [
-		        ['data1', 30, 200, 100, 400, 150, 250],
-		        ['data2', 50, 20, 10, 40, 15, 25]
-		      ]
+		        ['Oct', 30, 20, 100, 40, 15, 25],
+		        ['Nov', 50, 40, 106, 40, 15, 66]
+		      ],
+                type: 'bar',
+                colors: {
+                    Oct: '#00b356',
+                    Nov: '#6254b2', 
+                },
+                color: function (color, d) { 
+                    return d.id && d.id === 'data3' ? d3.rgb(color).darker(d.value / 150) : color;
+                }
 		    }
 		});
     };

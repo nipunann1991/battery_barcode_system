@@ -30,7 +30,7 @@
 						<a href="" id="view_stock{{gi.pkg_id}}" class="view_stock" ng-click="viewPackageStock(gi.pkg_id)"> 
 						 	<i class="glyphicon glyphicon-eye-open" title="View Stock" aria-hidden="true"></i>
 						</a>
-			        	<a href="" id="edit{{gi.pkg_id}}" ng-if="role_access" class="edit" title="Edit Items" ng-click="editPackage(gi.pkg_id)">
+			        	<a href="" id="edit{{gi.pkg_id}}"  class="edit" title="Edit Items" ng-click="editPackage(gi.pkg_id)">
 			        		<i class="icon-pencil-edit-button" aria-hidden="true"></i>
 			        	</a>
 			        	<a href="" id="delete{{gi.pkg_id}}" ng-if="role_access" ng-click="deletePackage(gi.pkg_id)" class="delete" title="Delete Items" >

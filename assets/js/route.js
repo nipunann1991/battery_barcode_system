@@ -42,7 +42,7 @@ app.config(['$routeProvider', '$locationProvider', function ($routeProvider, $lo
 
 app.controller('navCtrl', function($scope) {
   
-  $scope.application_name = 'Logo';
+  $scope.application_name = 'Barcode';
  
 
 

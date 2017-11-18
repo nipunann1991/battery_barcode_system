@@ -31,6 +31,7 @@ a, a:hover, a:focus									{ outline: 0; }
 button 												{ 
 	&:hover, &:focus 								{ outline: 0 !important; }
 }
+.loader_ 											{ width: 100%; height: 100%; position: absolute; top: 0; left: 0; background-image: url(../images/spinner.gif); background-repeat: no-repeat;  background-position: 50%;  background-size: 60px; background-color: rgba(255, 255, 255, 0.9); z-index: 1000; }
 .cut_off 											{ text-decoration: line-through;}
 .active_item 										{ background: #f1f1f1 !important; }
 .help-block 										{ margin: 0; }
@@ -155,10 +156,10 @@ $item_width: 120px;
 		}
 	} 
 }
-.login  											{ display: table; width: 100%; height: 100%;
+.login  											{ display: table; width: 100%; height: 100%;  background-image: url(../images/pizza-bg-vector.png);  background-size: cover;
 	.login_inner 									{ display: table-cell; vertical-align: middle; 
-		h1 											{ margin-bottom: 25px; }
-		.account-wall 								{ background: #ececec; padding: 30px; box-shadow: 0px 1px 6px rgba(0,0,0,0.3);
+		h1 											{ margin-bottom: 25px;  font-size: $font_size + 15; }
+		.account-wall 								{ background: rgba(243, 243, 243, 0.75); padding: 30px; box-shadow: 0px 1px 6px rgba(0,0,0,0.3);
 			img 									{ display: block; width: 100px; margin: auto; margin-bottom: 20px; border-radius: 50%; }
 			input.form-control 						{ font-family: 'Poppins', sans-serif; font-size: 14px;  }
 			button 									{ width: 100%; font-size: $font_size + 1; letter-spacing: $letter_spacing; background: $default_purple; color: #ffffff; padding: 2px 15px; font-weight: 500; font-family: inherit; line-height: 32px; height: auto; 
@@ -264,7 +265,7 @@ $item_width: 120px;
 						}
 					}
 					
-					.item_img 						{ background-color: #f1f1f1; background-image: url(../images/upload-image.png);height: 200px; border: 1px $form_border solid; width: 100%; position: relative; background-size:cover;  background-repeat: no-repeat; background-position: 50%; 
+					.item_img 						{ background-color: #f1f1f1; background-image: url(../images/upload-image.png); border-radius: 50%; height: 200px; width: 200px; float: right; border: 1px $form_border solid;  position: relative; background-size:cover;  background-repeat: no-repeat; background-position: 50%; 
 						input 						{ position: absolute; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
 					}
 					.price_column 					{ @extend .inner_form;

@@ -89,6 +89,7 @@ app.controller('AddSupplierCtrl', [ '$scope', 'ajaxRequest', '$q', 'goTo', 'mess
 
           if (response.status == 200) {
               Notification.success('New Supplier has been added successfully.');
+              goTo.page('suppliers');
               $scope.resetForm();
            }else if(response.status == 500 || response.status == 404){
               Notification.error('An error occured while adding supplier. Please try again.'); 
@@ -159,6 +160,7 @@ app.controller('EditSupplierCtrl', ['$scope','goTo', '$http', 'ajaxRequest', '$q
 
          if (response.status == 200) {
             Notification.success('Supplier details for <b>'+$scope.sup_name+'</b> has been updated successfully.');
+            goTo.page('suppliers');
          }else if(response.status == 500 || response.status == 404){
             Notification.error('An error occured while updating. Please try again.'); 
          }

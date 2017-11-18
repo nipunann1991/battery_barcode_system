@@ -1,4 +1,5 @@
 <div ng-controller="ItemsCtrl" class="page_inner {{animated_class}}">
+	<div class="loader_ {{loader_class}}"></div>
 	<div class="head">
 		<div class="top"> 
 			<h2>{{title}}</h2>
@@ -10,8 +11,7 @@
 		<md-button ng-click="navigateTo('items/add-item')" ><i class="icon-plus-sign-in-a-black-circle" aria-hidden="true"></i> Add Items</md-button> 
 	</div>
  
-	<div class="body"> 
-
+	<div class="body">  
 	    <table datatable="ng" class="row-border hover table table-responsive table-bordered table-striped">
 		    <thead>
 			    <tr >
@@ -32,7 +32,7 @@
 						<a href="" id="view_stock{{gi.item_id}}" class="view_stock" ng-click="viewItemStock(gi.item_id)"> 
 						 	<i class="glyphicon glyphicon-eye-open" title="View Stock" aria-hidden="true"></i>
 						</a>
-			        	<a href="" id="edit{{gi.item_id}}" ng-if="role_access" class="edit" title="Edit Items" ng-click="editItem(gi.item_id)">
+			        	<a href="" id="edit{{gi.item_id}}"  class="edit" title="Edit Items" ng-click="editItem(gi.item_id)">
 			        		<i class="icon-pencil-edit-button" aria-hidden="true"></i>
 			        	</a>
 			        	<a href="" id="delete{{gi.item_id}}" ng-if="role_access" ng-click="deleteItem(gi.item_id)" class="delete" title="Delete Items" >

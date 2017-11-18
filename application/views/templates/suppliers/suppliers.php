@@ -17,8 +17,7 @@
 		         <!--  <th># Id</th> -->
 			        <th>Supplier Id</th>
 		          	<th>Supplier Name</th>
-		          	<th>Dealer</th>
-		          	<th>NIC</th>
+		          	<th>Dealer</th> 
 			      	<th>Address</th> 
 			      	<th>Tel</th> 
 			      	<th>Fax</th> 
@@ -31,14 +30,13 @@
 				  <tr ng-repeat="gs in getSuppliers">
 			        <td>{{gs.sup_id}}</td> 
 			        <td>{{gs.sup_name}}</td> 
-			        <td>{{gs.dealer}}</td> 
-			        <td>{{gs.nic}}</td> 
+			        <td>{{gs.dealer}}</td>   
 			        <td>{{gs.address}}</td> 
 			        <td>{{gs.tel}}</td> 
 			        <td>{{gs.fax}}</td> 
 			        <td>{{gs.email}}</td> 
 			        <td>  
-			        	<a href="" id="edit{{gs.sup_id}}" class="edit" ng-click="editSupplier(gs.sup_id)"><i class="icon-pencil-edit-button" aria-hidden="true"></i></a><a href="" id="delete{{gs.sup_id}}" ng-click="deleteSupplier(gs.sup_id)" class="delete" ><i class="icon-rubbish-bin" aria-hidden="true"></i></a>
+			        	<a href="" id="edit{{gs.sup_id}}" class="edit"  ng-click="editSupplier(gs.sup_id)"><i class="icon-pencil-edit-button" aria-hidden="true"></i></a><a href="" ng-if="role_access" id="delete{{gs.sup_id}}" ng-click="deleteSupplier(gs.sup_id)" class="delete" ><i class="icon-rubbish-bin" aria-hidden="true"></i></a>
 			        </td>
 			    </tr>
 		

@@ -14,12 +14,49 @@ class DashboardController extends CommonController {
 	}
 
 
+	public function getDashboardDetails(){
+
+
+		$data['dashboard'] = array(
+			'items' => $this->getCountProducts() ,   
+			'suppliers' => $this->getCountSupplires(), 
+			'invoices' => $this->getTodaysInvoices(),
+		);
+   	
+   		return $this->output->set_output(json_encode($data['dashboard'], JSON_PRETTY_PRINT));
+ 
+
+	}
+
 	public function getCountProducts(){  
-       return $this->getTotalRows__('item');    
+
+		$search_index = array(  
+			'table' => 'item',
+			'data' => '1',
+		);
+
+       return $this->getTotalRowData__($search_index);    
     }
 
     public function getCountSupplires(){  
-       return $this->getTotalRows__('supplier');    
+
+    	$search_index = array(  
+			'table' => 'supplier',
+			'data' => '1',
+		);
+
+       	return $this->getTotalRowData__($search_index);    
+    }
+
+
+    public function getTodaysInvoices(){  
+
+    	$search_index = array(  
+			'table' => 'invoice',
+			'data' => 'invoice_date='.date("Y-m-d").'',
+		);
+
+       	return $this->getTotalRowData__($search_index);    
     }
 
  	

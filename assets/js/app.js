@@ -34,8 +34,9 @@ app.controller('logCtrl', ['$scope', 'ajaxRequest', function($scope, ajaxRequest
               $scope.role = loginStatus.role;
               $scope.role_id = loginStatus.role_id;
 
-              if ($scope.role_id == 2) {
+              if ($scope.role_id == 1) {
                 $scope.role_access = false;
+             
               } 
 
          }

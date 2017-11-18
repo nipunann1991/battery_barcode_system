@@ -16,6 +16,7 @@ app.controller('ItemsCtrl', ['$scope','$location', 'ajaxRequest', 'goTo', 'messa
     $scope.getItemsList = function (){
       ajaxRequest.post('ItemsController/getItemsJoined').then(function(response) {
           $scope.getItem = response.data.data;  
+          $scope.loader_class = 'hide';
       });
     }
 

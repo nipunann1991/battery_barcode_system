@@ -19,8 +19,8 @@ class ItemsController extends CommonController {
     public function getItemsJoined(){ 
 
      	$search_index = array(
-			'columns' => 'i.*, c.cat_name, s.sup_name' ,   
-			'table' => 'item i, categories c, supplier s',
+			'columns' => 'i.*, c.cat_name' ,   
+			'table' => 'item i, categories c',
 			'data' => 'i.cat_id = c.id ',
 		);
 

@@ -189,6 +189,27 @@ class CommonQueryModel extends CI_Model{
 
 
 
+    public function getTotalRowsOnly($search_index){
+ 
+        $select_query = "SELECT COUNT(*) as count FROM `".$search_index['table']."` ".$search_index['condition'] ;
+ 
+        $query = $this->db->query($select_query); 
+
+        if (!$query) {
+
+			return 'error';
+
+		}else{
+ 			 
+			return $query->result()[0]->count;
+		}
+
+       
+    }
+
+
+
+
     public function insertData($insert_vals){ 
 
         $select_query =  "INSERT INTO ".$insert_vals['table']." (".$insert_vals['columns'].") VALUES (".$insert_vals['values'].")" ;

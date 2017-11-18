@@ -81,6 +81,19 @@ class commoncontroller extends CI_Controller {
 		return $this->output->set_output(json_encode($data["results"], JSON_PRETTY_PRINT));
     }
 
+
+    public function getTotalRowData__($search_index){
+
+    	$search_count = array(
+			'table' => $search_index['table'],
+			'condition' => ' WHERE '.$search_index['data'],
+		);
+ 
+		$data["results"] = $this->commonQueryModel->getTotalRowsOnly($search_count);
+		return $data["results"];
+ 
+    }
+
    	
    	public function updateData__($table, $dataset, $where){
 

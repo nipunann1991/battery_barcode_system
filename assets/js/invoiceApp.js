@@ -22,10 +22,21 @@ app.controller('invoiceCtrl', ['$scope','ajaxRequest', '$q', 'goTo', 'DTOptionsB
         .withDisplayLength(10) 
         .withOption('aaSorting',[0,'asc']);
 	    vm.dtColumns = [
-	        DTColumnBuilder.newColumn('invoice_id').withTitle('Invoice Id'),
-	        DTColumnBuilder.newColumn('invoice_no').withTitle('Invoice No'), 
+	        DTColumnBuilder.newColumn('invoice_id').withTitle('Invoice Id')
+	        	.renderWith(function(data, type, full, meta) { 
+                return  '<a href="#/invoice/view-invoice/'+full.invoice_id+'">'+full.invoice_id+'</a>';
+            }), 
+	        DTColumnBuilder.newColumn('invoice_no').withTitle('Invoice No')
+	         .renderWith(function(data, type, full, meta) { 
+                return  '<a href="#/invoice/view-invoice/'+full.invoice_id+'">'+full.invoice_no+'</a>';
+            }), 
 	        DTColumnBuilder.newColumn('invoice_date').withTitle('Invoice Date'), 
-	        DTColumnBuilder.newColumn('no_of_items').withTitle('No of Items'), 
+	        DTColumnBuilder.newColumn('no_of_items').withTitle('No of Items'),
+	        DTColumnBuilder.newColumn(null).withTitle(' ')
+	         .renderWith(function(data, type, full, meta) { 
+                return  '<a href="#/invoice/view-invoice/'+full.invoice_id+'"><i class="glyphicon glyphicon-eye-open"></i></a>';
+            }), 
+	        
 	    ];
       
     };

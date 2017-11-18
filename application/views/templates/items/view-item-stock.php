@@ -62,7 +62,7 @@
 						        <th>Package</th>
 						        <th>Status</th>
 						       
-						        <th ng-if="role_access"> </th>
+						        <th> </th>
 						    </tr>
 					    </thead>
 					    <tbody>
@@ -82,9 +82,9 @@
 						        	<span ng-click="viewPackage(gis.package_id)" ng-show="gis.package_id > '0' && gis.status == '1'" class="label label-warning"  >Packed</span>
 						        </td>
 
-						        <td ng-if="role_access"> 
+						        <td > 
 						        
-			 						<a href="" id="edit{{gis.stock_id}}" title="Edit Stock" class="edit" ng-click="openEditStockModal(gis.stock_id)"><i class="icon-pencil-edit-button" aria-hidden="true"></i></a><a href="" title="Delete Stock" id="delete{{gis.stock_id}}" ng-click="deleteItem(gis.stock_id)" class="delete" ><i class="icon-rubbish-bin" aria-hidden="true"></i></a>
+			 						<a href="" id="edit{{gis.stock_id}}" ng-show="gis.status == '0'" title="Edit Stock" class="edit" ng-click="openEditStockModal(gis.stock_id)"><i class="icon-pencil-edit-button" aria-hidden="true"></i></a><a href="" title="Delete Stock" ng-if="role_access"  id="delete{{gis.stock_id}}" ng-click="deleteItem(gis.stock_id)" class="delete" ><i class="icon-rubbish-bin" aria-hidden="true"></i></a>
 			 						
 						        </td>
 						    </tr>

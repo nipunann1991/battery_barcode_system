@@ -42,7 +42,7 @@
 					    </div>
 				  	</div>
 				</div>
-				<div class="col-md-6">
+			<!-- 	<div class="col-md-6">
 				  	<div class="form-group" ng-class="{ 'has-error' : !editSupplierForm.nic.$pristine && editSupplierForm.nic.$touched && editSupplierForm.nic.$invalid }">
 					    <label class="control-label col-sm-12" for="nic">NIC <i>*</i> : <small class="help-block hide">Can't be empty</small></label>
 					    <div class="col-sm-12"> 
@@ -50,7 +50,7 @@
 					      	<label class="error" >This field is required.</label>    
 					    </div>
 				  	</div>
-				</div>
+				</div> -->
 			</div>
 		  	<div class="form-group">
 			    <label class="control-label col-sm-12" for="sup_address">Address : <small class="help-block hide">Can't be empty</small> </label>

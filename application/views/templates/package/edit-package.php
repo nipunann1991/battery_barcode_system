@@ -83,7 +83,7 @@
 									        <th>{{gi.barcode}}</th> 
 									        <!-- <th><svg id="code128sm" class="barcode" ></svg></th>   -->
 									        <th>
-												<a href="" id="delete{{gi.id}}" ng-if="role_access" ng-click="deleteItem(gi.stock_id, gi.barcode , $index)" class="delete ng-scope" title="Delete Items">
+												<a href="" id="delete{{gi.id}}" ng-click="deleteItem(gi.stock_id, gi.barcode , $index)" class="delete ng-scope" title="Delete Items">
 									        		<i class="icon-rubbish-bin" aria-hidden="true"></i>
 									        	</a>
 									        </th>

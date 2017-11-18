@@ -19,7 +19,7 @@
 	<div class="body" ng-controller="navCtrl">
 
 		<ul id="accordion">
-		    <li ng-repeat="nav in nav_links " class="panel ">
+		    <li ng-repeat="nav in nav_links " class="panel "  ng-if="(nav.page_name != 'Settings' && !role_access) ||  role_access " >
 		    	<md-button ng-href="{{nav.page_link}}"  data-toggle="collapse"  data-parent="#accordion" class="md-button md-ink-ripple"  data-target="#nav_{{nav.page_name}}" > 
 		      	<i class="{{nav.page_icon}}"></i> {{nav.page_name}} <span class="caret pull-right" ng-if="nav.page_sublinks"></span></md-button> 
 
