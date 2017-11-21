@@ -24,9 +24,14 @@
 		              
 				        <div class="package_details_inner"> 
 				        	<a href="" ng-show="status == 1" id="edit{{gis.item_id}}" class="edit" ng-click="editPackage()"><i class="icon-pencil-edit-button" aria-hidden="true"></i></a>
-				        	<ul> 
+
+				        	<ul>  
+				        		<li><strong>Barcode: </strong> 
+				        			<a href="#items/view-barcode/{{pkg_barcode}}" title="Print Barcode">
+				        				{{pkg_barcode}} &nbsp; <i class="icon-printer print" aria-hidden="true"></i>
+				        			</a>
+				        		</li> 
 				        		<li><strong>Package ID: </strong> {{pkg_id}}</li>
-				        		<li><strong>Barcode: </strong> {{pkg_barcode}}</li> 
 				        		<li><strong>Status: </strong> <span class="label " ng-class="label">{{labelText}}</span></li>
 				        		<li><strong>Note: </strong> {{note}}</li> 
 				        		

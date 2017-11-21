@@ -109,7 +109,7 @@ class SupplierController extends CommonController {
 	public function updateSupplier(){ 
 
 		$dataset = $this->input->post();  
-		return $this->updateData__('supplier', $dataset, " sup_id =".$dataset['sup_id']); 
+		return $this->updateData__('supplier', $dataset, " sup_id ='".$dataset['sup_id']."'"); 
 
 	}
 

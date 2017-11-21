@@ -84,7 +84,7 @@
  		<div class="col-md-12 invoice_btn"" > 
 			<div class="pull-right">
 			<!-- 	<md-button class="btn_purple " type="button" ng-click="saveInvoice()">Save Invoice</md-button> -->
-				<md-button class="btn_purple" ng-click="printDiv()">Print</md-button> 
+				<md-button class="btn_purple" ng-click="printDiv()"><i class="icon-printer print" aria-hidden="true"></i>&nbsp; Print</md-button> 
 			</div> 
 			<div class="clearfix"></div>
 		</div> 

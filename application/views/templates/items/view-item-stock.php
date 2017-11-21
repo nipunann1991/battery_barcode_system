@@ -68,7 +68,7 @@
 					    <tbody>
 						    <tr ng-repeat="gis in getSingleIteminStock" > <!-- ng-class="{ 'active_item' : gis.archived ==  '0'}" -->
 						    	<td class="hide">{{gis.stock_id}}</td>
-						        <td> <a href="#items/view-barcode/{{gis.barcode}}">{{gis.barcode}}</a></td> 
+						        <td> <a href="#items/view-barcode/{{gis.barcode}}">{{gis.barcode}} <i class="icon-printer pull-right print"></i></a></td> 
 						        <td>{{gis.manufacture_id}}</td>
 						        <td>{{gis.invoice_no}}</td>
 						        <td>{{gis.sup_name}}</td>
@@ -84,7 +84,7 @@
 
 						        <td > 
 						        
-			 						<a href="" id="edit{{gis.stock_id}}" ng-show="gis.status == '0'" title="Edit Stock" class="edit" ng-click="openEditStockModal(gis.stock_id)"><i class="icon-pencil-edit-button" aria-hidden="true"></i></a><a href="" title="Delete Stock" ng-if="role_access"  id="delete{{gis.stock_id}}" ng-click="deleteItem(gis.stock_id)" class="delete" ><i class="icon-rubbish-bin" aria-hidden="true"></i></a>
+			 						<a href="" id="edit{{gis.stock_id}}" ng-class="{'test': gis.status == '0'}" title="Edit Stock" class="edit" ng-click="gis.status == '1' && openEditStockModal(gis.stock_id)"><i class="icon-pencil-edit-button" aria-hidden="true"></i></a><a href="" title="Delete Stock" ng-if="role_access" ng-class="{'test': gis.status == '0'}"  id="delete{{gis.stock_id}}" ng-click="gis.status == '1' && deleteItem(gis.stock_id)" class="delete" ><i class="icon-rubbish-bin" aria-hidden="true"></i></a>
 			 						
 						        </td>
 						    </tr>
