@@ -65,7 +65,7 @@ class DashboardController extends CommonController {
         $search_index = array(
 			'columns' => 'i.*, c.cat_name' ,   
 			'table' => 'item i, categories c',
-			'data' => 'i.cat_id = c.id order by item_id DESC',
+			'data' => 'i.cat_id = c.id order by item_id DESC LIMIT 5',
 		);
 
 		return $this->selectCustomData__($search_index);   

@@ -4,8 +4,8 @@
 */
   
 
-app.controller('ItemsCtrl', ['$scope','$location', 'ajaxRequest', 'goTo', 'messageBox' , 'Notification',
-  function($scope, $location, ajaxRequest, goTo, messageBox, Notification) {
+app.controller('ItemsCtrl', ['$scope', '$compile','$location', 'ajaxRequest', 'goTo', 'messageBox' , 'Notification', 'DTOptionsBuilder', 'DTColumnBuilder',
+  function($scope, $compile, $location, ajaxRequest, goTo, messageBox, Notification, DTOptionsBuilder, DTColumnBuilder) {
 
     $scope.title = 'View Items';
     $scope.breadcrumb = 'Warn';
@@ -13,11 +13,64 @@ app.controller('ItemsCtrl', ['$scope','$location', 'ajaxRequest', 'goTo', 'messa
    
      
 
-    $scope.getItemsList = function (){
-      ajaxRequest.post('ItemsController/getItemsJoined').then(function(response) {
-          $scope.getItem = response.data.data;  
-          $scope.loader_class = 'hide';
-      });
+      $scope.getItemsList = function (){ 
+
+        var vm = this;
+        vm.dtOptions = DTOptionsBuilder.newOptions()
+          .withOption('ajax', { 
+           url: 'index.php/ItemsController/getItemsJoined',
+           type: 'GET',
+
+       })
+        
+      .withDataProp('data')
+      .withOption('processing', true) 
+      .withOption('serverSide', true) 
+      .withOption('paging', true) 
+      .withDisplayLength(10) 
+      .withOption('createdRow', createdRow)
+      .withOption('aaSorting',[0,'asc']);
+        vm.dtColumns = [
+            DTColumnBuilder.newColumn('item_id').withTitle('#Item Id')
+              .renderWith(function(data, type, full, meta) { 
+                  return  '<a href="javascript:void(0)" ng-click="viewItemStock('+full.item_id+')">#'+full.item_id+'</a>';
+              }), 
+            DTColumnBuilder.newColumn('item_name').withTitle('Item Name')
+              .renderWith(function(data, type, full, meta) { 
+                  return  '<a href="javascript:void(0)" ng-click="viewItemStock('+full.item_id+')">'+full.item_name+'</a>';
+              }), 
+            DTColumnBuilder.newColumn('item_name').withTitle('Item Display'), 
+            DTColumnBuilder.newColumn('cat_name').withTitle('Category'),
+            DTColumnBuilder.newColumn(null).withTitle(' ')
+             .renderWith(function(data, type, full, meta) { 
+
+              var class_ = '', action_btns = '', hide_ = '';
+ 
+
+                  if (!$scope.role_access) {
+                    hide_ = 'hide';
+                  }
+
+                  return  `<div class="w100">
+                          <a href="" id="view`+full.item_id+`" ng-click="viewItemStock(`+full.item_id+`)"  class="view" title="View Items" >
+                            <i class="glyphicon glyphicon-eye-open" aria-hidden="true"></i>
+                          </a>
+                          <a href="" id="edit`+full.item_id+`"  class="edit `+class_+`" title="Edit Items" ng-click="editItem(`+full.item_id+`)">
+                            <i class="icon-pencil-edit-button" aria-hidden="true"></i>
+                          </a>
+                          <a href="" id="delete`+full.item_id+`" ng-click="deleteItem(`+full.item_id+`)" class="delete  `+hide_+`" title="Delete Items" >
+                            <i class="icon-rubbish-bin" aria-hidden="true"></i>
+                          </a></div>
+                          `;
+              }), 
+            
+        ];
+
+
+        function createdRow(row, data, dataIndex) { 
+            $compile(angular.element(row).contents())($scope);
+        }
+ 
     }
 
     $scope.getItemsList();
@@ -39,9 +92,11 @@ app.controller('ItemsCtrl', ['$scope','$location', 'ajaxRequest', 'goTo', 'messa
     };
 
 
-    $scope.viewItemStock = function(item_id){
+     $scope.viewItemStock = function(item_id){  
       goTo.page('/items/view-item-stock/'+item_id);
     }
+
+ 
 
 
     $scope.deleteItem = function(item_id){
@@ -61,8 +116,9 @@ app.controller('ItemsCtrl', ['$scope','$location', 'ajaxRequest', 'goTo', 'messa
             ajaxRequest.post('ItemsController/deleteItems',deleteItemID).then(function(response) {
                  
                 if (response.status == 200) {
+                    $scope.getItemsList();
                     Notification.success('Item has been deleted successfully.');
-                    $scope.getItemsList(); 
+                    
                  }else if(response.status == 500 || response.status == 404){
                     Notification.error('An error occured while deleting item. Please try again.'); 
                  } 
@@ -438,8 +494,8 @@ app.controller('editItemsCtrl', ['$scope', '$http', 'goTo', 'ajaxRequest', '$q',
 * ref: view-item-stock.php
 */
 
-app.controller('ItemsStockCtrl', ['$scope','$location', 'ajaxRequest', 'goTo', 'messageBox' , 'Notification', '$routeParams', 'barcodeNo', 'DTOptionsBuilder',  
-  function($scope, $location, ajaxRequest, goTo, messageBox, Notification, $routeParams, barcodeNo, DTOptionsBuilder ) {
+app.controller('ItemsStockCtrl', ['$scope', '$compile', '$location', 'ajaxRequest', 'goTo', 'messageBox' , 'Notification', '$routeParams', 'barcodeNo', 'DTOptionsBuilder', 'DTColumnBuilder',  
+  function($scope, $compile,  $location, ajaxRequest, goTo, messageBox, Notification, $routeParams, barcodeNo, DTOptionsBuilder, DTColumnBuilder ) {
 
     $scope.title = 'View Stock';
     $scope.breadcrumb = 'Warn';
@@ -489,28 +545,96 @@ app.controller('ItemsStockCtrl', ['$scope','$location', 'ajaxRequest', 'goTo', '
 
     $scope.getBarcode();
 
-    $scope.getSingleItemStock = function (){
+ 
 
-      var sendItemID =  $.param({ item_id: $routeParams.id });
+    $scope.getSingleItemStock = function (){  
+       
+        $scope.dtOptions = DTOptionsBuilder.newOptions()
+          .withOption('ajax', { 
+           url: 'index.php/ItemsController/getSingleItemStock',
+           type: 'POST',
+           data: { item_id: $routeParams.id },
 
+       })
+      
+      .withDataProp('data')
+      .withOption('processing', true) 
+      .withOption('serverSide', true) 
+      .withOption('paging', true) 
+      .withOption("destroy", true)
+      .withOption('stateSave', false)
+      .withDisplayLength(10) 
+      .withOption('createdRow', createdRow) 
+      .withOption('aaSorting',[0,'asc']);
+        $scope.dtColumns = [
+            DTColumnBuilder.newColumn('barcode').withTitle('Barcode')
+              .renderWith(function(data, type, full, meta) { 
+                console.log(full)
+                  return  '<a href="#items/view-barcode/'+full.barcode+'">'+full.barcode+'<i class="icon-printer pull-right print"></i></a>';
+              }), 
+            DTColumnBuilder.newColumn('manufacture_id').withTitle('Manufacture ID')
+              .renderWith(function(data, type, full, meta) { 
+                  return  full.manufacture_id;
+              }), 
 
-      /*
-      * get007
-      */
+            DTColumnBuilder.newColumn('invoice_no').withTitle('Invoice No'), 
+            DTColumnBuilder.newColumn('sup_name').withTitle('Supplier'), 
+            DTColumnBuilder.newColumn('status').withTitle('Status')
+              .renderWith(function(data, type, full, meta) {  
 
-      ajaxRequest.post('ItemsController/getSingleItemStock', sendItemID ).then(function(response) {
-          $scope.getSingleIteminStock = response.data.data;  
-          $scope.stock_id = $scope.getSingleIteminStock[0].stock_id; 
+                  var label_ = '';
+
+                  if (full.status == 0 && full.package_id != 0 ) {
+                    label_ = '<span class="label label-danger" >Sold</span>';
+                  }else if(full.status == 1 && full.package_id == 0 ){
+                    label_ = '<span class="label label-success"  >In Stock</span>'
+                  }else if(full.status == 1 && full.package_id > 0 ){
+                    label_ = '<span ng-click="viewPackage('+full.package_id+')" class="label label-warning"  >Packed</span>'
+                  }
+               
+                  return  label_;
+
+              }), 
+            DTColumnBuilder.newColumn(null).withTitle(' ')
+             .renderWith(function(data, type, full, meta) { 
+
+                  var class_ = '', action_btns = '', hide_ = '';
+
+                  if (full.status == '0') {
+                    class_ = 'disabled_items';
+                  }
+
+                  if (!$scope.role_access) {
+                    hide_ = 'hide';
+                  }
+
+                
+                  action_btns = `<a href="" id="edit`+full.stock_id+`" class="`+class_+`" title="Edit Stock" class="edit" ng-click="`+full.status+` == 1 &&  openEditStockModal(`+full.stock_id+`)"><i class="icon-pencil-edit-button" aria-hidden="true"></i></a>
+                              <a href="" title="Delete Stock" class="`+class_+` `+hide_+`"  id="delete`+full.stock_id+`" ng-click="`+$scope.role_access+` && `+full.status+` == 1 && deleteItem(`+full.stock_id+`)" class="delete" ><i class="icon-rubbish-bin" aria-hidden="true"></i></a>`;
+                  
+                  
+                  console.log( $scope.role_access )
+                  return  `<div class="w100">
+                              `+action_btns+`
+                          </div>
+                          `;
+              }), 
+            
+        ];
         
-          console.log($scope.getSingleIteminStock)
-          
-      });
 
-      ajaxRequest.post('ItemsController/getSupplierList').then(function(response) {
-          $scope.getSupplierList = response.data.data;  
-      });
+        function createdRow(row, data, dataIndex) { 
+          $compile(angular.element(row).contents())($scope);
+        }
+
+        ajaxRequest.post('ItemsController/getSupplierList').then(function(response) {
+            $scope.getSupplierList = response.data.data;  
+        });
 
     };
+
+ 
+    
  
 
     $scope.editItem = function(item_id){ 
@@ -624,8 +748,9 @@ app.controller('ItemsStockCtrl', ['$scope','$location', 'ajaxRequest', 'goTo', '
         ajaxRequest.post('ItemsController/addItemStock', data_add_item_stock ).then(function(response) {
 
             if (response.status == 200) {
-                Notification.success('New Stock has been added successfully.'); 
-                $scope.getSingleItemStock(); 
+                Notification.success('New Stock has been added successfully.');  
+                $scope.reInitTable();
+
                 $('#myModalAdd').modal('hide');
             }else if(response.status == 500 || response.status == 404){
                 Notification.error('An error occured while adding item. Please try again.'); 
@@ -656,7 +781,7 @@ app.controller('ItemsStockCtrl', ['$scope','$location', 'ajaxRequest', 'goTo', '
                  
                 if (response.status == 200) {
                     Notification.success('Item has been deleted successfully.'); 
-                    $scope.getSingleItemStock();
+                    $scope.reInitTable();
                     
                  }else if(response.status == 500 || response.status == 404){
                     Notification.error('An error occured while deleting item. Please try again.'); 
@@ -668,7 +793,13 @@ app.controller('ItemsStockCtrl', ['$scope','$location', 'ajaxRequest', 'goTo', '
         });
     };
 
- 
+    
+    $scope.reInitTable = function(){
+      var table = $('#datatableData').DataTable();
+      table.clear().draw();
+      $scope.getSingleItemStock();
+
+    }
 
     $scope.net_price = function(){
 
@@ -713,12 +844,7 @@ app.controller('ItemsStockCtrl', ['$scope','$location', 'ajaxRequest', 'goTo', '
     };
 
 
-
-
-   
-
-    
-
+ 
     $scope.getSingleItemStock();
 
    

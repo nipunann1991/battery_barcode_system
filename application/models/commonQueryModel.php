@@ -62,9 +62,9 @@ class CommonQueryModel extends CI_Model{
 
 
 
-    function count_filtered($table)
+    function count_filtered($data)
     {
-        $select_query = "SELECT * FROM `$table`" ;
+        $select_query = "select ".$data['columns']." FROM ".$data['table']." WHERE ".$data['data']."" ;
         $query = $this->db->query($select_query); 
         return $query->num_rows();
     }
@@ -96,6 +96,33 @@ class CommonQueryModel extends CI_Model{
 				'status' => 200 , 
 				'data' => $query->result(),
 			);
+			return $output;
+		}
+
+       
+    }
+
+
+
+    public function selectCustomDataDT($search_data){
+
+        $select_query = "SELECT ".$search_data['columns']." FROM ".$search_data['table']." WHERE ".$search_data['data']."  " ;
+        $query = $this->db->query($select_query); 
+
+
+
+        if (!$query) {
+
+        	$output = array(
+				'status' => 500 , 
+				'data' => 'Query Error',
+			);
+
+			return $output;
+
+		}else{
+
+			$output = $query->result();
 			return $output;
 		}
 

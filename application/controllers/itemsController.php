@@ -17,14 +17,58 @@ class ItemsController extends CommonController {
     
 
     public function getItemsJoined(){ 
+ 
+
+    	$tbl_name = 'item'; 
+    	$start = $this->input->get('start');
+    	$length = $this->input->get('length');
+    	$get_column = $this->input->get('order[0][column]');
+    	$get_column_name = $this->input->get('columns['.$get_column.'][data]');
+    	$get_order = $this->input->get('order[0][dir]');
+    	$search_from_value = '';
+
+    	switch ($get_column_name) {
+    		case 'cat_name':
+    			$get_column_name = 'c.'.$get_column_name;
+    			break;
+    		
+    		default:
+    			$get_column_name = 'i.'.$get_column_name;
+    			break;
+    	}
+
+    	if (intval($this->input->get('draw')) == 1) {
+    		$get_order = 'desc';
+    	}
+
+    	if ($this->input->get('search[value]') != '') {
+    		$search_from_value = "AND i.item_name LIKE '%".$this->input->get('search[value]')."%' OR i.item_id LIKE '%".$this->input->get('search[value]')."%'";
+    	}
 
      	$search_index = array(
 			'columns' => 'i.*, c.cat_name' ,   
 			'table' => 'item i, categories c',
-			'data' => 'i.cat_id = c.id ',
+			'data' => 'i.cat_id = c.id '.$search_from_value.' order by '.$get_column_name.' '.$get_order.' LIMIT '.$start.', '.$length.'',
+
 		);
 
-        return $this->selectCustomData__($search_index); 
+		$get_all_data = array(
+			'columns' => 'i.*, c.cat_name' ,   
+			'table' => 'item i, categories c',
+			'data' => 'i.cat_id = c.id '.$search_from_value.' ',
+		);
+
+
+     	$result = $this->selectCustomDataDT__($search_index); 
+     	
+ 		$output['result'] = array(
+            "draw" => intval($this->input->get('draw')),
+            "recordsTotal" => $this->commonQueryModel->count_filtered($get_all_data),
+            "recordsFiltered" => $this->commonQueryModel->count_filtered($get_all_data),
+            "data" => $result,
+    	); 
+
+        return $this->output->set_output(json_encode($output['result']));
     }
 
 
@@ -89,13 +133,68 @@ class ItemsController extends CommonController {
 
     public function getSingleItemStock(){ 
 
-        $search_index = array(
+    	$tbl_name = 'item'; 
+    	$start = $this->input->post('start');
+    	$length = $this->input->post('length');
+    	$get_column = $this->input->post('order[0][column]');
+    	$get_column_name = $this->input->post('columns['.$get_column.'][data]');
+    	$get_order = $this->input->post('order[0][dir]');
+    	$search_from_value = '';
+
+    	switch ($get_column_name) {
+    		case 'sup_name':
+    			$get_column_name = 's.'.$get_column_name;
+    			break;
+    		
+    		default:
+    			$get_column_name = 'i.'.$get_column_name;
+    			break;
+    	}
+
+    	if (intval($this->input->post('draw')) == 1) {
+    		$get_order = 'desc';
+    	}
+
+    	if ($this->input->post('search[value]') != '') {
+    		$search_from_value = "AND i.barcode LIKE '%".$this->input->post('search[value]')."%' OR i.manufacture_id LIKE '%".$this->input->post('search[value]')."%' OR i.invoice_no LIKE '%".$this->input->post('search[value]')."%' OR s.sup_name LIKE '%".$this->input->post('search[value]')."%' ";
+    	}
+  
+
+
+		$search_index = array(
 			'columns' => 'i.*, s.sup_name' ,   
 			'table' => 'item_stock i, supplier s ',
-			'data' => 'i.sup_id=s.sup_id AND i.item_id= '.$this->input->post('item_id').' ORDER BY i.stock_id DESC',
+			'data' => 'i.sup_id=s.sup_id AND i.item_id= '.$this->input->post('item_id').' '.$search_from_value.' order by '.$get_column_name.' '.$get_order.' LIMIT '.$start.', '.$length.'',
 		);
 
-		return $this->selectCustomData__($search_index);
+		$get_all_data = array(
+			'columns' => 'i.*, s.sup_name' ,   
+			'table' => 'item_stock i, supplier s ',
+			'data' => 'i.sup_id=s.sup_id AND i.item_id= '.$this->input->post('item_id').' ',
+		);
+
+
+
+     	$result = $this->selectCustomDataDT__($search_index); 
+     	
+ 		$output['result'] = array(
+            "draw" => intval($this->input->get('draw')),
+            "recordsTotal" => $this->commonQueryModel->count_filtered($get_all_data),
+            "recordsFiltered" => $this->commonQueryModel->count_filtered($get_all_data),
+            "data" => $result,
+    	); 
+
+        return $this->output->set_output(json_encode($output['result']));
+
+
+
+  //       $search_index = array(
+		// 	'columns' => 'i.*, s.sup_name' ,   
+		// 	'table' => 'item_stock i, supplier s ',
+		// 	'data' => 'i.sup_id=s.sup_id AND i.item_id= '.$this->input->post('item_id').' ORDER BY i.stock_id DESC',
+		// );
+
+		// return $this->selectCustomData__($search_index);
     }
 
 

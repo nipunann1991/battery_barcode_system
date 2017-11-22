@@ -35,6 +35,15 @@ class commoncontroller extends CI_Controller {
     }
 
 
+     public function selectCustomDataDT__($search_index){
+
+        $data["results"] = $this->commonQueryModel->selectCustomDataDT($search_index); 
+        return $data["results"];
+
+        
+    }
+
+
     public function getLoginData__($search_index){
 
        	return $this->commonQueryModel->selectCustomData($search_index); 

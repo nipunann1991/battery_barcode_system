@@ -13,17 +13,22 @@ class InvoiceController extends CommonController {
 
  		$result = $this->getAllDataDT__('invoice');
 
+ 		$get_all_data = array(
+			'columns' => '*' ,   
+			'table' => 'invoice',
+			'data' => '1',
+		);
 
 
  		$output['result'] = array(
             "draw" => intval($this->input->get('draw')),
-            "recordsTotal" => $this->commonQueryModel->count_all($tbl_name),
-            "recordsFiltered" => $this->commonQueryModel->count_filtered($tbl_name),
+            "recordsTotal" => $this->commonQueryModel->count_filtered($get_all_data),
+            "recordsFiltered" => $this->commonQueryModel->count_filtered($get_all_data),
             "data" => $result,
     	); 
 
 			
-        echo json_encode($output['result']);
+        return $this->output->set_output(json_encode($output['result']));
     }
 
     public function getCompanyDetails(){ 

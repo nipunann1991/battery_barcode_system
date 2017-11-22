@@ -48,9 +48,11 @@
 						 
 						<div class="clearfix"></div>
 					</div>
-					
+					<table id="datatableData" datatable="" dt-options="dtOptions" dt-columns="dtColumns" dt-instance="dtInstance" class="row-border hover table table-responsive table-bordered table-striped">
+		  
+					</table>
 
-				    <table datatable="ng"   dt-options="dtOptions" dt-column-defs="dtColumnDefs" class="row-border hover table table-responsive table-bordered table-striped">
+<!-- 				    <table  dt-options="dtOptions" dt-column-defs="dtColumnDefs" class="row-border hover table table-responsive table-bordered table-striped">
 					    <thead>
 						    <tr>
 						    	
@@ -66,7 +68,7 @@
 						    </tr>
 					    </thead>
 					    <tbody>
-						    <tr ng-repeat="gis in getSingleIteminStock" > <!-- ng-class="{ 'active_item' : gis.archived ==  '0'}" -->
+						    <tr ng-repeat="gis in getSingleIteminStock" >  
 						    	<td class="hide">{{gis.stock_id}}</td>
 						        <td> <a href="#items/view-barcode/{{gis.barcode}}">{{gis.barcode}} <i class="icon-printer pull-right print"></i></a></td> 
 						        <td>{{gis.manufacture_id}}</td>
@@ -90,7 +92,7 @@
 						    </tr>
 
 					    </tbody>
-					</table>
+					</table> -->
 
 
 					<div id="myModalAdd" class="modal fade" role="dialog">

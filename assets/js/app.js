@@ -45,11 +45,8 @@ app.controller('logCtrl', ['$scope', 'ajaxRequest', function($scope, ajaxRequest
       
 
   });
-
-  
-
-
-
+ 
+ 
   $scope.classNav = "open";
   $scope.classContent = "";
 
