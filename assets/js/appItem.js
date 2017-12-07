@@ -82,6 +82,14 @@ app.controller('ItemsCtrl', ['$scope', '$compile','$location', 'ajaxRequest', 'g
 
 
 
+
+    $scope.reInitTable = function(){
+      var table = $('#datatableData').DataTable();
+      table.clear().draw();
+       $scope.getItemsList();
+
+    }
+
     $scope.displayPrice = function(price){
       return price+'.00';
     };
@@ -116,15 +124,15 @@ app.controller('ItemsCtrl', ['$scope', '$compile','$location', 'ajaxRequest', 'g
             ajaxRequest.post('ItemsController/deleteItems',deleteItemID).then(function(response) {
                  
                 if (response.status == 200) {
-                    $scope.getItemsList();
+                    $scope.reInitTable();
                     Notification.success('Item has been deleted successfully.');
                     
                  }else if(response.status == 500 || response.status == 404){
                     Notification.error('An error occured while deleting item. Please try again.'); 
                  } 
             });
-          }
 
+          } 
 
         });
     };
@@ -138,24 +146,15 @@ app.controller('ItemsCtrl', ['$scope', '$compile','$location', 'ajaxRequest', 'g
 */
  
 
-app.controller('addItemsCtrl', ['$scope', '$http', 'goTo', 'ajaxRequest', '$q' , 'Notification', 'fileUpload', 'barcodeNo',
-  function($scope, $http, goTo, ajaxRequest, $q, Notification, fileUpload, barcodeNo) {
+app.controller('addItemsCtrl', ['$scope', '$http', 'goTo', 'ajaxRequest', '$q' , 'Notification', 'fileUpload', 'barcodeNo', 'getLastCat',
+  function($scope, $http, goTo, ajaxRequest, $q, Notification, fileUpload, barcodeNo, getLastCat) {
 
-   
 
     $scope.title = 'Add Items';
     $scope.breadcrumb = 'Warn';
     $scope.animated_class = 'animated fadeIn';
 
-    
-    
-    
-
-    ajaxRequest.post('ItemsController/getCategoryList').then(function(response) {
-        $scope.getCategoryList = response.data.data;   
-    });
-
-
+     
     ajaxRequest.post('ItemsController/getSupplierList').then(function(response) {
         $scope.getSupplierList = response.data.data;  
     });
@@ -175,6 +174,8 @@ app.controller('addItemsCtrl', ['$scope', '$http', 'goTo', 'ajaxRequest', '$q' ,
     $("#imgInp").change(function(){
         $scope.readURL(this);
     });
+
+
 
     $scope.uploadFile = function(){
         
@@ -236,9 +237,8 @@ app.controller('addItemsCtrl', ['$scope', '$http', 'goTo', 'ajaxRequest', '$q' ,
               fileUpload.uploadFileToUrl(file, uploadUrl, text, item_id);
 
               if (response.status == 200) {
-                  Notification.success('New item has been added successfully.');
-                  $scope.resetForm();
-
+                  Notification.success('New item has been added successfully.'); 
+                  $scope.navigateTo('items');
               }else if(response.status == 500 || response.status == 404){
                 Notification.error('An error occured while adding item. Please try again.'); 
 
@@ -259,11 +259,84 @@ app.controller('addItemsCtrl', ['$scope', '$http', 'goTo', 'ajaxRequest', '$q' ,
     };
 
 
-  
+    $scope.add_category = function () {
+      $scope.animated_class = '';
+      $('#myModalAddCategory').modal('show');
+    };
 
- 
+
+    $scope.getCategoryListData = function () {
+
+       ajaxRequest.post('ItemsController/getCategoryList').then(function(response) {
+          $scope.getCategoryList = response.data.data;   
+      });
+
+    };
+   
+
+    $scope.getCategoryListData();
+
+    /*
+    * Add Category
+    */
+
+    getLastCat.id().then(function(id){
+
+      if ( typeof id == 'undefined') {
+            $scope.cat_id = 1;
+        }else{ 
+            $scope.cat_id = parseInt(id) + 1; 
+        }
+
+    });
+
+   
+    $scope.close = function(){ 
+      $('#myModalAddCategory').modal('hide');
+    };
+
+
+    $scope.resetFormCategories = function(){
+      $scope.cat_id++;
+      $scope.cat_name = $scope.cat_desc = ''
+      $scope.addCategory.$setUntouched();
+    };
+
+
+    $scope.addCategories = function(){
+
+      $scope.data = $.param({ 
+        id: $scope.cat_id, 
+        cat_name: $scope.cat_name, 
+        cat_desc: $scope.cat_desc,  
+
+      });
+
+
+      ajaxRequest.post('CategoryController/addCategories', $scope.data ).then(function(response) {
+
+            if (response.status == 200) {
+                Notification.success('New category has been added successfully.');
+                $scope.resetFormCategories();
+                $scope.getCategoryListData();
+                $('#myModalAddCategory').modal('hide');
+             }else if(response.status == 500 || response.status == 404){
+                Notification.error('An error occured while adding category. Please try again.'); 
+             }
+
+            
+            
+        });
+        
+    }
+
+
     
 }]);
+
+
+
+ 
 
 
 
@@ -305,7 +378,7 @@ app.controller('editItemsCtrl', ['$scope', '$http', 'goTo', 'ajaxRequest', '$q',
          }
     };
 
-    var sendItemID =  $.param({ item_id: $routeParams.id })
+    var sendItemID = $.param({ item_id: $routeParams.id })
  
 
     ajaxRequest.post('ItemsController/getCategoryList').then(function(response) {
@@ -322,7 +395,6 @@ app.controller('editItemsCtrl', ['$scope', '$http', 'goTo', 'ajaxRequest', '$q',
     ajaxRequest.post('ItemsController/getSingleItem', sendItemID ).then(function(response) {
 
 
-        
         $scope.getDetails = response.data.data[0];
 
         $scope.item_id = $scope.getDetails.item_id;

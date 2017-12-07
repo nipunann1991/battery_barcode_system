@@ -395,6 +395,9 @@ form.form-horizontal 								{
 		label 										{ font-weight: 500; font-size: $font_size; margin-bottom: 7px; text-align: left; color: #3c3c3c;
 			i 										{ font-style: normal; color: #d40303; }
 			small 									{ font-weight: 400; font-size: $font_size - 3; float: right; color: #f30b0b; }
+			a 										{ color: $default_purple; cursor: pointer; 
+				i 									{ color: $default_purple; }
+			}
 		}
 
 		label.error 								{ margin-bottom: 0; font-size: $font_size - 2; font-weight: 400; color: #f30b0b; margin-top: 5px; }

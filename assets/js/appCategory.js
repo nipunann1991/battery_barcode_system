@@ -5,7 +5,7 @@ app.controller('CategoryCtrl', ['$scope', 'ajaxRequest', 'goTo', 'messageBox', '
   	$scope.animated_class = 'animated fadeIn';
 
 
- 	$scope.getCategoriesList = function(){
+ 	  $scope.getCategoriesList = function(){
   		ajaxRequest.post('CategoryController/getCategories').then(function(response) {
 	        $scope.getCategories = response.data.data;  
  
@@ -62,9 +62,6 @@ app.controller('CategoryCtrl', ['$scope', 'ajaxRequest', 'goTo', 'messageBox', '
 
 app.controller('AddCategoriesCtrl', ['$scope', 'goTo', 'getLastCat', 'Notification','ajaxRequest' , function($scope, goTo, getLastCat, Notification, ajaxRequest){
 
-	$scope.title = 'Add Category';
-  	$scope.breadcrumb = 'Home > Add Category'; 
-  	$scope.animated_class = 'animated fadeIn';
 
   	getLastCat.id().then(function(id){
 		 
@@ -182,31 +179,6 @@ app.controller('EditCategoriesCtrl', ['$scope', 'goTo', 'getLastCat', 'Notificat
 }]);
 
 
-app.service('getLastCat', [ '$q', 'ajaxRequest',  function($q, ajaxRequest){
 
-	this.id = function(){ 
-
-		var deferred = $q.defer();
-   	var posts = undefined;
-
-		ajaxRequest.post('CategoryController/getLastIndex').then(function(response) { 
-
-          if (response.data.data.length == 0) {
-            deferred.resolve(0); 
-          }else{  
-            deferred.resolve(response.data.data[0].id); 
-          }
-
-        	 
-    });
-
-		posts = deferred.promise;   
-
-    return $q.when(posts);
-
-	     
-	};
-
-}]);
 
 

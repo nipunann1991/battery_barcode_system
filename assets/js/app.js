@@ -357,6 +357,36 @@ app.service('fileUpload', ['$http', function ($http) {
  }]);
 
 
+
+
+app.service('getLastCat', [ '$q', 'ajaxRequest',  function($q, ajaxRequest){
+
+  this.id = function(){ 
+
+    var deferred = $q.defer();
+    var posts = undefined;
+
+    ajaxRequest.post('CategoryController/getLastIndex').then(function(response) { 
+
+          if (response.data.data.length == 0) {
+            deferred.resolve(0); 
+          }else{  
+            deferred.resolve(response.data.data[0].id); 
+          }
+
+           
+    });
+
+    posts = deferred.promise;   
+
+    return $q.when(posts);
+
+       
+  };
+
+}]);
+
+
  
 
  
