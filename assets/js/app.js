@@ -15,11 +15,28 @@ app.config(function(NotificationProvider) {
 
 
 
-app.controller('logCtrl', ['$scope', 'ajaxRequest', function($scope, ajaxRequest) {
+
+
+app.controller('logCtrl', ['$scope', 'ajaxRequest', '$routeParams' , function($scope, ajaxRequest, $routeParams) {
 
   ajaxRequest.post('SupplierController/getSessionData').then(function(response) {
 
       var getSessionData = response.data.user;
+
+
+      url = window.location.href;
+      var activeItem = url.split('/#/')[1]
+ 
+      var activeLink = activeItem.split('/')[0];
+
+      console.log(activeLink)
+
+      if (activeLink == '') {
+        $scope.activeMenu = 'Dashboard';
+      }else{
+        $scope.activeMenu = activeLink.charAt(0).toUpperCase() + activeLink.slice(1);
+      }
+      
 
       if (typeof getSessionData != 'undefined') {
 
@@ -90,6 +107,11 @@ app.controller('logCtrl', ['$scope', 'ajaxRequest', function($scope, ajaxRequest
     });
 
   };
+ 
+  
+  $scope.setActive = function(menuItem) {
+      $scope.activeMenu = menuItem;
+  }
  
     
 }]);

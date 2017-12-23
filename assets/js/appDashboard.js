@@ -7,15 +7,15 @@ app.controller('dashboardCtrl', ['$scope','$location', 'ajaxRequest', 'goTo', 'm
 
 
     ajaxRequest.post('DashboardController/getDashboardDetails').then(function(response) {
-       console.log(response.data)
+       //console.log(response.data)
        $scope.invoices = response.data.invoices;
        $scope.suppliers = response.data.suppliers;
        $scope.items = response.data.items;
     });
 
-     ajaxRequest.post('DashboardController/getRecentProducts').then(function(response) {
-        $scope.getRecentProducts = response.data.data;   
-        console.log($scope.getRecentProducts)
+    ajaxRequest.post('DashboardController/getRecentProducts').then(function(response) {
+       $scope.getRecentProducts = response.data.data; 
+       
     });
 
     

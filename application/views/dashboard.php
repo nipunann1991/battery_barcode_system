@@ -50,7 +50,7 @@
 			<div class="block block1 col-md-7">
 				<div class="block_inner">
 					<div class="block_head">
-						<h2>Monthly Sales</h2>
+						<h2>Monthly Invoices</h2>
 					</div>
 					<div class="block_body">
 						
@@ -68,7 +68,7 @@
 					</div>
 					<div class="block_body">
 						
-						<div class="item" ng-repeat="grp in getRecentProducts">
+						<div class="item" ng-repeat="grp in getRecentProducts" ng-if="getRecentProducts">
 							<div class="item_img_container" style="background-image: url('{{grp.image_url}}')"></div>
 							<div class="item_details">
 								<ul>
@@ -76,6 +76,10 @@
 									<li class="category">{{grp.cat_name}}</li>
 								</ul>
 							</div>
+						</div>
+
+						<div class="item empty" ng-if="!getRecentProducts">
+							<p>No products in inventory</p>
 						</div>
 						
 						<div class="clearfix"></div>
