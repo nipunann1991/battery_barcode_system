@@ -606,6 +606,11 @@ app.controller('ItemsStockCtrl', ['$scope', '$compile', '$location', 'ajaxReques
 
  
 
+    $scope.viewInvoice = function(invoice_id){ 
+      goTo.page('invoice/view-invoice/'+invoice_id);
+    };
+
+
     $scope.viewPackage = function(package_id){ 
       goTo.page('package/view-package/'+package_id);
     };
@@ -657,7 +662,7 @@ app.controller('ItemsStockCtrl', ['$scope', '$compile', '$location', 'ajaxReques
                   var label_ = '';
 
                   if ((full.status == 0 && full.package_id != 0) || (full.status == 0 && full.package_id == 0) ) {
-                    label_ = '<span class="label label-danger" >Sold</span>';
+                    label_ = '<span class="label label-danger" title="Click to view invoice" ng-click="viewInvoice('+full.invoice_id+')"  >Sold</span>';
                   }else if(full.status == 1 && full.package_id == 0 ){
                     label_ = '<span class="label label-success"  >In Stock</span>'
                   }else if(full.status == 1 && full.package_id > 0 ){

@@ -50,7 +50,7 @@
 			<div class="block block1 col-md-7">
 				<div class="block_inner">
 					<div class="block_head">
-						<h2>Monthly Invoices</h2>
+						<h2>Last 5 Days Invoices</h2>
 					</div>
 					<div class="block_body">
 						

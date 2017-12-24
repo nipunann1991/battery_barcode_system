@@ -10,17 +10,19 @@
 
 
 
-<script src="https://isonet.github.io/angular-barcode/node_modules/angular-barcode/dist/angular-barcode.js"></script>
+<script src="<?php echo base_url(); ?>assets/js//angular-barcode.js"></script>
 
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <!-- Include all compiled plugins (below), or include individual files as needed -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-resource/1.6.6/angular-resource.min.js"></script>
-<script src="http://l-lin.github.io/angular-datatables/archives/vendor/datatables/media/js/jquery.dataTables.js"></script>
+<script src="<?php echo base_url(); ?>assets/js/angular-resource.min.js"></script>
+<script src="<?php echo base_url(); ?>assets/js/jquery.dataTables.js"></script>
 
 
 <script src="<?php echo base_url(); ?>assets/js/angular-datatables.min.js"></script>
 <script src="<?php echo base_url(); ?>assets/js/bootstrap.min.js"></script>
-<script src="http://eriktufvesson.github.io/lib/bootbox/bootbox.js"></script> 
+<script src="<?php echo base_url(); ?>assets/js/bootbox.js"></script> 
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.min.js"></script>
 
 <script src="<?php echo base_url(); ?>assets/js/angular-ui-notification.min.js"></script>
 <script src="<?php echo base_url(); ?>assets/js/angular-validation.min.js"></script>

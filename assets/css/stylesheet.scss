@@ -361,10 +361,10 @@ $item_width: 120px;
 
 							.item_list 				{ 
 								ul.item_list_inner 	{ border: 1px #eee solid; border-top: 4px #eee solid; margin-bottom: 20px;
-									.head 			{ padding: 6px 15px; background: #f9f9f9; margin-bottom: 0; font-size: $font_size; letter-spacing: 0.02rem; font-weight: 500; border-bottom: 1px #eee solid; }
+									.head 			{ padding: 6px 15px; background: #f9f9f9; margin-bottom: 0; font-size: $font_size + 2; letter-spacing: 0.02rem; font-weight: 500; border-bottom: 1px #eee solid; }
 									li 				{ overflow: hidden; border-bottom: 1px #eee solid;
-										p 			{ font-size: $font_size; letter-spacing: 0.02rem; font-weight: 500; margin-top: 10px; }
-										i 			{ font-size: $font_size - 2; letter-spacing: 0.01rem; color: #7b7b7b; }
+										p 			{ font-size: $font_size + 1; margin-bottom: 1px; letter-spacing: 0.02rem; font-weight: 500; margin-top: 10px; }
+										i 			{ font-size: $font_size; letter-spacing: 0.01rem; color: #7b7b7b; }
 										a.delete 	{ margin-top: 15px; display: block; color: $default_purple; text-decoration: none; 
 											&:hover { color: lighten( $default_purple, 15%);}
 											i 		{ font-size: 19px; }

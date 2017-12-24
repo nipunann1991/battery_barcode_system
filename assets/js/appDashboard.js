@@ -5,6 +5,12 @@ app.controller('dashboardCtrl', ['$scope','$location', 'ajaxRequest', 'goTo', 'm
     $scope.breadcrumb = 'Dashboard';
     $scope.animated_class = 'animated fadeIn'; 
 
+    var currMonthName  = moment().format('MMM');
+var prevMonthName  = moment().subtract(1, "month").format('MMM');
+
+console.log(currMonthName);
+console.log(prevMonthName);
+
 
     ajaxRequest.post('DashboardController/getDashboardDetails').then(function(response) {
        //console.log(response.data)
@@ -18,33 +24,67 @@ app.controller('dashboardCtrl', ['$scope','$location', 'ajaxRequest', 'goTo', 'm
        
     });
 
-    
+    ajaxRequest.post('DashboardController/getLastInvoices').then(function(response) {
+       $scope.getLastInvoices = response.data.data; 
+       console.log($scope.getLastInvoices)
+
+       $scope.getChart($scope.getLastInvoices);
+       
+    });
 
     
 
-    $scope.getChart = function(){
+    
+
+  $scope.getChart = function(data){
+
     	var chart = c3.generate({
 		    bindto: '#chart',
 
-		    data: {
-		      columns: [
-		        ['Oct', 30, 20, 100, 40, 15, 25],
-		        ['Nov', 50, 40, 106, 40, 15, 66]
-		      ],
-                type: 'bar',
-                colors: {
-                    Oct: '#00b356',
-                    Nov: '#6254b2', 
-                },
-                color: function (color, d) { 
-                    return d.id && d.id === 'data3' ? d3.rgb(color).darker(d.value / 150) : color;
+ 
+        data: {
+            x: 'x',
+            type: 'bar',
+            columns: [
+              data.dates,
+              data.total_invoices, 
+            ],
+
+            colors: {
+              Invoices: '#00b356', 
+          },
+
+          color: function (color, d) { 
+              return d.id && d.id === 'data3' ? d3.rgb(color).darker(d.value / 150) : color;
+          }
+        },
+        axis: {
+
+            x: {
+                type: 'timeseries',
+                tick: {
+                    format: '%Y-%m-%d'
                 }
-		    }
+            },
+
+            y: {
+                min: 0,
+                tick: {
+                    format: d3.format('d')
+                },
+                padding: {top: 0, bottom: 0}
+            }
+
+        },
+        bar: { 
+            width: 30 
+
+        },
 		});
-    };
+  };
 
 
   
-    $scope.getChart();
+    
 
 }]);

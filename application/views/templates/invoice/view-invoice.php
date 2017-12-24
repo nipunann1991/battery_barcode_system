@@ -24,7 +24,7 @@
  				<div class="col-md-6 block right">
  					<h3>Invoice No: <span>{{invoice_no}}</span></h3>
  					<p>Date: {{invoice_date}}</p>
- 					<p>Invoiced By: Admin</p>
+ 					<p>Invoiced By: {{invoiced_by}}</p>
  				</div>
  			</div>
  			<div class="invoice_body row">

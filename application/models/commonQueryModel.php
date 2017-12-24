@@ -314,6 +314,42 @@ class CommonQueryModel extends CI_Model{
 		}
      
     }
+
+
+
+    public function getLastInvoices(){
+
+
+    	$date_arr = array('x');
+    	$invoice_data_arr = array('Invoices');
+ 
+
+    	for ($i= -4; $i <= 0 ; $i++) { 
+    		
+    		$date_ = date('Y-m-d',strtotime("".$i." days"));
+
+    		$select_query = "SELECT COUNT(*) as count FROM `invoice` WHERE invoice_date = '".$date_."' " ;
+       		$query = $this->db->query($select_query); 
+			
+			array_push($date_arr, $date_);
+			array_push($invoice_data_arr, $query->result()[0]->count);
+ 
+    	}
+ 
+    	$result = array('dates' => $date_arr, 'total_invoices' => $invoice_data_arr ); 
+
+    	$output = array(
+			'status' => 200 , 
+			'data' => $result,
+		);
+
+		return $output; 
+         
+
+
+
+
+    }
  
 
 }

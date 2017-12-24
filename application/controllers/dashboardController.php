@@ -53,12 +53,19 @@ class DashboardController extends CommonController {
 
     	$search_index = array(  
 			'table' => 'invoice',
-			'data' => 'invoice_date='.date("Y-m-d").'',
+			'data' => 'invoice_date="'.date("Y-m-d").'"',
 		);
 
        	return $this->getTotalRowData__($search_index);    
     }
 
+
+
+    public function getLastInvoices(){
+ 
+    	return $this->getLastInvoicesData();   
+
+    }
  	
  	public function getRecentProducts(){   
 

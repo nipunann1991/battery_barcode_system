@@ -85,6 +85,8 @@ app.controller('newinvoiceCtrl', ['$scope','ajaxRequest', '$q', 'goTo', 'Notific
  	$scope.package_ids = []
  	var package_ids;
 
+
+
     $scope.navigateTo = function(path){ 
     	goTo.page( path );
     };
@@ -180,10 +182,14 @@ app.controller('newinvoiceCtrl', ['$scope','ajaxRequest', '$q', 'goTo', 'Notific
  
 
 	    var date = $filter('date')($scope.currDate, "yyyy-MM-dd");
-    	var data = $.param({ invoice_no: $scope.invoice_no, invoice_date: date, no_of_items: $scope.item_barcodes.length  })
 
-
-
+    	var data = $.param({ 
+    		invoice_no: $scope.invoice_no, 
+    		invoice_date: date, 
+    		no_of_items: $scope.item_barcodes.length, 
+    		invoiced_by: $scope.role  
+    	});
+ 
 
 		ajaxRequest.post('InvoiceController/addInvoice' ,data ).then(function(response) {
 			
@@ -299,7 +305,8 @@ app.controller('viewInvoiceCtrl', ['$scope','ajaxRequest', '$q', 'goTo', 'Notifi
 			
 			$scope.getInvoiceDetails =  response.data.data[0]; 
 			$scope.invoice_no = $scope.getInvoiceDetails.invoice_no;
-			$scope.invoice_date = $scope.getInvoiceDetails.invoice_date; 
+			$scope.invoice_date = $scope.getInvoiceDetails.invoice_date;
+			$scope.invoiced_by = $scope.getInvoiceDetails.invoiced_by;
  
 	    }else if(response.status == 500 || response.status == 404){
 	       console.log('An error occured while updating package. Please try again.'); 

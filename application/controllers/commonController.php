@@ -183,5 +183,15 @@ class commoncontroller extends CI_Controller {
 	}
 
 
+
+	public function getLastInvoicesData(){
+
+		$data["results"] = $this->commonQueryModel->getLastInvoices();
+		return $this->output->set_output(json_encode($data["results"], JSON_PRETTY_PRINT));
+
+
+	}
+
+
 }
 
