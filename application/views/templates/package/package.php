@@ -12,8 +12,8 @@
  
 	<div class="body"> 
 
-	    <table datatable="ng" class="row-border hover table table-responsive table-bordered table-striped">
-		    <thead>
+	    <table id="datatableData" datatable="" dt-options="dtOptions" dt-columns="dtColumns" class="row-border hover table table-responsive table-bordered table-striped">
+		   <!--  <thead>
 			    <tr >
 			        <th>Package Id</th>
 			        <th>Package Barcode</th> 
@@ -39,7 +39,7 @@
 			        </td>
 			    </tr>
 
-		    </tbody>
+		    </tbody> -->
 		</table>
 		 
 	</div>

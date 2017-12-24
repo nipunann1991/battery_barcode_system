@@ -1,6 +1,6 @@
 
-app.controller('PackageCtrl', ['$scope','$location', 'ajaxRequest', 'goTo', 'messageBox' , 'Notification',
-  function($scope, $location, ajaxRequest, goTo, messageBox, Notification) {
+app.controller('PackageCtrl', ['$scope','$compile', '$location', 'ajaxRequest', 'goTo', 'messageBox' , 'Notification', 'DTOptionsBuilder', 'DTColumnBuilder',
+  function($scope, $compile, $location, ajaxRequest, goTo, messageBox, Notification, DTOptionsBuilder, DTColumnBuilder) {
 
 	    $scope.title = 'View Packages';
 	    $scope.breadcrumb = 'Package > View Packages';
@@ -89,19 +89,69 @@ app.controller('PackageCtrl', ['$scope','$location', 'ajaxRequest', 'goTo', 'mes
 	    }
 
 
-
-	    ajaxRequest.post('PackageController/getItems').then(function(response) { 
-
-	    	if (response.status == 200) {
-	    		$scope.getItem = response.data.data;
-	    		//console.log($scope.getItem)
+ 
 
 
-	    	}else if(response.status == 500 || response.status == 404){
-                console.log('An error occured while getting item. Please try again.'); 
-            } 
+	    $scope.getItems = function(){
 
-	    });
+	    	var vm = this;
+	        vm.dtOptions = DTOptionsBuilder.newOptions()
+	          .withOption('ajax', { 
+	           url: 'index.php/PackageController/getItems',
+	           type: 'GET',
+
+	       })
+	        
+	      .withDataProp('data')
+	      .withOption('processing', true) 
+	      .withOption('serverSide', true) 
+	      .withOption('paging', true) 
+	      .withDisplayLength(10) 
+	      .withOption('createdRow', createdRow)
+	      .withOption('aaSorting',[0,'asc']);
+	        vm.dtColumns = [
+	            DTColumnBuilder.newColumn('pkg_id').withTitle('#Package Id')
+	              .renderWith(function(data, type, full, meta) { 
+	                  return  '<a href="javascript:void(0)" ng-click="viewPackageStock('+full.pkg_id+')">#'+full.pkg_id+'</a>';
+	              }), 
+	            DTColumnBuilder.newColumn('pkg_barcode').withTitle('Package Barcode')
+	              .renderWith(function(data, type, full, meta) { 
+	                  return  full.pkg_barcode;
+	              }), 
+	            DTColumnBuilder.newColumn('note').withTitle('Note'),  
+	            DTColumnBuilder.newColumn(null).withTitle(' ')
+	             .renderWith(function(data, type, full, meta) { 
+
+	              var class_ = '', action_btns = '', hide_ = '';
+	 
+
+	                  if (!$scope.role_access) {
+	                    hide_ = 'hide';
+	                  }
+
+	                  return  `<div class="w100">
+	                          <a href="" id="view`+full.pkg_id+`" ng-click="viewPackageStock(`+full.pkg_id+`)"  class="view" title="View Items" >
+	                            <i class="glyphicon glyphicon-eye-open" aria-hidden="true"></i>
+	                          </a>
+	                          <a href="" id="edit`+full.pkg_id+`"  class="edit `+class_+`" title="Edit Items" ng-click="editPackage(`+full.pkg_id+`)">
+	                            <i class="icon-pencil-edit-button" aria-hidden="true"></i>
+	                          </a>
+	                          <a href="" id="delete`+full.pkg_id+`" ng-click="deletePackage(`+full.pkg_id+`)" class="delete  `+hide_+`" title="Delete Items" >
+	                            <i class="icon-rubbish-bin" aria-hidden="true"></i>
+	                          </a></div>
+	                          `;
+	              }), 
+	            
+	        ];
+
+
+	        function createdRow(row, data, dataIndex) { 
+	            $compile(angular.element(row).contents())($scope);
+	        }
+
+	    }
+
+	    $scope.getItems();
 
 
    }

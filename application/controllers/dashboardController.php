@@ -21,6 +21,7 @@ class DashboardController extends CommonController {
 			'items' => $this->getCountProducts() ,   
 			'suppliers' => $this->getCountSupplires(), 
 			'invoices' => $this->getTodaysInvoices(),
+			'packages' => $this->getTodaysPackages(),
 		);
    	
    		return $this->output->set_output(json_encode($data['dashboard'], JSON_PRETTY_PRINT));
@@ -58,6 +59,18 @@ class DashboardController extends CommonController {
 
        	return $this->getTotalRowData__($search_index);    
     }
+
+
+    public function getTodaysPackages(){  
+
+    	$search_index = array(  
+			'table' => 'package',
+			'data' => 'created_date LIKE  "%'.date("Y-m-d").'%"',
+		);
+
+       	return $this->getTotalRowData__($search_index);    
+    }
+
 
 
 

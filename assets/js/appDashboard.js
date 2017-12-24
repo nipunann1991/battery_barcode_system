@@ -17,6 +17,7 @@ console.log(prevMonthName);
        $scope.invoices = response.data.invoices;
        $scope.suppliers = response.data.suppliers;
        $scope.items = response.data.items;
+       $scope.packages = response.data.packages;
     });
 
     ajaxRequest.post('DashboardController/getRecentProducts').then(function(response) {

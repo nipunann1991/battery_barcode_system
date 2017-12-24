@@ -30,7 +30,7 @@
 			</div>
 			<div class="col-sm-3 iblock">
 				<div class="iblock_inner yellow"> 
-					<h2>0</h2>
+					<h2>{{packages}}</h2>
 					<h3>Packages Today</h3>
 					<i class="icon-box"></i>
 				</div>
