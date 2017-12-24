@@ -75,6 +75,7 @@ button.blue 										{ background: $dafault_light_blue !important; color: #fff;
 	&.label-success 								{ background-color: $green_btn; }
 	&.label-warning 								{ background-color: $default_yellow; }
 	&.label-danger 									{ background-color: $default_red; }
+	&.packed:hover 									{ background-color: darken($default_yellow,10%); }
 }
 .menu_toggle 										{
 	span.icon-bar									{ background: #fff;}

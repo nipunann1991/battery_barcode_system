@@ -19,12 +19,82 @@ app.controller('PackageCtrl', ['$scope','$location', 'ajaxRequest', 'goTo', 'mes
 	      goTo.page('/package/edit-package/'+item_id);
 	    }
 
+	    $scope.deletePackage = function(package_id){
+
+	    	var options = {
+	            title:'Delete Package',
+	            message:"Are you sure you want to remove this package?", 
+	            id: package_id,
+	            className: 'short_modal',
+	        }
+
+	        messageBox.delete(options).then(function(post) {
+
+		        if (post == 1) {
+		            var deleteItemID = package_id;
+
+		            var data = $.param({ package_id: package_id })
+		            var deletePackageData = $.param({ pkg_id : package_id })
+
+		            ajaxRequest.post('PackageController/getItemsInPackage', data).then(function(response) { 
+
+				    	if (response.status == 200) {
+
+				    		$scope.getItemsInPackage = response.data.data;
+				    		
+
+				    		for (var i = 0; i < $scope.getItemsInPackage.length; i++) {
+				    			 
+				    			var removeStock = $.param({   
+				    				stock_id: $scope.getItemsInPackage[i].stock_id,
+						            package_id: 0,    
+						        });
+
+						    	ajaxRequest.post('PackageController/updateSingleItem', removeStock).then(function(response) { 
+
+							    	if (response.status == 200) { 
+
+							    		
+							    	}else if(response.status == 500 || response.status == 404){
+						                console.log('An error occured while updateSingleItem. Please try again.'); 
+						            } 
+
+
+							    });
+				    		}
+
+
+				    	}else if(response.status == 500 || response.status == 404){
+			                console.log('An error occured while getting item. Please try again.'); 
+			            } 
+
+				    });
+
+				    ajaxRequest.post('PackageController/deletePackage', deletePackageData).then(function(response) { 
+
+				    	if (response.status == 200) { 
+				    		Notification.success('Package has been deleted successfully.');
+				    		  
+				    	}else if(response.status == 500 || response.status == 404){
+			                Notification.error('Package delete faild.');
+			            } 
+
+				    });
+
+		            
+		        }
+
+
+	        });
+	    }
+
+
 
 	    ajaxRequest.post('PackageController/getItems').then(function(response) { 
 
 	    	if (response.status == 200) {
 	    		$scope.getItem = response.data.data;
-	    		console.log($scope.getItem)
+	    		//console.log($scope.getItem)
 
 
 	    	}else if(response.status == 500 || response.status == 404){
@@ -360,9 +430,27 @@ app.controller('editPackageCtrl', ['$scope', '$filter','$location', 'ajaxRequest
 	    }; 
 
 
-	    $scope.addItem = function () {
-			Notification.success('Item has been updated successfully.'); 
+	    $scope.editItem = function () {
+
+	    	var data_pkg = $.param({  
+
+	            pkg_id: $routeParams.id,  
+	            note: $scope.note,   
+
+	        });
+
+	    	ajaxRequest.post('PackageController/updateItem', data_pkg).then(function(response) { 
+
+		    	if (response.status == 200) {
+		    		Notification.success('Item has been updated successfully.');
+		    		history.back();
+		    	}
+
+		    });
+
+			 
 	    }; 
+
  
 
 	    $scope.deleteItem = function ( stock_id, barcode, id ) {

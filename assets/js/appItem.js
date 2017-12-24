@@ -656,13 +656,13 @@ app.controller('ItemsStockCtrl', ['$scope', '$compile', '$location', 'ajaxReques
 
                   var label_ = '';
 
-                  if (full.status == 0 && full.package_id != 0 ) {
+                  if ((full.status == 0 && full.package_id != 0) || (full.status == 0 && full.package_id == 0) ) {
                     label_ = '<span class="label label-danger" >Sold</span>';
                   }else if(full.status == 1 && full.package_id == 0 ){
                     label_ = '<span class="label label-success"  >In Stock</span>'
                   }else if(full.status == 1 && full.package_id > 0 ){
-                    label_ = '<span ng-click="viewPackage('+full.package_id+')" class="label label-warning"  >Packed</span>'
-                  }
+                    label_ = '<span ng-click="viewPackage('+full.package_id+')" title="Click to view package" class="label label-warning packed"  >Packed</span>'
+                  } 
                
                   return  label_;
 
@@ -672,7 +672,7 @@ app.controller('ItemsStockCtrl', ['$scope', '$compile', '$location', 'ajaxReques
 
                   var class_ = '', action_btns = '', hide_ = '';
 
-                  if (full.status == '0') {
+                  if (full.status == 0 || full.package_id != 0 ) {
                     class_ = 'disabled_items';
                   }
 
@@ -681,11 +681,10 @@ app.controller('ItemsStockCtrl', ['$scope', '$compile', '$location', 'ajaxReques
                   }
 
                 
-                  action_btns = `<a href="" id="edit`+full.stock_id+`" class="`+class_+`" title="Edit Stock" class="edit" ng-click="`+full.status+` == 1 &&  openEditStockModal(`+full.stock_id+`)"><i class="icon-pencil-edit-button" aria-hidden="true"></i></a>
-                              <a href="" title="Delete Stock" class="`+class_+` `+hide_+`"  id="delete`+full.stock_id+`" ng-click="`+$scope.role_access+` && `+full.status+` == 1 && deleteItem(`+full.stock_id+`)" class="delete" ><i class="icon-rubbish-bin" aria-hidden="true"></i></a>`;
+                  action_btns = `<a href="" id="edit`+full.stock_id+`" class="`+class_+`" title="Edit Stock" class="edit" ng-click=" `+full.status+` == 1 && `+full.package_id+` == 0 &&  openEditStockModal(`+full.stock_id+`)"><i class="icon-pencil-edit-button" aria-hidden="true"></i></a>
+                              <a href="" title="Delete Stock" class="`+class_+` `+hide_+`"  id="delete`+full.stock_id+`" ng-click="`+$scope.role_access+` && `+full.status+` == 1 && `+full.package_id+` == 0 && deleteItem(`+full.stock_id+`)" class="delete" ><i class="icon-rubbish-bin" aria-hidden="true"></i></a>`;
                   
-                  
-                  console.log( $scope.role_access )
+                   
                   return  `<div class="w100">
                               `+action_btns+`
                           </div>

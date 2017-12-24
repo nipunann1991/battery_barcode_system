@@ -24,7 +24,7 @@ class PackageController extends CommonController {
         $search_index = array(
 			'columns' => 'i.item_name, c.cat_name, ist.*' ,   
 			'table' => 'item i, item_stock ist, categories c',
-			'data' => 'i.cat_id = c.id AND i.item_id = ist.item_id AND ist.barcode="'.$this->input->post('barcode').'" AND ist.package_id=0  ',
+			'data' => 'i.cat_id = c.id AND i.item_id = ist.item_id AND ist.barcode="'.$this->input->post('barcode').'" AND ist.package_id=0 AND ist.invoice_id=0 ',
 		);
 
 		return $this->selectCustomData__($search_index);   
@@ -71,6 +71,21 @@ class PackageController extends CommonController {
 
 		$dataset = $this->input->post();
 		return $this->insertData__('package', $dataset); 
+	}
+
+
+	public function updateItem(){ 
+
+		$dataset = $this->input->post(); 
+		return $this->updateData__('package', $dataset, " pkg_id =".$dataset['pkg_id']);
+ 
+	}
+
+	public function deletePackage(){
+
+		$dataset = $this->input->post(); 
+		return $this->deleteData__('package', " pkg_id =".$dataset['pkg_id']);
+ 
 	}
 	 
 

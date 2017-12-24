@@ -103,7 +103,7 @@
 	        	         	      
 		  	 <div class="form-group" >
 				<div class="col-md-12"  ng-show="getItemList.length > 1"> 
-					<md-button class="btn_add" type="button" id="add_item" ng-click="addItem()">Save Package</md-button>
+					<md-button class="btn_add" type="button" id="add_item" ng-click="editItem()">Edit Package</md-button>
 					<md-button class="btn-default" ng-click="close()">Close</md-button>
 
 					<!-- <button class="btn btn_add submit" type="submit" id="add_item">Add Item</button> 
