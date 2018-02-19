@@ -109,8 +109,6 @@ class CommonQueryModel extends CI_Model{
         $select_query = "SELECT ".$search_data['columns']." FROM ".$search_data['table']." WHERE ".$search_data['data']."  " ;
         $query = $this->db->query($select_query); 
 
-
-
         if (!$query) {
 
         	$output = array(
@@ -350,7 +348,71 @@ class CommonQueryModel extends CI_Model{
 
 
     }
+
+
+ 
+
+    public function insertDataSP($table){
+
+
+
+        //$select_query = "SELECT * FROM `$table`" ;+CALL `sp_login`(@p0);
+        $select_query = " CALL `sp_login`(".$table['values'].")";
+        $query = $this->db->query($select_query); 
+
+        if (!$query) {
+
+        	$output = array(
+				'status' => 500 , 
+				'data' => 'Query Error',
+			);
+
+			return $output;
+
+		}else{
+  
+			$output = array(
+				'status' => 200 , 
+				'data' => $query->result(),
+			);
+			return $output;
+		}
+
+       
+    }
+
+
+    public function insertBulkStockSP($table){
+
+    	//print_r($table['values']);
+
+        $select_query = " CALL `sp_insert_bulk_stock`(".$table['values'].")";
+        $query = $this->db->query($select_query); 
+
+        if (!$query) {
+
+        	$output = array(
+				'status' => 500 , 
+				'data' => 'Query Error',
+			);
+
+			return $output;
+
+		}else{
+  
+			$output = array(
+				'status' => 200 , 
+				'data' => $query->result(),
+			);
+			return $output;
+		}
+
+       
+    }
+ 
  
 
 }
+
+
 

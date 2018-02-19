@@ -58,9 +58,18 @@ class Pages extends CI_Controller {
 	* Items
 	*/
 
-	 public function items(){ 
+	public function items(){ 
 		$this->load->view('templates/items/items');
 	}
+
+	public function searchBattery(){ 
+		$this->load->view('templates/items/search-battery');
+	}
+
+	public function printAllBarcode(){ 
+		$this->load->view('templates/items/print-all-barcode');
+	}
+
 
 	public function addItems(){ 
 		$this->load->view('templates/items/add-items');
@@ -78,6 +87,12 @@ class Pages extends CI_Controller {
 	public function viewBarcode(){  
 		$this->load->view('templates/items/view-barcode');
 	}
+
+
+	public function viewPackageItems(){  
+		$this->load->view('templates/items/view-package-items');
+	}
+
 
 
 	

@@ -7,15 +7,21 @@ app.config(['$routeProvider', '$locationProvider', function ($routeProvider, $lo
     .when("/", { templateUrl : "index.php/Pages/dashboard",  css: 'style.css' })
 
     .when("/items", { templateUrl : "index.php/Pages/items",  css: 'style.css' })
+    .when("/items/search-battery", { templateUrl : "index.php/Pages/searchBattery",  css: 'style.css' })
+    .when("/items/print-all-barcode/:id", { templateUrl : "index.php/Pages/printAllBarcode",  css: 'style.css' })
+ 
     .when("/items/add-item", { templateUrl : "index.php/Pages/addItems",  css: 'style.css' }) // templateUrl : templates/items/add-items.php
     .when("/items/edit-item/:id", { templateUrl : "index.php/Pages/editItems",  css: 'style.css' })
     .when("/items/view-item-stock/:id", { templateUrl : "index.php/Pages/viewItemStock",  css: 'style.css' })
     .when("/items/view-barcode/:barcode", { templateUrl : "index.php/Pages/viewBarcode",  css: 'style.css' })
+    .when("/items/view-package_items/:id", {  templateUrl : "index.php/Pages/viewPackageItems",  css: 'style.css' })
 
     .when("/package", {  templateUrl : "index.php/Pages/package",  css: 'style.css' })
     .when("/package/add-package", {  templateUrl : "index.php/Pages/addPackage",  css: 'style.css' })
     .when("/package/edit-package/:id", {  templateUrl : "index.php/Pages/editPackage",  css: 'style.css' })
     .when("/package/view-package/:id", {  templateUrl : "index.php/Pages/viewPackage",  css: 'style.css' })
+ 
+
 
     .when("/categories", {  templateUrl : "index.php/Pages/categories",  css: 'style.css' })
     .when("/categories/add-category", {  templateUrl : "index.php/Pages/addCategories",  css: 'style.css' })

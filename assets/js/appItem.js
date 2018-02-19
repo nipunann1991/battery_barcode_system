@@ -106,7 +106,6 @@ app.controller('ItemsCtrl', ['$scope', '$compile','$location', 'ajaxRequest', 'g
 
  
 
-
     $scope.deleteItem = function(item_id){
 
         var options = {
@@ -139,6 +138,96 @@ app.controller('ItemsCtrl', ['$scope', '$compile','$location', 'ajaxRequest', 'g
  
 
 }]);
+
+
+app.controller('SearchItemsCtrl', ['$scope', '$compile','$location', 'ajaxRequest', 'goTo', 'messageBox' , 'Notification', 'DTOptionsBuilder', 'DTColumnBuilder',
+  function($scope, $compile, $location, ajaxRequest, goTo, messageBox, Notification, DTOptionsBuilder, DTColumnBuilder) {
+
+    $scope.initBk = function(barcode){
+        JsBarcode("#code128",  barcode , {  
+          width:2,
+          height:30,
+          fontSize: 14 
+        }); 
+    }
+ 
+   $scope.initBk('-');
+     
+  $scope.searchBAttery = function(){  
+      
+      var barcode =  $.param({ barcode: $scope.item_barcode });
+
+
+      ajaxRequest.post('ItemsController/getBatteryData',barcode).then(function(response) {
+                 
+          if (response.status == 200) {
+                
+              var result = response.data.data[0]
+
+              if (typeof result != 'undefined') {
+                console.log(result);
+                $scope.barcode = result.barcode;
+                $scope.cat_name = result.cat_name;
+                $scope.invoice_no = result.invoice_no;
+                $scope.grn = result.grn;
+                $scope.item_name = result.item_name; 
+                $scope.package_barcode = result.package_barcode; 
+
+                $scope.initBk($scope.barcode);
+
+              }else{
+                Notification.error('Battery Not Found.'); 
+              }
+              
+              
+           }else if(response.status == 500 || response.status == 404){
+              Notification.error('An error occured while deleting item. Please try again.'); 
+           } 
+      });
+
+    }
+
+}]);
+
+
+app.controller('printAllBarcode', ['$scope', '$compile','$location', 'ajaxRequest', 'goTo', 'messageBox' , 'Notification', 'DTOptionsBuilder', 'DTColumnBuilder', '$routeParams',
+  function($scope, $compile, $location, ajaxRequest, goTo, messageBox, Notification, DTOptionsBuilder, DTColumnBuilder, $routeParams) {
+
+    // $scope.initBk = function(i,barcode){
+    //     JsBarcode(".barcode",  barcode , {  
+    //       width:2,
+    //       height:30,
+    //       fontSize: 14 
+    //     }); 
+    // }
+ 
+    //
+
+
+     
+
+    var barcode  = $.param({ barcode: $routeParams.id })
+    $scope.pkg_bcode = $routeParams.id;
+    JsBarcode(".barcode").init();
+ 
+    ajaxRequest.post('ItemsController/getBatteryData', barcode).then(function(response) {
+     
+        $scope.results = response.data.data;
+     
+        console.log( $scope.results);
+
+       for (var i = 0; i < $scope.results.length; i++) {
+         $('.a').append('<svg class="barcode" jsbarcode-value="'+$scope.results[i].barcode+'" jsbarcode-textmargin="0" jsbarcode-fontSize="14" jsbarcode-height="30" jsbarcode-width="2" style="display: block; margin: 5px auto;"></svg> <script>JsBarcode(".barcode").init();</script>')
+       }
+
+ 
+    });
+
+    
+ 
+
+}]);
+
 
 
 /*
@@ -616,7 +705,8 @@ app.controller('ItemsStockCtrl', ['$scope', '$compile', '$location', 'ajaxReques
     };
 
     $scope.getBarcode = function(){ 
-      $scope.barcode = $scope.num1+''+$scope.manufacture_id+''+$scope.num2;
+  
+      $scope.barcode = ($scope.invoice_id + $scope.grn) +$scope.manufacture_id+ $scope.pkg_qty +$scope.bat_qty;
       barcodeNo.generateBarcode($scope.barcode);
     };
 
@@ -644,18 +734,20 @@ app.controller('ItemsStockCtrl', ['$scope', '$compile', '$location', 'ajaxReques
       .withOption('createdRow', createdRow) 
       .withOption('aaSorting',[0,'asc']);
         $scope.dtColumns = [
+            DTColumnBuilder.newColumn('stock_id').withTitle('# Stock ID'), 
             DTColumnBuilder.newColumn('barcode').withTitle('Barcode')
               .renderWith(function(data, type, full, meta) { 
                 console.log(full)
-                  return  '<a href="#items/view-barcode/'+full.barcode+'">'+full.barcode+'<i class="icon-printer pull-right print"></i></a>';
+                  return  '<a href="#items/view-package_items/'+full.barcode+'">'+full.barcode+'</a><a href="#items/view-barcode/'+full.barcode+'"><i class="icon-printer pull-right print"></i></a>';
               }), 
-            DTColumnBuilder.newColumn('manufacture_id').withTitle('Manufacture ID')
+            
+            DTColumnBuilder.newColumn('invoice_no').withTitle('Invoice No'),  
+            DTColumnBuilder.newColumn('manufacture_id').withTitle('Note')
               .renderWith(function(data, type, full, meta) { 
-                  return  full.manufacture_id;
+                  //console.log(full)
+                  return  'GRN: '+full.grn+' / '+full.bat_qty+'x'+full.pkg_qty;
               }), 
 
-            DTColumnBuilder.newColumn('invoice_no').withTitle('Invoice No'), 
-            DTColumnBuilder.newColumn('sup_name').withTitle('Supplier'), 
             DTColumnBuilder.newColumn('status').withTitle('Status')
               .renderWith(function(data, type, full, meta) {  
 
@@ -672,29 +764,30 @@ app.controller('ItemsStockCtrl', ['$scope', '$compile', '$location', 'ajaxReques
                   return  label_;
 
               }), 
-            DTColumnBuilder.newColumn(null).withTitle(' ')
-             .renderWith(function(data, type, full, meta) { 
 
-                  var class_ = '', action_btns = '', hide_ = '';
+            // DTColumnBuilder.newColumn(null).withTitle(' ')
+            //  .renderWith(function(data, type, full, meta) { 
 
-                  if (full.status == 0 || full.package_id != 0 ) {
-                    class_ = 'disabled_items';
-                  }
+            //       var class_ = '', action_btns = '', hide_ = '';
 
-                  if (!$scope.role_access) {
-                    hide_ = 'hide';
-                  }
+            //       if (full.status == 0 || full.package_id != 0 ) {
+            //         class_ = 'disabled_items';
+            //       }
+
+            //       if (!$scope.role_access) {
+            //         hide_ = 'hide';
+            //       }
 
                 
-                  action_btns = `<a href="" id="edit`+full.stock_id+`" class="`+class_+`" title="Edit Stock" class="edit" ng-click=" `+full.status+` == 1 && `+full.package_id+` == 0 &&  openEditStockModal(`+full.stock_id+`)"><i class="icon-pencil-edit-button" aria-hidden="true"></i></a>
-                              <a href="" title="Delete Stock" class="`+class_+` `+hide_+`"  id="delete`+full.stock_id+`" ng-click="`+$scope.role_access+` && `+full.status+` == 1 && `+full.package_id+` == 0 && deleteItem(`+full.stock_id+`)" class="delete" ><i class="icon-rubbish-bin" aria-hidden="true"></i></a>`;
+            //       action_btns = `<a href="" id="edit`+full.stock_id+`" class="`+class_+`" title="Edit Stock" class="edit" ng-click=" `+full.status+` == 1 && `+full.package_id+` == 0 &&  openEditStockModal(`+full.stock_id+`)"><i class="icon-pencil-edit-button" aria-hidden="true"></i></a>
+            //                   <a href="" title="Delete Stock" class="`+class_+` `+hide_+`"  id="delete`+full.stock_id+`" ng-click="`+$scope.role_access+` && `+full.status+` == 1 && `+full.package_id+` == 0 && deleteItem(`+full.stock_id+`)" class="delete" ><i class="icon-rubbish-bin" aria-hidden="true"></i></a>`;
                   
                    
-                  return  `<div class="w100">
-                              `+action_btns+`
-                          </div>
-                          `;
-              }), 
+            //       return  `<div class="w100">
+            //                   `+action_btns+`
+            //               </div>
+            //               `;
+            //   }), 
             
         ];
         
@@ -752,6 +845,33 @@ app.controller('ItemsStockCtrl', ['$scope', '$compile', '$location', 'ajaxReques
 
           $scope.animated_class = ''
           $('#myModalEdit').modal('show');
+
+    };
+
+
+
+      $scope.openAddBulkStock = function(stock_id){
+
+        
+        $scope.animated_class = ''; 
+
+        $scope.barcode = '0';
+        $scope.manufacture_id = '';
+        $scope.buy_price = 0;
+        $scope.sell_price = 0;
+        $scope.quantity = 1;
+        $scope.reorder_level = 1;
+        $scope.discount = 0;
+        $scope.discount_type = '1';
+        $scope.net_amount = 0;
+
+        $scope.invoice_id = $scope.grn = $scope.manufacture_id = $scope.pkg_qty  =  $scope.bat_qty  = 0;
+
+        barcodeNo.generateBarcode($scope.barcode);
+
+        $scope.animated_class = ''
+
+        $('#addBulkStock').modal('show');
 
     };
 
@@ -828,6 +948,45 @@ app.controller('ItemsStockCtrl', ['$scope', '$compile', '$location', 'ajaxReques
                 $scope.reInitTable();
 
                 $('#myModalAdd').modal('hide');
+            }else if(response.status == 500 || response.status == 404){
+                Notification.error('An error occured while adding item. Please try again.'); 
+            }   
+
+        });
+
+
+     };
+
+
+     $scope.addBulkStockItem = function(){
+
+        var data_add_item_stock = $.param({ 
+          barcode: $scope.barcode,
+          invoice_no: $scope.invoice_id, 
+          item_id: $routeParams.id, 
+          grn: $scope.grn,
+          bat_qty: $scope.bat_qty,
+          pkg_qty: $scope.pkg_qty, 
+          sup_id: $scope.supplier,
+          package_id: '0',
+          status: '1',
+
+        });
+         
+
+         console.log(data_add_item_stock);
+
+        $scope.count = 0;
+
+
+        ajaxRequest.post('ItemsController/addBulkItemStock', data_add_item_stock ).then(function(response) {
+
+            if (response.status == 200) {
+
+                Notification.success('New Stock has been added successfully.');  
+                $scope.reInitTable();
+                $('#addBulkStock').modal('hide');
+                
             }else if(response.status == 500 || response.status == 404){
                 Notification.error('An error occured while adding item. Please try again.'); 
             }   
@@ -928,5 +1087,110 @@ app.controller('ItemsStockCtrl', ['$scope', '$compile', '$location', 'ajaxReques
 
 }]);
 
+
+app.controller('PackageItemsStockCtrl', ['$scope', '$compile', '$location', 'ajaxRequest', 'goTo', 'messageBox' , 'Notification', '$routeParams', 'barcodeNo', 'DTOptionsBuilder', 'DTColumnBuilder',  
+  function($scope, $compile,  $location, ajaxRequest, goTo, messageBox, Notification, $routeParams, barcodeNo, DTOptionsBuilder, DTColumnBuilder ) {
+
+    $scope.title = 'View Stock';
+    $scope.breadcrumb = 'Warn';
+    $scope.animated_class = 'animated fadeIn';
+    $scope.barcode  =$routeParams.id;
+    var barcode = $.param({ barcode: $routeParams.id })
+
+
+    ajaxRequest.post('ItemsController/getPackageItemData', barcode ).then(function(response) {
+        $scope.getPackageItemData = response.data.data[0];  
+
+        $scope.category_name = $scope.getPackageItemData.cat_name;
+        $scope.category_id = $scope.getPackageItemData.cat_id;
+        $scope.invoice_no = $scope.getPackageItemData.invoice_no;
+        $scope.grn = $scope.getPackageItemData.grn;
+        $scope.items = $scope.getPackageItemData.bat_qty;
+        $scope.item_name = $scope.getPackageItemData.item_name;
+        $scope.item_display_name = $scope.getPackageItemData.item_display_name;
+        $scope.item_id = $scope.getPackageItemData.item_id;
+
+
+        console.log($scope.getPackageItemData);
+    });
+
+
+    $scope.getPackageItemList = function (){  
+       
+        $scope.dtOptions = DTOptionsBuilder.newOptions()
+          .withOption('ajax', { 
+           url: 'index.php/ItemsController/getPackageItemList',
+           type: 'POST',
+           data: { barcode: $routeParams.id },
+
+       })
+      
+      .withDataProp('data')
+      .withOption('processing', true) 
+      .withOption('serverSide', true) 
+      .withOption('paging', true) 
+      .withOption("destroy", true)
+      .withOption('stateSave', false)
+      .withDisplayLength(10) 
+      .withOption('createdRow', createdRow) 
+      .withOption('aaSorting',[0,'asc']);
+        $scope.dtColumns = [
+            DTColumnBuilder.newColumn('stock_id').withTitle('# Index')
+            .renderWith(function(data, type, full, meta) {  
+
+                  return meta.row + 1;
+              }), 
+            DTColumnBuilder.newColumn('barcode').withTitle('Barcode')
+              .renderWith(function(data, type, full, meta) {  
+                  return  '<a href="javascript:void(0);">'+full.barcode+'</a><a href="#items/view-barcode/'+full.barcode+'"><i class="icon-printer pull-right print"></i></a>';
+              }), 
+             
+             
+
+            DTColumnBuilder.newColumn('status').withTitle('Status')
+              .renderWith(function(data, type, full, meta) {  
+
+                  var label_ = '';
+
+                  if ((full.status == 0 && full.package_id != 0) || (full.status == 0 && full.package_id == 0) ) {
+                    label_ = '<span class="label label-danger sold" title="Click to view invoice" ng-click="viewInvoice('+full.invoice_id+')"  >Sold</span>';
+                  }else if(full.status == 1 && full.package_id == 0 ){
+                    label_ = '<span class="label label-success"  >In Stock</span>'
+                  }else if(full.status == 1 && full.package_id > 0 ){
+                    label_ = '<span ng-click="viewPackage('+full.package_id+')" title="Click to view package" class="label label-warning packed"  >Packed</span>'
+                  } 
+               
+                  return  label_;
+
+              }), 
+
+            
+            
+        ];
+        
+
+        function createdRow(row, data, dataIndex) { 
+          $compile(angular.element(row).contents())($scope);
+        }
+
+        // ajaxRequest.post('ItemsController/getSupplierList').then(function(response) {
+        //     $scope.getSupplierList = response.data.data;  
+        // });
+
+    };
+
+    $scope.navigateTo = function () {
+        goTo.page('items/view-item-stock/'+$scope.item_id );
+    };
+
+    $scope.navigateToPrintAll = function () {
+        goTo.page( 'items/print-all-barcode/'+$scope.barcode );
+    };
+
+
+    $scope.getPackageItemList();
+    
+
+}]);
 
 

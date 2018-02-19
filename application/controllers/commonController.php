@@ -79,6 +79,17 @@ class commoncontroller extends CI_Controller {
     }
 
 
+    public function insertDataBulkStockSP__($table, $dataset){
+
+    	$insert_vals = $this->setDataToSP($table, $dataset); 
+  
+		$data["results"] = $this->commonQueryModel->insertBulkStockSP($insert_vals);
+		return $this->output->set_output(json_encode($data["results"], JSON_PRETTY_PRINT));
+    }
+
+    
+
+
     
     public function getTotalRows__($table){
 
@@ -156,6 +167,27 @@ class commoncontroller extends CI_Controller {
 			'columns' => implode(", ",$columns),
 			'values' => implode(", ",$values) ,
 		);  
+
+		return $insert_vals;
+	}
+
+	private function setDataToSP($table, $dataset){
+
+		$columns = array(); $values = array(); $set_val = array(); 
+
+		$get_columns = array_keys($dataset);
+		$get_values = array_values($dataset); 
+ 		
+ 		foreach ($get_values as $value) { 
+			array_push($set_val, "'".$value."'");
+		}
+ 		  
+
+		$insert_vals = array(
+			'table' => $table,  
+			'values' => implode(", ", $set_val) ,
+		);  
+ 		 
 
 		return $insert_vals;
 	}

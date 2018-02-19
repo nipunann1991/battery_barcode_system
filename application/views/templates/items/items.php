@@ -8,6 +8,7 @@
 		</div> 
 		
 		<md-button ng-click="navigateTo('items/add-item')" ><i class="icon-plus-sign-in-a-black-circle" aria-hidden="true"></i> Add Items</md-button> 
+		<md-button class="dark_purple" ng-click="navigateTo('items/search-battery')" ><i class="icon-musica-searcher" aria-hidden="true"></i> Search Battery</md-button> 
 	</div>
  
 	<div class="body">  

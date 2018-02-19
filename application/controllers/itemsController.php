@@ -131,6 +131,43 @@ class ItemsController extends CommonController {
     }
 
 
+    public function getPackageItemData(){ 
+
+     	$search_index = array(
+			'columns' => 'ibs.*, c.cat_name, i.*' ,   
+			'table' => 'item_bulk_stock ibs, categories c, item i',
+			'data' => 'ibs.item_id = i.item_id AND c.id = i.cat_id AND ibs.barcode = "'.$this->input->post('barcode').'"',
+		);
+
+        return $this->selectCustomData__($search_index); 
+    }
+
+
+    public function getPackageBatteryData(){ 
+
+        $search_index = array(
+            'columns' => 'ibs.*, c.cat_name, i.*' ,   
+            'table' => 'item_bulk_stock ibs, categories c, item i',
+            'data' => 'ibs.item_id = i.item_id AND c.id = i.cat_id AND ibs.barcode = "'.$this->input->post('barcode').'"',
+        );
+
+        return $this->selectCustomData__($search_index); 
+    }
+
+    public function getBatteryData(){ 
+
+        $search_index = array(
+            'columns' => 'ibs.*, i.*' ,   
+            'table' => 'item_bulk_stock ibs, item_barcode i',
+            'data' => 'ibs.stock_id = i.stock_id AND ibs.barcode = "'.$this->input->post('barcode').'"',
+        );
+
+        return $this->selectCustomData__($search_index); 
+    }
+
+
+    
+
     public function getSingleItemStock(){ 
 
     	$tbl_name = 'item'; 
@@ -163,13 +200,16 @@ class ItemsController extends CommonController {
 
 		$search_index = array(
 			'columns' => 'i.*, s.sup_name' ,   
-			'table' => 'item_stock i, supplier s ',
+			'table' => 'item_bulk_stock i, supplier s ',
 			'data' => 'i.sup_id=s.sup_id AND i.item_id= '.$this->input->post('item_id').' '.$search_from_value.' order by '.$get_column_name.' '.$get_order.' LIMIT '.$start.', '.$length.'',
 		);
 
+
+ 
+
 		$get_all_data = array(
 			'columns' => 'i.*, s.sup_name' ,   
-			'table' => 'item_stock i, supplier s ',
+			'table' => 'item_bulk_stock i, supplier s ',
 			'data' => 'i.sup_id=s.sup_id AND i.item_id= '.$this->input->post('item_id').' ',
 		);
 
@@ -187,15 +227,69 @@ class ItemsController extends CommonController {
         return $this->output->set_output(json_encode($output['result']));
 
 
-
-  //       $search_index = array(
-		// 	'columns' => 'i.*, s.sup_name' ,   
-		// 	'table' => 'item_stock i, supplier s ',
-		// 	'data' => 'i.sup_id=s.sup_id AND i.item_id= '.$this->input->post('item_id').' ORDER BY i.stock_id DESC',
-		// );
-
-		// return $this->selectCustomData__($search_index);
     }
+
+
+    public function getPackageItemList(){ 
+
+    	$tbl_name = 'item'; 
+    	$start = $this->input->post('start');
+    	$length = $this->input->post('length');
+    	$get_column = $this->input->post('order[0][column]');
+    	$get_column_name = $this->input->post('columns['.$get_column.'][data]');
+    	$get_order = $this->input->post('order[0][dir]');
+    	$search_from_value = '';
+
+    	switch ($get_column_name) {
+    		case 'sup_name':
+    			$get_column_name = 's.'.$get_column_name;
+    			break;
+    		
+    		default:
+    			$get_column_name = 'i.'.$get_column_name;
+    			break;
+    	}
+
+    	if (intval($this->input->post('draw')) == 1) {
+    		$get_order = 'desc';
+    	}
+
+    	// if ($this->input->post('search[value]') != '') {
+    	// 	$search_from_value = "AND i.barcode LIKE '%".$this->input->post('search[value]')."%' OR i.manufacture_id LIKE '%".$this->input->post('search[value]')."%' OR i.invoice_no LIKE '%".$this->input->post('search[value]')."%' OR s.sup_name LIKE '%".$this->input->post('search[value]')."%' ";
+    	// }
+  		 
+
+		$search_index = array(
+			'columns' => 'ibs.*, i.*' ,   
+			'table' => 'item_bulk_stock ibs, item_barcode i',
+			'data' => 'ibs.stock_id = i.stock_id AND ibs.barcode = "'.$this->input->post('barcode').'" '.$search_from_value.' order by '.$get_column_name.' '.$get_order.' LIMIT '.$start.', '.$length.'',
+		);
+
+
+ 
+
+		$get_all_data = array(
+			'columns' => 'ibs.*, i.*' ,   
+			'table' => 'item_bulk_stock ibs, item_barcode i',
+			'data' => 'ibs.stock_id = i.stock_id AND ibs.barcode = "'.$this->input->post('barcode').'"',
+		);
+
+
+
+     	$result = $this->selectCustomDataDT__($search_index); 
+     	
+ 		$output['result'] = array(
+            "draw" => intval($this->input->get('draw')),
+            "recordsTotal" => $this->commonQueryModel->count_filtered($get_all_data),
+            "recordsFiltered" => $this->commonQueryModel->count_filtered($get_all_data),
+            "data" => $result,
+    	); 
+
+        return $this->output->set_output(json_encode($output['result']));
+
+
+    }
+
 
 
     public function getSingleItemFromStock(){ 
@@ -229,9 +323,16 @@ class ItemsController extends CommonController {
 	}
 
 
+	public function addBulkItemStock(){
+		$dataset = $this->input->post();
+		return $this->insertDataBulkStockSP__('item_bulk_stock', $dataset); 
+	}
+
+ 
+
 	public function addItemStock(){
 		$dataset = $this->input->post();
-		return $this->insertData__('item_stock', $dataset); 
+		return $this->insertData__('item_barcode', $dataset); 
 	}
 
 

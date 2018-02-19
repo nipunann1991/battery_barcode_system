@@ -39,13 +39,15 @@ console.log(prevMonthName);
 
   $scope.getChart = function(data){
 
+      console.log(data)
+      data.total_invoices = ['Invoices',12,60,70,55,46];
+
     	var chart = c3.generate({
 		    bindto: '#chart',
 
  
         data: {
-            x: 'x',
-            type: 'bar',
+            x: 'x', 
             columns: [
               data.dates,
               data.total_invoices, 
@@ -78,9 +80,17 @@ console.log(prevMonthName);
 
         },
         bar: { 
-            width: 30 
+            width: 80 
 
         },
+        grid: {
+        x: {
+            show: true
+        },
+        y: {
+            show: true
+        }
+    }
 		});
   };
 

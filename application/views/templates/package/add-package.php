@@ -19,7 +19,55 @@
 	        <div class="col-md-12 padding0"> 
 	        	<div class="row">
 		            <div class="col-md-6">
-			 			<div class="form-group">
+		            	<div class="form-group">
+						    <label class="control-label col-sm-12" for="invoice_no">Invoice No : <small class="help-block hide ">Must be a numeric value</small></label>
+						    <div class="col-sm-12" ng-class="{ 'has-error' : !addItemForm.invoice_no.$pristine && addItemForm.invoice_no.$touched && addItemForm.invoice_no.$invalid }">
+						      <input type="text" class="form-control" id="item_id" name="invoice_no" ng-model="invoice_no"  required>  
+						      <label class="error" >This field is required.</label>  
+						    </div>
+					  	</div>
+					  	<div class="form-group">
+						    <label class="control-label col-sm-12" for="grn">Goods Recieve No (GRN) : <small class="help-block hide ">Must be a numeric value</small></label>
+						    <div class="col-sm-12" ng-class="{ 'has-error' : !addItemForm.grn.$pristine && addItemForm.grn.$touched && addItemForm.grn.$invalid }">
+						      <input type="text" class="form-control" id="grn" name="grn" ng-model="grn"  required>  
+						      <label class="error" >This field is required.</label>  
+						    </div>
+					  	</div>
+					  	<div class="form-group">
+						    <label class="control-label col-sm-12" for="item_code">Item Code : <small class="help-block hide ">Must be a numeric value</small></label>
+						    <div class="col-sm-12" ng-class="{ 'has-error' : !addItemForm.item_code.$pristine && addItemForm.item_code.$touched && addItemForm.item_code.$invalid }">
+						      <input type="text" class="form-control" id="item_code" name="item_code" ng-model="item_code"  required>  
+						      <label class="error" >This field is required.</label>  
+						    </div>
+					  	</div>
+					   
+					   <div class="row">
+					   		<div class="col-md-6">
+					   			<div class="form-group">
+								    <label class="control-label col-sm-12" for="qty">Battery Quantity : <small class="help-block hide ">Must be a numeric value</small></label>
+								    <div class="col-sm-12" ng-class="{ 'has-error' : !addItemForm.batt_qty.$pristine && addItemForm.batt_qty.$touched && addItemForm.batt_qty.$invalid }">
+								      <input type="text" class="form-control" id="batt_qty" name="batt_qty" ng-model="batt_qty"  required>  
+								      <label class="error" >This field is required.</label>  
+								    </div>
+							  	</div>
+					   		</div>
+					   		<div class="col-md-6">
+					   			<div class="form-group">
+								    <label class="control-label col-sm-12" for="qty">Package Qunatity : <small class="help-block hide ">Must be a numeric value</small></label>
+								    <div class="col-sm-12" ng-class="{ 'has-error' : !addItemForm.pkg_qty.$pristine && addItemForm.pkg_qty.$touched && addItemForm.pkg_qty.$invalid }">
+								      <input type="text" class="form-control" id="pkg_qty" name="pkg_qty" ng-model="pkg_qty"  required>  
+								      <label class="error" >This field is required.</label>  
+								    </div>
+							  	</div>
+					   		</div>
+					   		
+					   </div>
+					  	
+			 			
+			 		</div> 
+
+			 		<div class="col-lg-6">
+			 			<div class="form-group hide">
 						    <label class="control-label col-sm-12" for="item_barcode">Package Barcode : <small class="help-block hide ">Must be a numeric value</small></label>
 						    <div class="col-sm-12" ng-class="{ 'has-error' : !addItemForm.item_barcode.$pristine && addItemForm.item_barcode.$touched && addItemForm.item_barcode.$invalid }">
 						      <input type="text" class="form-control" id="item_barcode" name="item_barcode" disabled="disabled" ng-model="barcode"  required>  
@@ -27,9 +75,6 @@
 						    </div> 
 					  	</div>
 						<svg id="code128" class="barcode" ></svg>
-			 		</div> 
-
-			 		<div class="col-lg-6">
 			        	<div class="form-group">
 						    <label class="control-label col-sm-12" for="note">Package Note : <small class="help-block hide ">Must be a numeric value</small></label>
 						    <div class="col-sm-12">
