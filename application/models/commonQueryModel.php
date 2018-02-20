@@ -79,6 +79,7 @@ class CommonQueryModel extends CI_Model{
     public function selectCustomData($search_data){
 
         $select_query = "SELECT ".$search_data['columns']." FROM ".$search_data['table']." WHERE ".$search_data['data']."  " ;
+ 
         $query = $this->db->query($select_query); 
 
         if (!$query) {

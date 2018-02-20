@@ -58,8 +58,8 @@ app.controller('navCtrl', function($scope) {
     { page_name: 'Invoice' ,page_icon: 'icon-list' , page_link: '#/invoice', page_sublinks: '' },
 
     { page_name: 'Items' ,page_icon: 'icon-car-battery' , page_link: '#items' ,  page_sublinks: ''},
-
-    { page_name: 'Package' ,page_icon: 'icon-box' , page_link: '#package' ,  page_sublinks: '' },
+    
+    // { page_name: 'Package' ,page_icon: 'icon-box' , page_link: '#package' ,  page_sublinks: '' },
 
     { page_name: 'Categories' ,page_icon: 'icon-share' , page_link: '#categories' ,  page_sublinks: ''},
 

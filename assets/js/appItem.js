@@ -158,7 +158,7 @@ app.controller('SearchItemsCtrl', ['$scope', '$compile','$location', 'ajaxReques
       var barcode =  $.param({ barcode: $scope.item_barcode });
 
 
-      ajaxRequest.post('ItemsController/getBatteryData',barcode).then(function(response) {
+      ajaxRequest.post('ItemsController/searchBattery',barcode).then(function(response) {
                  
           if (response.status == 200) {
                 
@@ -186,6 +186,12 @@ app.controller('SearchItemsCtrl', ['$scope', '$compile','$location', 'ajaxReques
       });
 
     }
+
+
+    $scope.navigateTo = function ( path ) {
+        goTo.page( path );
+    };
+
 
 }]);
 
