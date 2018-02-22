@@ -35,6 +35,10 @@ app.config(['$routeProvider', '$locationProvider', function ($routeProvider, $lo
     .when("/invoice/new-invoice", { templateUrl : "index.php/Pages/newInvoice",  css: 'style.css' })
     .when("/invoice/view-invoice/:id", { templateUrl : "index.php/Pages/viewInvoice",  css: 'style.css' })
 
+    .when("/returns", {  templateUrl : "index.php/Pages/returns",  css: 'style.css' })
+    .when("/returns/add-return", {  templateUrl : "index.php/Pages/addReturns",  css: 'style.css' })
+    .when("/returns/edit-return/:id", {  templateUrl : "index.php/Pages/editReturns",  css: 'style.css' })
+
     .when("/settings", { templateUrl : "index.php/Pages/settings",  css: 'style.css' })
 
  
@@ -66,7 +70,7 @@ app.controller('navCtrl', function($scope) {
     { page_name: 'Suppliers' ,page_icon: 'icon-truck' , page_link: '#suppliers' , page_sublinks: ''},
  
    
-    
+    { page_name: 'Returns' ,page_icon: 'icon-settings' , page_link: '#/returns', page_sublinks: '' },
     { page_name: 'Settings' ,page_icon: 'icon-settings' , page_link: '#/settings', page_sublinks: '' },
   ];
 
