@@ -34,11 +34,9 @@ app.controller('ReturnsCtrl', ['$scope','$compile', '$location', 'ajaxRequest', 
 	      .withOption('createdRow', createdRow)
 	      .withOption('aaSorting',[0,'asc']);
 	        vm.dtColumns = [
-<<<<<<< HEAD
+
 	            DTColumnBuilder.newColumn('id').withTitle('# Id'), 
-=======
-	            DTColumnBuilder.newColumn('rs_id').withTitle('# Id'), 
->>>>>>> eac8a890b3945f0c3b354ecfd949894f62ebf0b1
+
 	            DTColumnBuilder.newColumn('barcode').withTitle('Barcode')
 	              .renderWith(function(data, type, full, meta) { 
 	                  return  '<a href="javascript:void(0)" ng-click="viewItem('+full.barcode+')">'+full.barcode+'</a>';
