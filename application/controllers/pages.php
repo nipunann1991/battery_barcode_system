@@ -188,6 +188,19 @@ class Pages extends CI_Controller {
 
 	
 
+	/*
+	* Returns
+	*/
+	public function returns(){ 
+		$this->load->view('templates/returns/returns');
+	}
+	public function addReturns(){ 
+		$this->load->view('templates/returns/add-return');
+	}
+	public function editReturns(){ 
+		$this->load->view('templates/returns/edit-return');
+	}
+
 
 
 

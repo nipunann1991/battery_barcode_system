@@ -29,6 +29,7 @@
 			        	<ul> 
 			        		<li><strong>Categoty ID: </strong> {{category_id}}</li>
 			        		<li><strong>Categoty Name: </strong> {{category_name}}</li>
+			        		<li><strong>Remaining Stock: </strong> <span class="label label-success">{{rm_stock}}</span></li>
 			        		<!-- <li><strong>Supplier ID: </strong>{{supplier_id}}</li>
 			        		<li><strong>Supplier Name: </strong>{{supplier_name}}</li> -->
 			        		

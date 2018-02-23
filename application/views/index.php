@@ -87,6 +87,8 @@
       <script src="<?php echo base_url(); ?>assets/js/appPackage.js"></script>
       <script src="<?php echo base_url(); ?>assets/js/appSettings.js"></script>
       <script src="<?php echo base_url(); ?>assets/js/invoiceApp.js"></script>
+      <script src="<?php echo base_url(); ?>assets/js/appReturns.js"></script>
+
 
       <script src="<?php echo base_url(); ?>assets/js/route.js"></script>
 

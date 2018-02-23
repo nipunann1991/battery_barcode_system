@@ -79,6 +79,7 @@ class CommonQueryModel extends CI_Model{
     public function selectCustomData($search_data){
 
         $select_query = "SELECT ".$search_data['columns']." FROM ".$search_data['table']." WHERE ".$search_data['data']."  " ;
+ 
         $query = $this->db->query($select_query); 
 
         if (!$query) {
@@ -108,7 +109,7 @@ class CommonQueryModel extends CI_Model{
 
         $select_query = "SELECT ".$search_data['columns']." FROM ".$search_data['table']." WHERE ".$search_data['data']."  " ;
         $query = $this->db->query($select_query); 
-
+ 
         if (!$query) {
 
         	$output = array(
@@ -384,8 +385,7 @@ class CommonQueryModel extends CI_Model{
 
     public function insertBulkStockSP($table){
 
-    	//print_r($table['values']);
-
+ 
         $select_query = " CALL `sp_insert_bulk_stock`(".$table['values'].")";
         $query = $this->db->query($select_query); 
 

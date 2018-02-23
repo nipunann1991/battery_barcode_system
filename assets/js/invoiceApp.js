@@ -108,11 +108,12 @@ app.controller('newinvoiceCtrl', ['$scope','ajaxRequest', '$q', 'goTo', 'Notific
     				
 
     					if($scope.item_barcodes.indexOf($scope.item_barcode) != -1) {
-			            	Notification.error('Item exists in current invoice. Please try again with a new barcode.');
+			            	Notification.error('Package exists in current invoice. Please try again with a new Package.');
 							
 						}else{
 
-							$scope.item_barcodes.push($scope.getItemsInPackage[i].barcode)
+							$scope.item_barcodes.push($scope.getItemsInPackage[i].barcode);
+							
 
 						} 
     				
@@ -121,7 +122,7 @@ app.controller('newinvoiceCtrl', ['$scope','ajaxRequest', '$q', 'goTo', 'Notific
     					$scope.package_ids.push($scope.getItemsInPackage[i].package_id)
     				}
     			}
-
+    			Notification.success('Package added to invoice.');
     			$scope.package_item.push({barcode_id: $scope.item_barcode, package: $scope.getItemsInPackage });
     			$scope.item_barcode = '';  
     			console.log($scope.package_ids);
@@ -153,6 +154,8 @@ app.controller('newinvoiceCtrl', ['$scope','ajaxRequest', '$q', 'goTo', 'Notific
 			    			$scope.item_barcodes.push($scope.item_barcode);
 			    			$scope.item_barcode = ''; 
 			    			console.log($scope.item_barcodes);
+							Notification.success('Item added to invoice.');
+
 
 						} 
 			    		

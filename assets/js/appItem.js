@@ -140,8 +140,8 @@ app.controller('ItemsCtrl', ['$scope', '$compile','$location', 'ajaxRequest', 'g
 }]);
 
 
-app.controller('SearchItemsCtrl', ['$scope', '$compile','$location', 'ajaxRequest', 'goTo', 'messageBox' , 'Notification', 'DTOptionsBuilder', 'DTColumnBuilder',
-  function($scope, $compile, $location, ajaxRequest, goTo, messageBox, Notification, DTOptionsBuilder, DTColumnBuilder) {
+app.controller('SearchItemsCtrl', ['$scope', '$compile','$location', 'ajaxRequest', 'goTo', 'messageBox' , 'Notification', 'DTOptionsBuilder', 'DTColumnBuilder', '$routeParams',
+  function($scope, $compile, $location, ajaxRequest, goTo, messageBox, Notification, DTOptionsBuilder, DTColumnBuilder,$routeParams) {
 
     $scope.initBk = function(barcode){
         JsBarcode("#code128",  barcode , {  
@@ -152,10 +152,19 @@ app.controller('SearchItemsCtrl', ['$scope', '$compile','$location', 'ajaxReques
     }
  
    $scope.initBk('-');
+
+
      
-  $scope.searchBAttery = function(){  
-      
-      var barcode =  $.param({ barcode: $scope.item_barcode });
+  $scope.searchBAttery = function(item_barcode=null){  
+        
+      var barcode = '';
+
+      if (item_barcode) {
+        barcode = $.param({ barcode: item_barcode });
+      }else{
+        barcode = $.param({ barcode: $scope.item_barcode });
+      }
+     
 
 
       ajaxRequest.post('ItemsController/searchBattery',barcode).then(function(response) {
@@ -165,14 +174,15 @@ app.controller('SearchItemsCtrl', ['$scope', '$compile','$location', 'ajaxReques
               var result = response.data.data[0]
 
               if (typeof result != 'undefined') {
-                console.log(result);
+      
                 $scope.barcode = result.barcode;
                 $scope.cat_name = result.cat_name;
                 $scope.invoice_no = result.invoice_no;
                 $scope.grn = result.grn;
                 $scope.item_name = result.item_name; 
                 $scope.package_barcode = result.package_barcode; 
-
+                $scope.sup_name = result.sup_name; 
+                
                 $scope.initBk($scope.barcode);
 
               }else{
@@ -187,6 +197,9 @@ app.controller('SearchItemsCtrl', ['$scope', '$compile','$location', 'ajaxReques
 
     }
 
+    if ( $routeParams.id ) {
+      $scope.searchBAttery($routeParams.id);
+    }
 
     $scope.navigateTo = function ( path ) {
         goTo.page( path );
@@ -220,8 +233,7 @@ app.controller('printAllBarcode', ['$scope', '$compile','$location', 'ajaxReques
      
         $scope.results = response.data.data;
      
-        console.log( $scope.results);
-
+  
        for (var i = 0; i < $scope.results.length; i++) {
          $('.a').append('<svg class="barcode" jsbarcode-value="'+$scope.results[i].barcode+'" jsbarcode-textmargin="0" jsbarcode-fontSize="14" jsbarcode-height="30" jsbarcode-width="2" style="display: block; margin: 5px auto;"></svg> <script>JsBarcode(".barcode").init();</script>')
        }
@@ -684,6 +696,9 @@ app.controller('ItemsStockCtrl', ['$scope', '$compile', '$location', 'ajaxReques
         $scope.supplier_name = $scope.getDetails.sup_name;
         $scope.category_id = $scope.getDetails.cat_id;
         $scope.category_name = $scope.getDetails.cat_name;
+        $scope.rm_stock = $scope.getDetails.rm_stock;
+
+ 
 
         $scope.num1 = Math.floor(Math.random() * 10000) + 1000;
         $scope.num2 = Math.floor(Math.random() * 10000) + 1000  
@@ -741,19 +756,21 @@ app.controller('ItemsStockCtrl', ['$scope', '$compile', '$location', 'ajaxReques
       .withOption('aaSorting',[0,'asc']);
         $scope.dtColumns = [
             DTColumnBuilder.newColumn('stock_id').withTitle('# Stock ID'), 
-            DTColumnBuilder.newColumn('barcode').withTitle('Barcode')
+            DTColumnBuilder.newColumn('barcode').withTitle('Package Barcode')
               .renderWith(function(data, type, full, meta) { 
-                console.log(full)
+ 
                   return  '<a href="#items/view-package_items/'+full.barcode+'">'+full.barcode+'</a><a href="#items/view-barcode/'+full.barcode+'"><i class="icon-printer pull-right print"></i></a>';
               }), 
             
             DTColumnBuilder.newColumn('invoice_no').withTitle('Invoice No'),  
+            DTColumnBuilder.newColumn('grn').withTitle('GRN'), 
             DTColumnBuilder.newColumn('manufacture_id').withTitle('Note')
               .renderWith(function(data, type, full, meta) { 
                   //console.log(full)
                   return  'GRN: '+full.grn+' / '+full.bat_qty+'x'+full.pkg_qty;
               }), 
-
+            
+            DTColumnBuilder.newColumn('rm_stock').withTitle('Stock'), 
             DTColumnBuilder.newColumn('status').withTitle('Status')
               .renderWith(function(data, type, full, meta) {  
 
@@ -832,7 +849,7 @@ app.controller('ItemsStockCtrl', ['$scope', '$compile', '$location', 'ajaxReques
 
             $scope.getSingleItemFromStock = response.data.data[0]; 
             
-            console.log($scope.getSingleItemFromStock)
+ 
 
             $scope.barcode = $scope.getSingleItemFromStock.barcode;
             $scope.invoice_id = $scope.getSingleItemFromStock.invoice_no;
@@ -982,8 +999,7 @@ app.controller('ItemsStockCtrl', ['$scope', '$compile', '$location', 'ajaxReques
         });
          
 
-         console.log(data_add_item_stock);
-
+ 
         $scope.count = 0;
 
 
@@ -1120,8 +1136,7 @@ app.controller('PackageItemsStockCtrl', ['$scope', '$compile', '$location', 'aja
         $scope.item_display_name = $scope.getPackageItemData.item_display_name;
         $scope.item_id = $scope.getPackageItemData.item_id;
 
-
-        console.log($scope.getPackageItemData);
+ 
     });
 
 
