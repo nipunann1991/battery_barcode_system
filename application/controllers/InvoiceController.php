@@ -39,15 +39,15 @@ class InvoiceController extends CommonController {
     public function getSingleItem(){   
 
         $search_index = array(
-			'columns' => 'i.item_name, c.cat_name, ist.*' ,   
-			'table' => 'item i, item_stock ist, categories c',
-			'data' => 'i.cat_id = c.id AND i.item_id = ist.item_id AND ist.barcode="'.$this->input->post('barcode').'" AND ist.package_id=0  AND ist.status = 1',
+			'columns' => 'i.item_name, c.cat_name, ibs.*, ibs.barcode AS pkg_barcode, ib.*' ,   
+			'table' => 'item i, item_barcode ib, item_bulk_stock ibs, categories c',
+			'data' => 'i.cat_id = c.id AND i.item_id = ibs.item_id AND ibs.stock_id=ib.stock_id AND ib.barcode="'.$this->input->post('barcode').'" ',
 		);
-
-		return $this->selectCustomData__($search_index);   
+ 
+		return $this->selectCustomData__($search_index);    
     }
 
-
+  
     public function getSingleInvoice(){   
 
         $search_index = array(
@@ -100,9 +100,9 @@ class InvoiceController extends CommonController {
    public function getItemsInPackageBK(){   
         
         $search_index = array(
-			'columns' => 'i.item_name, c.cat_name, ist.* ' ,   
-			'table' => 'item_stock ist, package p, item i, categories c',
-			'data' => 'i.cat_id = c.id AND ist.package_id = p.pkg_id AND i.item_id = ist.item_id AND p.pkg_barcode="'.$this->input->post('barcode').'" AND p.invoice_id = 0 ',
+			'columns' => 'i.item_name, c.cat_name, ibs.*, ibs.barcode AS pkg_barcode, ib.*' ,   
+			'table' => 'item i, item_barcode ib, item_bulk_stock ibs, categories c',
+			'data' => 'i.cat_id = c.id AND i.item_id = ibs.item_id AND ibs.stock_id=ib.stock_id AND ibs.barcode="'.$this->input->post('barcode').'"',
 		);
 
 		return $this->selectCustomData__($search_index);   

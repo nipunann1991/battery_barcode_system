@@ -966,6 +966,8 @@ app.controller('ItemsStockCtrl', ['$scope', '$compile', '$location', 'ajaxReques
 
      $scope.addBulkStockItem = function(){
 
+      $('.loader1').removeClass('hide');
+
         var data_add_item_stock = $.param({ 
           barcode: $scope.barcode,
           invoice_no: $scope.invoice_id, 
@@ -992,6 +994,8 @@ app.controller('ItemsStockCtrl', ['$scope', '$compile', '$location', 'ajaxReques
                 Notification.success('New Stock has been added successfully.');  
                 $scope.reInitTable();
                 $('#addBulkStock').modal('hide');
+                $('.loader1').addClass('hide');
+
                 
             }else if(response.status == 500 || response.status == 404){
                 Notification.error('An error occured while adding item. Please try again.'); 
