@@ -32,9 +32,12 @@
 				<li><strong>Item Barcode :</strong> {{barcode}}</li> 
 				<li><strong>Package Barcode :</strong> {{package_barcode}}</li>
 				<li><strong>Category Name :</strong> {{cat_name}}</li>
+				<li><strong>Manufacture ID :</strong>  </li> 
 				<li><strong>Item Name :</strong> {{item_name}}</li>
 				<li><strong>Invoice No :</strong> {{invoice_no}}</li>
 				<li><strong>GRN :</strong> {{grn}}</li> 
+				<li><strong>Supplier Name :</strong> {{sup_name}}</li> 
+
 				<!-- <li></li> -->
 			</ul>
 		</div>

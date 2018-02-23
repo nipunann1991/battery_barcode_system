@@ -73,16 +73,17 @@ class PackageController extends CommonController {
     }
 
  
- 	public function getSingleItem(){   
+ 	// public function getSingleItem(){   
 
-        $search_index = array(
-			'columns' => 'i.item_name, c.cat_name, ist.*' ,   
-			'table' => 'item i, item_stock ist, categories c',
-			'data' => 'i.cat_id = c.id AND i.item_id = ist.item_id AND ist.barcode="'.$this->input->post('barcode').'" AND ist.package_id=0 AND ist.invoice_id=0 ',
-		);
+  //       $search_index = array(
+		// 	'columns' => 'i.item_name, c.cat_name, ib.*, ibs.*' ,   
+		// 	'table' => 'item i, item_barcode ib, item_bulk_stock ibs, categories c',
+		// 	'data' => 'i.cat_id = c.id AND i.item_id = ibs.item_id AND ibs.stock_id=i.stock_id AND ib.barcode="'.$this->input->post('barcode').'" ',
+		// );
 
-		return $this->selectCustomData__($search_index);   
-    }
+  //       print_r($search_index);
+		// return $this->selectCustomData__($search_index);   
+  //   }
 
 
     public function getItemsInPackage(){   

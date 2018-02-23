@@ -186,25 +186,20 @@ class Pages extends CI_Controller {
 	}
 
 
+	
 
 	/*
-	* Invoice
+	* Returns
 	*/
-
 	public function returns(){ 
 		$this->load->view('templates/returns/returns');
 	}
-
 	public function addReturns(){ 
-		$this->load->view('templates/returns/add-returns');
+		$this->load->view('templates/returns/add-return');
 	}
-
-
 	public function editReturns(){ 
-		$this->load->view('templates/returns/edit-returns');
+		$this->load->view('templates/returns/edit-return');
 	}
-
-	
 
 
 

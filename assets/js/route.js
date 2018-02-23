@@ -8,6 +8,7 @@ app.config(['$routeProvider', '$locationProvider', function ($routeProvider, $lo
 
     .when("/items", { templateUrl : "index.php/Pages/items",  css: 'style.css' })
     .when("/items/search-battery", { templateUrl : "index.php/Pages/searchBattery",  css: 'style.css' })
+    .when("/items/search-battery/:id", { templateUrl : "index.php/Pages/searchBattery",  css: 'style.css' })
     .when("/items/print-all-barcode/:id", { templateUrl : "index.php/Pages/printAllBarcode",  css: 'style.css' })
  
     .when("/items/add-item", { templateUrl : "index.php/Pages/addItems",  css: 'style.css' }) // templateUrl : templates/items/add-items.php

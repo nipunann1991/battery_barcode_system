@@ -32,6 +32,7 @@
 <script src="<?php echo base_url(); ?>assets/js/appItem.js"></script>
 <script src="<?php echo base_url(); ?>assets/js/appSupplier.js"></script>
 <script src="<?php echo base_url(); ?>assets/js/appCategory.js"></script>
+<script src="<?php echo base_url(); ?>assets/js/appReturns.js"></script>
 
 <script src="<?php echo base_url(); ?>assets/js/route.js"></script>
 

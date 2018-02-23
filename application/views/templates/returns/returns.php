@@ -11,7 +11,7 @@
 	</div>
  
 	<div class="body"> 
-		Lorem ipsum dolor sit amet, consectetur adipisicing elit. Labore eum magnam consequatur rerum tenetur pariatur fuga temporibus, eaque adipisci, eos possimus totam deserunt fugiat quam repellat fugit consequuntur recusandae dolorum.
+	 
 	    <table id="datatableData" datatable="" dt-options="dtOptions" dt-columns="dtColumns" class="row-border hover table table-responsive table-bordered table-striped">
 
 		</table>

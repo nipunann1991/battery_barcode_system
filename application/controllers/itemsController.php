@@ -169,9 +169,9 @@ class ItemsController extends CommonController {
     public function searchBattery(){ 
 
         $search_index = array(
-            'columns' => 'ibs.*, ibs.barcode AS package_barcode, ib.*, c.cat_name, i.*'  ,   
-            'table' => 'item_bulk_stock ibs, item_barcode ib, categories c, item i',
-            'data' => 'ibs.stock_id = ib.stock_id AND ibs.item_id = i.item_id AND c.id = i.cat_id AND ib.barcode = "'.$this->input->post('barcode').'"',
+            'columns' => 'ibs.*, ibs.barcode AS package_barcode, ib.*, c.cat_name, i.*, s.sup_name'  ,   
+            'table' => 'item_bulk_stock ibs, item_barcode ib, categories c, item i, supplier s',
+            'data' => 'ibs.stock_id = ib.stock_id AND ibs.item_id = i.item_id AND c.id = i.cat_id AND s.sup_id = ibs.sup_id  AND ib.barcode = "'.$this->input->post('barcode').'"',
         );
 
         return $this->selectCustomData__($search_index); 

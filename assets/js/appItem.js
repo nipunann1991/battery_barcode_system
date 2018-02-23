@@ -140,8 +140,8 @@ app.controller('ItemsCtrl', ['$scope', '$compile','$location', 'ajaxRequest', 'g
 }]);
 
 
-app.controller('SearchItemsCtrl', ['$scope', '$compile','$location', 'ajaxRequest', 'goTo', 'messageBox' , 'Notification', 'DTOptionsBuilder', 'DTColumnBuilder',
-  function($scope, $compile, $location, ajaxRequest, goTo, messageBox, Notification, DTOptionsBuilder, DTColumnBuilder) {
+app.controller('SearchItemsCtrl', ['$scope', '$compile','$location', 'ajaxRequest', 'goTo', 'messageBox' , 'Notification', 'DTOptionsBuilder', 'DTColumnBuilder', '$routeParams',
+  function($scope, $compile, $location, ajaxRequest, goTo, messageBox, Notification, DTOptionsBuilder, DTColumnBuilder,$routeParams) {
 
     $scope.initBk = function(barcode){
         JsBarcode("#code128",  barcode , {  
@@ -152,10 +152,19 @@ app.controller('SearchItemsCtrl', ['$scope', '$compile','$location', 'ajaxReques
     }
  
    $scope.initBk('-');
+
+
      
-  $scope.searchBAttery = function(){  
-      
-      var barcode =  $.param({ barcode: $scope.item_barcode });
+  $scope.searchBAttery = function(item_barcode=null){  
+        
+      var barcode = '';
+
+      if (item_barcode) {
+        barcode = $.param({ barcode: item_barcode });
+      }else{
+        barcode = $.param({ barcode: $scope.item_barcode });
+      }
+     
 
 
       ajaxRequest.post('ItemsController/searchBattery',barcode).then(function(response) {
@@ -172,7 +181,8 @@ app.controller('SearchItemsCtrl', ['$scope', '$compile','$location', 'ajaxReques
                 $scope.grn = result.grn;
                 $scope.item_name = result.item_name; 
                 $scope.package_barcode = result.package_barcode; 
-
+                $scope.sup_name = result.sup_name; 
+                
                 $scope.initBk($scope.barcode);
 
               }else{
@@ -187,6 +197,9 @@ app.controller('SearchItemsCtrl', ['$scope', '$compile','$location', 'ajaxReques
 
     }
 
+    if ( $routeParams.id ) {
+      $scope.searchBAttery($routeParams.id);
+    }
 
     $scope.navigateTo = function ( path ) {
         goTo.page( path );
@@ -966,6 +979,8 @@ app.controller('ItemsStockCtrl', ['$scope', '$compile', '$location', 'ajaxReques
 
      $scope.addBulkStockItem = function(){
 
+      $('.loader1').removeClass('hide');
+
         var data_add_item_stock = $.param({ 
           barcode: $scope.barcode,
           invoice_no: $scope.invoice_id, 
@@ -992,6 +1007,8 @@ app.controller('ItemsStockCtrl', ['$scope', '$compile', '$location', 'ajaxReques
                 Notification.success('New Stock has been added successfully.');  
                 $scope.reInitTable();
                 $('#addBulkStock').modal('hide');
+                $('.loader1').addClass('hide');
+
                 
             }else if(response.status == 500 || response.status == 404){
                 Notification.error('An error occured while adding item. Please try again.'); 

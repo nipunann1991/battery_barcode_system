@@ -372,10 +372,10 @@ $item_width: 120px;
 
 							.item_list 				{ 
 								ul.item_list_inner 	{ border: 1px #eee solid; border-top: 4px #eee solid; margin-bottom: 20px;
-									.head 			{ padding: 6px 15px; background: #f9f9f9; margin-bottom: 0; font-size: $font_size + 2; letter-spacing: 0.02rem; font-weight: 500; border-bottom: 1px #eee solid; }
+									.head 			{ padding: 6px 15px; background: #f9f9f9; margin-bottom: 0; font-size: $font_size + 1; letter-spacing: 0.02rem; font-weight: 500; border-bottom: 1px #eee solid; }
 									li 				{ overflow: hidden; border-bottom: 1px #eee solid;
-										p 			{ font-size: $font_size + 1; margin-bottom: 1px; letter-spacing: 0.02rem; font-weight: 500; margin-top: 10px; }
-										i 			{ font-size: $font_size; letter-spacing: 0.01rem; color: #7b7b7b; }
+										p 			{ font-size: $font_size; margin-bottom: 1px; letter-spacing: 0.02rem; font-weight: 500; margin-top: 10px; }
+										i 			{ font-size: $font_size - 2; letter-spacing: 0.01rem; color: #7b7b7b; }
 										a.delete 	{ margin-top: 15px; display: block; color: $default_purple; text-decoration: none; 
 											&:hover { color: lighten( $default_purple, 15%);}
 											i 		{ font-size: 19px; }
@@ -440,7 +440,7 @@ button.btn_cancel 									{ float: right; margin-left: 5px; }
 	}
 	.modal-dialog 									{ width: 700px;
 		.modal-title 								{ font-size: $font_size + 1; letter-spacing: 0.03rem; font-weight: 500;}
-		.modal-content 								{ border-radius: 0;
+		.modal-content 								{ border-radius: 0; position: relative;
 			.modal-header 							{ padding: 12px 15px; background: $base_nav_color;  color: #fff; }
 			.modal-body 							{ font-size: $font_size; 
 				h2 									{ text-align: center; padding: 10px; background: #333333; color: white; font-size: 19px; }
@@ -487,4 +487,33 @@ md-checkbox 										{ margin-bottom: 5px}
 
 }
 
- 
+.loader1 					{ position: absolute; width: 100%; height: 100%; z-index: 1000; background: white; top: 0; left: 0; text-align: center; display: flex; align-items: center;
+	.inner					{ width: 100%; }
+	span 					{ animation-name: blink; margin-right: 2px;  animation-duration: 1.4s;  animation-iteration-count: infinite;  animation-fill-mode: both; font-size: 26px;
+		&:nth-child(2) 		{ animation-delay: .2s; }
+		&:nth-child(3)  	{ animation-delay: .4s; }
+	}
+}
+ @keyframes blink {
+    /**
+     * At the start of the animation the dot
+     * has an opacity of .2
+     */
+    0% {
+      opacity: .2;
+    }
+    /**
+     * At 20% the dot is fully visible and
+     * then fades out slowly
+     */
+    20% {
+      opacity: 1;
+    }
+    /**
+     * Until it reaches an opacity of .2 and
+     * the animation can start again
+     */
+    100% {
+      opacity: .2;
+    }
+}

@@ -228,15 +228,19 @@
 
 					    <!-- Modal content-->
 					    <div class="modal-content">
-					    
+					    	<div class="loader1 hide"> 
+								<div class="inner">
+									<h3>Creating Packages <span>.</span><span>.</span><span>.</span></h3>
+								</div>
+				      		</div>
 					      	<div class="modal-header hide">
 						        <button type="button" class="close" data-dismiss="modal">&times;</button>
 						        <h4 class="modal-title">Add Bulk Stock</h4>
 					      	</div>
 
-					      	<div class="modal-body">
+					      	<div class="modal-body"> 
 								<h2>Add Bulk Stock</h2>
-								<form class="form-horizontal" name="editItemStockForm" id="commentForm" > 
+								<form class="form-horizontal" name="editItemStockForm" id="commentForm" >  
 					              	<div class="price_column">
 					              		<div class="row_">
 					              			<div class="col-md-6">
