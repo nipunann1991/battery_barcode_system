@@ -64,9 +64,9 @@ class InvoiceController extends CommonController {
     public function getSingleItemsInvoiced(){   
 
         $search_index = array(
-			'columns' => 'i.item_name, c.cat_name, ist.* ' ,   
-			'table' => 'item_stock ist, item i, categories c',
-			'data' => 'i.cat_id = c.id AND i.item_id = ist.item_id AND ist.invoice_id="'.$this->input->post('invoice_id').'" AND ist.package_id = 0',
+			'columns' => 'i.item_name, c.cat_name, ibs.*, ib.*' ,   
+			'table' => 'item_bulk_stock ibs, item_barcode ib, item i, categories c',
+			'data' => 'i.cat_id = c.id AND i.item_id=ibs.item_id AND ibs.stock_id = ib.stock_id AND ib.invoice_id="'.$this->input->post('invoice_id').'" AND ib.invoice_id<>ibs.invoice_id',
 		);
 
 		return $this->selectCustomData__($search_index);   
@@ -76,9 +76,9 @@ class InvoiceController extends CommonController {
     public function getPackageInvoiced(){   
 
         $search_index = array(
-			'columns' => 'p.* ' ,   
-			'table' => 'package p',
-			'data' => 'p.invoice_id="'.$this->input->post('invoice_id').'" ',
+			'columns' => 'ibs.* ' ,   
+			'table' => 'item_bulk_stock ibs',
+			'data' => 'ibs.invoice_id="'.$this->input->post('invoice_id').'" ',
 		);
 
 		return $this->selectCustomData__($search_index);   
@@ -88,9 +88,9 @@ class InvoiceController extends CommonController {
     public function getItemsInPackage(){   
 
         $search_index = array(
-			'columns' => 'i.item_name, c.cat_name, ist.*, p.* ' ,   
-			'table' => 'item_stock ist, package p, item i, categories c',
-			'data' => 'i.cat_id = c.id AND ist.package_id = p.pkg_id AND i.item_id = ist.item_id AND ist.package_id="'.$this->input->post('package_id').'" AND ist.package_id <> 0 ',
+			'columns' => 'i.item_name, c.cat_name, ibs.*, ib.* ' ,   
+			'table' => 'item_bulk_stock ibs, item_barcode ib, item i, categories c',
+			'data' => 'i.cat_id = c.id AND i.item_id=ibs.item_id AND ibs.stock_id = ib.stock_id AND ib.stock_id="'.$this->input->post('stock_id').'"',
 		);
 
 		return $this->selectCustomData__($search_index); 
@@ -111,7 +111,7 @@ class InvoiceController extends CommonController {
     public function saveInvoice(){ 
 
 		$dataset = $this->input->post(); 
-		return $this->updateData__('item_stock', $dataset, " barcode ='".$dataset['barcode']."'");
+		return $this->updateData__('item_barcode', $dataset, " barcode ='".$dataset['barcode']."'");
  
 	}
 
@@ -119,7 +119,7 @@ class InvoiceController extends CommonController {
 	public function savePackageInfo(){ 
 
 		$dataset = $this->input->post(); 
-		return $this->updateData__('item_bulk_stock', $dataset, " pkg_id ='".$dataset['pkg_id']."'");
+		return $this->updateData__('item_bulk_stock', $dataset, " stock_id ='".$dataset['stock_id']."'");
  
 	}
 
@@ -128,8 +128,7 @@ class InvoiceController extends CommonController {
 		$dataset = $this->input->post();
 		return $this->insertData__('invoice', $dataset); 
 	}
-
-
+ 
 	public function getAutoIncrementID(){   
 		return $this->getAutoIncrementID__('invoice');   
     }

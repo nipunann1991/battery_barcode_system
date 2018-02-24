@@ -118,14 +118,15 @@ app.controller('newinvoiceCtrl', ['$scope','ajaxRequest', '$q', 'goTo', 'Notific
 						} 
     				
 
-    				if ($scope.package_ids.indexOf($scope.getItemsInPackage[i].package_id) == -1) {
-    					$scope.package_ids.push($scope.getItemsInPackage[i].package_id)
+    				if ($scope.package_ids.indexOf($scope.getItemsInPackage[i].stock_id) == -1) {
+    					$scope.package_ids.push($scope.getItemsInPackage[i].stock_id)
     				}
     			}
+
     			Notification.success('Package added to invoice.');
     			$scope.package_item.push({barcode_id: $scope.item_barcode, package: $scope.getItemsInPackage });
     			$scope.item_barcode = '';  
-    			console.log($scope.package_ids);
+    			console.log($scope.package_ids, $scope.package_item);
 
     			package_ids = $scope.package_ids;
 
@@ -222,7 +223,7 @@ app.controller('newinvoiceCtrl', ['$scope','ajaxRequest', '$q', 'goTo', 'Notific
 
 				for (var i = 0; i < package_ids.length; i++) {
 
-					var package_data = $.param({ pkg_id: package_ids[i], invoice_id: getInsertedId,  status: 0  });
+					var package_data = $.param({ stock_id: package_ids[i], invoice_id: getInsertedId,  status: 0  });
 					
 					ajaxRequest.post('InvoiceController/savePackageInfo' ,package_data ).then(function(response) {
 
@@ -339,10 +340,12 @@ app.controller('viewInvoiceCtrl', ['$scope','ajaxRequest', '$q', 'goTo', 'Notifi
 			
 			$scope.getPackageInvoiced = response.data.data;  
 
+			console.log($scope.getPackageInvoiced);
+
 			for (var i =  0; i < $scope.getPackageInvoiced.length; i++) { 
 
-					var package_data =  $.param({ package_id: $scope.getPackageInvoiced[i].pkg_id });
-					var pkg_barcode = $scope.getPackageInvoiced[i].pkg_barcode;
+					var package_data =  $.param({ stock_id: $scope.getPackageInvoiced[i].stock_id, invoice_id: $routeParams.id });
+					var pkg_barcode = $scope.getPackageInvoiced[i].barcode;
 
 					ajaxRequest.post('InvoiceController/getItemsInPackage', package_data ).then(function(response) {
 						$scope.getItemsInPackage  = response.data.data; 

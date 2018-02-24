@@ -79,7 +79,6 @@ class CommonQueryModel extends CI_Model{
     public function selectCustomData($search_data){
 
         $select_query = "SELECT ".$search_data['columns']." FROM ".$search_data['table']." WHERE ".$search_data['data']."  " ;
- 
         $query = $this->db->query($select_query); 
 
         if (!$query) {
@@ -387,6 +386,35 @@ class CommonQueryModel extends CI_Model{
 
  
         $select_query = " CALL `sp_insert_bulk_stock`(".$table['values'].")";
+        $query = $this->db->query($select_query); 
+
+        if (!$query) {
+
+        	$output = array(
+				'status' => 500 , 
+				'data' => 'Query Error',
+			);
+
+			return $output;
+
+		}else{
+  
+			$output = array(
+				'status' => 200 , 
+				'data' => $query->result(),
+			);
+			return $output;
+		}
+
+       
+    }
+
+
+    public function insertInvoiceSP($table){
+
+ 		print_r($table['values']);
+
+        $select_query = " CALL `sp_addInvoice`(".$table['values'].")";
         $query = $this->db->query($select_query); 
 
         if (!$query) {

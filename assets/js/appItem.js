@@ -1139,6 +1139,11 @@ app.controller('PackageItemsStockCtrl', ['$scope', '$compile', '$location', 'aja
  
     });
 
+    $scope.viewInvoice = function(invoice_id){ 
+      goTo.page('invoice/view-invoice/'+invoice_id);
+    };
+
+
 
     $scope.getPackageItemList = function (){  
        
@@ -1171,7 +1176,7 @@ app.controller('PackageItemsStockCtrl', ['$scope', '$compile', '$location', 'aja
               }), 
              
              
-
+            DTColumnBuilder.newColumn('invoice_id').withTitle('Invoice ID'),
             DTColumnBuilder.newColumn('status').withTitle('Status')
               .renderWith(function(data, type, full, meta) {  
 

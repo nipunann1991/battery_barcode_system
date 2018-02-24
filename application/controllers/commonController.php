@@ -87,6 +87,14 @@ class commoncontroller extends CI_Controller {
 		return $this->output->set_output(json_encode($data["results"], JSON_PRETTY_PRINT));
     }
 
+
+    public function insertInvoiceSP__($table, $dataset){
+
+    	$insert_vals = $this->setDataToSP($table, $dataset); 
+  
+		$data["results"] = $this->commonQueryModel->insertInvoiceSP($insert_vals);
+		return $this->output->set_output(json_encode($data["results"], JSON_PRETTY_PRINT));
+    }
     
 
 

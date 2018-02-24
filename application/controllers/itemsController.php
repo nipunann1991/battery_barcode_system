@@ -213,7 +213,7 @@ class ItemsController extends CommonController {
 		$search_index = array(
 			'columns' => 'i.*, ib.*, s.sup_name, SUM(ib.status) AS rm_stock, i.barcode, i.status' ,   
 			'table' => 'item_bulk_stock i, supplier s , item_barcode ib ',
-			'data' => 'i.sup_id=s.sup_id AND ib.stock_id=i.stock_id  AND ib.status=1 AND i.item_id= '.$this->input->post('item_id').' '.$search_from_value.'  GROUP by '.$get_column_name.' '.$get_order.' LIMIT '.$start.', '.$length.'',
+			'data' => 'i.sup_id=s.sup_id AND ib.stock_id=i.stock_id  AND i.item_id= '.$this->input->post('item_id').' '.$search_from_value.'  GROUP by '.$get_column_name.' '.$get_order.' LIMIT '.$start.', '.$length.'',
 		);
 
 
