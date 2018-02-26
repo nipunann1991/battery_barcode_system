@@ -776,17 +776,19 @@ app.controller('ItemsStockCtrl', ['$scope', '$compile', '$location', 'ajaxReques
 
                   var label_ = '';
 
-                  if ((full.status == 0 && full.package_id != 0) || (full.status == 0 && full.package_id == 0) ) {
+                  if (full.status == 0) {
                     label_ = '<span class="label label-danger sold" title="Click to view invoice" ng-click="viewInvoice('+full.invoice_id+')"  >Sold</span>';
-                  }else if(full.status == 1 && full.package_id == 0 ){
+                  }else if(full.status == 1){
                     label_ = '<span class="label label-success"  >In Stock</span>'
-                  }else if(full.status == 1 && full.package_id > 0 ){
-                    label_ = '<span ng-click="viewPackage('+full.package_id+')" title="Click to view package" class="label label-warning packed"  >Packed</span>'
+                  }else if(full.status == -1){
+                    label_ = '<span ng-click="viewPackage('+full.package_id+')" title="Click to view package" class="label label-warning packed"  >Missing</span>'
                   } 
                
                   return  label_;
 
               }), 
+
+              
 
             // DTColumnBuilder.newColumn(null).withTitle(' ')
             //  .renderWith(function(data, type, full, meta) { 
@@ -1182,11 +1184,11 @@ app.controller('PackageItemsStockCtrl', ['$scope', '$compile', '$location', 'aja
 
                   var label_ = '';
 
-                  if ((full.status == 0 && full.package_id != 0) || (full.status == 0 && full.package_id == 0) ) {
+                  if (full.status == 0 ) {
                     label_ = '<span class="label label-danger sold" title="Click to view invoice" ng-click="viewInvoice('+full.invoice_id+')"  >Sold</span>';
-                  }else if(full.status == 1 && full.package_id == 0 ){
+                  }else if(full.status == 1 ){
                     label_ = '<span class="label label-success"  >In Stock</span>'
-                  }else if(full.status == 1 && full.package_id > 0 ){
+                  }else if(full.status == -1 ){
                     label_ = '<span ng-click="viewPackage('+full.package_id+')" title="Click to view package" class="label label-warning packed"  >Packed</span>'
                   } 
                

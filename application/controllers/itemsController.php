@@ -122,7 +122,7 @@ class ItemsController extends CommonController {
     public function getSingleItemJoined(){ 
 
      	$search_index = array(
-			'columns' => 'i.*, c.cat_name, c.id AS cat_id, s.sup_name, (SELECT SUM(ib.status) FROM item_bulk_stock ibs, item_barcode ib WHERE ibs.stock_id=ib.stock_id AND ibs.item_id = '.$this->input->post('item_id').' ) as rm_stock ' ,   
+			'columns' => 'i.*, c.cat_name, c.id AS cat_id, s.sup_name, (SELECT SUM(ib.status) FROM item_bulk_stock ibs, item_barcode ib WHERE ibs.stock_id=ib.stock_id AND ib.status<>-1   AND ibs.item_id = '.$this->input->post('item_id').' ) as rm_stock ' ,   
 			'table' => 'item i, categories c, supplier s, item_bulk_stock ibs',
 			'data' => 'i.cat_id = c.id AND s.sup_id=ibs.sup_id AND i.item_id = "'.$this->input->post('item_id').'" GROUP BY i.item_id',
 		);
@@ -213,7 +213,7 @@ class ItemsController extends CommonController {
 		$search_index = array(
 			'columns' => 'i.*, ib.*, s.sup_name, SUM(ib.status) AS rm_stock, i.barcode, i.status' ,   
 			'table' => 'item_bulk_stock i, supplier s , item_barcode ib ',
-			'data' => 'i.sup_id=s.sup_id AND ib.stock_id=i.stock_id  AND i.item_id= '.$this->input->post('item_id').' '.$search_from_value.'  GROUP by '.$get_column_name.' '.$get_order.' LIMIT '.$start.', '.$length.'',
+			'data' => 'i.sup_id=s.sup_id AND ib.stock_id=i.stock_id AND ib.status<>-1 AND i.item_id= '.$this->input->post('item_id').' '.$search_from_value.'  GROUP by '.$get_column_name.' '.$get_order.' LIMIT '.$start.', '.$length.'',
 		);
 
 

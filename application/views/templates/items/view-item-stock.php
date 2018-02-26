@@ -46,6 +46,7 @@
 
 						<md-button ng-click="navigateTo('items')"  class="top"><i class="icon-list-with-dots" aria-hidden="true"></i> View Items List</md-button> 
 						<md-button ng-click="openAddBulkStock()" class="top"><i class="icon-plus-sign-in-a-black-circle" aria-hidden="true"></i> Add New Packages</md-button>
+						 <md-checkbox ng-model="data.cb1" aria-label="Checkbox 1" class="pull-right">  Edit/ Add Missing Item(s)  </md-checkbox>
 					<!-- 	<md-button ng-click="openModalAddStock()" class="top"><i class="icon-plus-sign-in-a-black-circle" aria-hidden="true"></i> Add Single battery</md-button> -->
 						 
 						<div class="clearfix"></div>

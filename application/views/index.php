@@ -9,6 +9,7 @@
 
     <!-- Bootstrap -->
     <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
     <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css//angular-material.min.css">
     <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/angular-datatables.min.css">
     <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/animated.css">
@@ -58,7 +59,7 @@
 
       <script src="<?php echo base_url(); ?>assets/js/dist/angular-material.min.js"></script>
       <script src="<?php echo base_url(); ?>assets/js/dist/angular-route.js"></script>
-    
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.js"></script>
 
 
       <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
@@ -88,9 +89,22 @@
       <script src="<?php echo base_url(); ?>assets/js/appSettings.js"></script>
       <script src="<?php echo base_url(); ?>assets/js/invoiceApp.js"></script>
       <script src="<?php echo base_url(); ?>assets/js/appReturns.js"></script>
+      <script src="<?php echo base_url(); ?>assets/js/appMissingItems.js"></script>
 
 
       <script src="<?php echo base_url(); ?>assets/js/route.js"></script>
+
+      <script>
+        (function($){
+            $(window).on("load",function(){
+                $(".left_nav").mCustomScrollbar({
+                  scrollbarPosition: "outside",
+                  autoHideScrollbar: true,
+                  scrollInertia : 100
+                });
+            });
+        })(jQuery);
+    </script>
 
   </body>
 </html>

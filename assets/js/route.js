@@ -70,7 +70,7 @@ app.controller('navCtrl', function($scope) {
 
     { page_name: 'Suppliers' ,page_icon: 'icon-truck' , page_link: '#suppliers' , page_sublinks: ''},
  
-   
+    { page_name: 'Missing Items' ,page_icon: 'icon-settings' , page_link: '#/missing-items', page_sublinks: '' },
     { page_name: 'Returns' ,page_icon: 'icon-settings' , page_link: '#/returns', page_sublinks: '' },
     { page_name: 'Settings' ,page_icon: 'icon-settings' , page_link: '#/settings', page_sublinks: '' },
   ];

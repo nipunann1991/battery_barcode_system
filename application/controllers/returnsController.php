@@ -14,6 +14,17 @@ class ReturnsController extends CommonController {
 		
 	}
 
+     public function getSingleReturns(){   
+
+        $search_index = array(
+            'columns' => '*' ,   
+            'table' => 'return_stock',
+            'data' => 'id="'.$this->input->post('id').'"',
+        );
+
+        return $this->selectCustomData__($search_index);   
+    }
+
 	public function getReturnsList(){ 
  
 
@@ -67,5 +78,14 @@ class ReturnsController extends CommonController {
     	); 
 
         return $this->output->set_output(json_encode($output['result']));
+    }
+
+
+
+    public function updateReturns(){ 
+
+        $dataset = $this->input->post(); 
+        return $this->updateData__('return_stock', $dataset, " id =".$dataset['id']);
+ 
     }
 }

@@ -164,7 +164,7 @@ app.controller('newinvoiceCtrl', ['$scope','ajaxRequest', '$q', 'goTo', 'Notific
 
 
 				}else{
-			        Notification.error('Item not found.');
+			        Notification.error('Item sold / not found.');
 
 			    }
 	    		 

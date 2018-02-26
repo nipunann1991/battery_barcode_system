@@ -16,6 +16,11 @@ app.controller('ReturnsCtrl', ['$scope','$compile', '$location', 'ajaxRequest', 
 	        goTo.page('items/search-battery/'+path);
 	    };
 
+
+	    $scope.editReturn = function ( id ) {
+	        goTo.page('returns/edit-return/'+id);
+	    };
+
 	    $scope.getReturnList = function (){ 
 
 	        var vm = this;
@@ -42,6 +47,7 @@ app.controller('ReturnsCtrl', ['$scope','$compile', '$location', 'ajaxRequest', 
 	                  return  '<a href="javascript:void(0)" ng-click="viewItem('+full.barcode+')">'+full.barcode+'</a>';
 	              }), 
 	            DTColumnBuilder.newColumn('rep_name').withTitle('Rep Name'), 
+	             DTColumnBuilder.newColumn('return_date').withTitle('Return Date'),
 	            DTColumnBuilder.newColumn('remarks').withTitle('remarks'),
 	            DTColumnBuilder.newColumn(null).withTitle(' ')
 	             .renderWith(function(data, type, full, meta) { 
@@ -54,7 +60,7 @@ app.controller('ReturnsCtrl', ['$scope','$compile', '$location', 'ajaxRequest', 
 	                  }
 
 	                  return  `<div class="w100"> 
-	                          <a href="" id="edit`+full.item_id+`"  class="edit `+class_+`" title="Edit Items" ng-click="editItem(`+full.item_id+`)">
+	                          <a href="" id="edit`+full.item_id+`"  class="edit `+class_+`" title="Edit Items" ng-click="editReturn(`+full.id+`)">
 	                            <i class="icon-pencil-edit-button" aria-hidden="true"></i>
 	                          </a>
 	                          
@@ -82,7 +88,7 @@ app.controller('addReturnsCtrl', ['$scope','$compile', '$location', 'ajaxRequest
 
 	    $scope.title = 'Add Returns';
 	    $scope.breadcrumb = 'Home > Add Returns';
-	    $scope.animated_class = 'animated fadeIn';
+	    $scope.animated_class = 'animated fadeIn'; 
 
 
 	    $scope.navigateTo = function ( path ) {
@@ -122,5 +128,77 @@ app.controller('addReturnsCtrl', ['$scope','$compile', '$location', 'ajaxRequest
    }
 
 ]);
+
+
+app.controller('editReturnsCtrl', ['$scope','$compile', '$location', 'ajaxRequest', 'goTo', 'messageBox' , 'Notification', 'DTOptionsBuilder', 'DTColumnBuilder', '$routeParams',
+  	function($scope, $compile, $location, ajaxRequest, goTo, messageBox, Notification, DTOptionsBuilder, DTColumnBuilder, $routeParams) {
+
+	    $scope.title = 'Edit Returns';
+	    $scope.breadcrumb = 'Home > Edit Returns';
+	    $scope.animated_class = 'animated fadeIn';
+
+
+	    $scope.navigateTo = function ( path ) {
+	        goTo.page( path );
+	    }; 
+
+	    var data =  $.param({ id: $routeParams.id })
+
+	    ajaxRequest.post('ReturnsController/getSingleReturns', data ).then(function(response) {
+ 
+        	if (response.status == 200) {
+
+        		var result = response.data.data[0];
+
+ 				console.log(result);
+ 				$scope.barcode = result.barcode;
+ 				$scope.rep_name = result.rep_name;
+ 				$scope.remarks = result.remarks; 
+ 				$scope.return_date = new Date(result.return_date);
+
+
+            }else if(response.status == 500 || response.status == 404){
+                //Notification.error('An error occured while adding package. Please try again.'); 
+            } 
+
+        });
+
+	    $scope.editReturn = function(){
+
+	    	var data = $.param({ 
+	           	id: $routeParams.id,
+	            barcode: $scope.barcode, 
+	            rep_name: $scope.rep_name,
+	            remarks: $scope.remarks,   
+	            return_date: $scope.return_date,
+
+	        });
+
+
+	        console.log(data);
+
+	        	ajaxRequest.post('ReturnsController/updateReturns', data ).then(function(response) {
+ 
+
+		        	if (response.status == 200) {
+
+		                Notification.success('Return has been edited successfully.');
+		                $scope.navigateTo('returns');
+
+
+	                 }else if(response.status == 500 || response.status == 404){
+	                    Notification.error('An error occured while editing. Please try again.'); 
+	                 } 
+
+		        });
+
+
+	    }
+
+
+   }
+
+]);
+
 
 

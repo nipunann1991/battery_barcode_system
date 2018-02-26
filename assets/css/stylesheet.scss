@@ -495,6 +495,11 @@ md-checkbox 										{ margin-bottom: 5px}
 		&:nth-child(3)  	{ animation-delay: .4s; }
 	}
 }
+
+
+.md-icon-button+.md-datepicker-input-container 			{ margin-left: 0; padding: 5px; width: 100% !important; }
+md-datepicker .md-button.md-icon-button:nth-child(1) 	{ display: none; }
+.mCSB_outside + .mCSB_scrollTools 						{ right: -6px; }
  @keyframes blink {
     /**
      * At the start of the animation the dot
