@@ -786,33 +786,8 @@ app.controller('ItemsStockCtrl', ['$scope', '$compile', '$location', 'ajaxReques
                
                   return  label_;
 
-              }), 
-
-              
-
-            // DTColumnBuilder.newColumn(null).withTitle(' ')
-            //  .renderWith(function(data, type, full, meta) { 
-
-            //       var class_ = '', action_btns = '', hide_ = '';
-
-            //       if (full.status == 0 || full.package_id != 0 ) {
-            //         class_ = 'disabled_items';
-            //       }
-
-            //       if (!$scope.role_access) {
-            //         hide_ = 'hide';
-            //       }
-
-                
-            //       action_btns = `<a href="" id="edit`+full.stock_id+`" class="`+class_+`" title="Edit Stock" class="edit" ng-click=" `+full.status+` == 1 && `+full.package_id+` == 0 &&  openEditStockModal(`+full.stock_id+`)"><i class="icon-pencil-edit-button" aria-hidden="true"></i></a>
-            //                   <a href="" title="Delete Stock" class="`+class_+` `+hide_+`"  id="delete`+full.stock_id+`" ng-click="`+$scope.role_access+` && `+full.status+` == 1 && `+full.package_id+` == 0 && deleteItem(`+full.stock_id+`)" class="delete" ><i class="icon-rubbish-bin" aria-hidden="true"></i></a>`;
-                  
-                   
-            //       return  `<div class="w100">
-            //                   `+action_btns+`
-            //               </div>
-            //               `;
-            //   }), 
+              }),  
+         
             
         ];
         

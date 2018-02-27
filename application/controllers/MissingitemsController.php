@@ -27,10 +27,31 @@ class MissingItemsController extends CommonController {
     	$search_index = array(
 			'columns' => '*' ,   
 			'table' => 'item_barcode',
-			'data' => 'barcode= "'.$this->input->post('barcode').'"',
+			'data' => 'status=1 AND barcode= "'.$this->input->post('barcode').'" ',
 		);
 
 		return $this->selectCustomData__($search_index);
+ 
+    }
+
+
+    public function searchMissigItemData(){
+
+        $search_index = array(
+            'columns' => '*' ,   
+            'table' => 'missing',
+            'data' => 'id= "'.$this->input->post('id').'"',
+        );
+
+        return $this->selectCustomData__($search_index);
+ 
+    }
+
+
+    public function updateMissingItem(){ 
+
+        $dataset = $this->input->post(); 
+        return $this->updateData__('missing', $dataset, " id =".$dataset['id']);
  
     }
 

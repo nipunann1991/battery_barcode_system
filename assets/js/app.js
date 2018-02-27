@@ -114,6 +114,7 @@ app.controller('logCtrl', ['$scope', 'ajaxRequest', '$routeParams' , function($s
   
   $scope.setActive = function(menuItem) {
       $scope.activeMenu = menuItem;
+      console.log($scope.activeMenu)
   }
  
     

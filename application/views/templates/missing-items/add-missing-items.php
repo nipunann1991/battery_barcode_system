@@ -6,7 +6,7 @@
 	  		<div class="clearfix"></div>
 		</div>  
 	   
-		<md-button ng-click="navigateTo('returns')"><i class="icon-list-with-dots" aria-hidden="true"></i> View Missing List</md-button>
+		<md-button ng-click="navigateTo('missing-items')"><i class="icon-list-with-dots" aria-hidden="true"></i> View Missing List</md-button>
 	</div>
 	<div class="body"> 
   
@@ -46,7 +46,7 @@
 	      
 		  	 <div class="row_" >
 				<div class="col-md-12"  ng-hide="addReturnForm.$invalid"> 
-					<md-button class="btn_add" type="button" id="add_return_btn" ng-click="addMissing()">Add Detail</md-button>
+					<md-button class="btn_add" type="button" id="add_return_btn" ng-click="addMissing()">Add Details</md-button>
 					<md-button class="btn-default" ng-click="close()">Close</md-button>
 
 					<!-- <button class="btn btn_add submit" type="submit" id="add_item">Add Item</button> 
