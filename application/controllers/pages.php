@@ -204,6 +204,21 @@ class Pages extends CI_Controller {
 
 
 
+	/*
+	* Missing
+	*/
+	public function missingItems(){ 
+		$this->load->view('templates/missing-items/missing-items');
+	}
+	public function addMissingItems(){ 
+		$this->load->view('templates/missing-items/add-missing-items');
+	}
+	public function editMissingItems(){ 
+		$this->load->view('templates/missing-items/edit-missing-items');
+	}
+
+
+
 
 	 
 }

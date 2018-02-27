@@ -1189,7 +1189,7 @@ app.controller('PackageItemsStockCtrl', ['$scope', '$compile', '$location', 'aja
                   }else if(full.status == 1 ){
                     label_ = '<span class="label label-success"  >In Stock</span>'
                   }else if(full.status == -1 ){
-                    label_ = '<span ng-click="viewPackage('+full.package_id+')" title="Click to view package" class="label label-warning packed"  >Packed</span>'
+                    label_ = '<span ng-click="viewPackage('+full.package_id+')" title="Click to view package" class="label label-warning packed"  >Missing</span>'
                   } 
                
                   return  label_;

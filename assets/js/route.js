@@ -40,6 +40,13 @@ app.config(['$routeProvider', '$locationProvider', function ($routeProvider, $lo
     .when("/returns/add-return", {  templateUrl : "index.php/Pages/addReturns",  css: 'style.css' })
     .when("/returns/edit-return/:id", {  templateUrl : "index.php/Pages/editReturns",  css: 'style.css' })
 
+    .when("/missing-items", {  templateUrl : "index.php/Pages/missingItems",  css: 'style.css' })
+    .when("/returns/add-missing-items", {  templateUrl : "index.php/Pages/addMissingItems",  css: 'style.css' })
+    .when("/returns/edit-missing-items/:id", {  templateUrl : "index.php/Pages/editMissingItems",  css: 'style.css' })
+
+
+    
+
     .when("/settings", { templateUrl : "index.php/Pages/settings",  css: 'style.css' })
 
  

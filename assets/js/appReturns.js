@@ -106,20 +106,20 @@ app.controller('addReturnsCtrl', ['$scope','$compile', '$location', 'ajaxRequest
 
 	        });
 
-	        ajaxRequest.post('ReturnsController/addReturns', data ).then(function(response) {
- 
-
-		        	if (response.status == 200) {
-
-		                Notification.success('Package has been added successfully.');
-		                $scope.navigateTo('returns');
+        	ajaxRequest.post('ReturnsController/addReturns', data ).then(function(response) {
 
 
-	                 }else if(response.status == 500 || response.status == 404){
-	                    Notification.error('An error occured while adding package. Please try again.'); 
-	                 } 
+	        	if (response.status == 200) {
 
-		        });
+	                Notification.success('Package has been added successfully.');
+	                $scope.navigateTo('returns');
+
+
+                 }else if(response.status == 500 || response.status == 404){
+                    Notification.error('An error occured while adding package. Please try again.'); 
+                 } 
+
+	        });
 
 
 	    }
