@@ -34,6 +34,14 @@ class commoncontroller extends CI_Controller {
         
     }
 
+    public function selectCustomDataAlias__($search_index){
+
+        $data["results"] = $this->commonQueryModel->selectCustomDataAlias($search_index); 
+        return $this->output->set_output(json_encode($data["results"], JSON_PRETTY_PRINT));
+
+        
+    }
+
 
      public function selectCustomDataDT__($search_index){
 

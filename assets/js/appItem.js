@@ -726,7 +726,9 @@ app.controller('ItemsStockCtrl', ['$scope', '$compile', '$location', 'ajaxReques
     };
 
     $scope.getBarcode = function(){ 
-  
+      
+      $scope.total_qty = $scope.pkg_qty * $scope.bat_qty;
+ 
       $scope.barcode = ($scope.invoice_id + $scope.grn) +$scope.manufacture_id+ $scope.pkg_qty +$scope.bat_qty;
       barcodeNo.generateBarcode($scope.barcode);
     };
@@ -767,7 +769,7 @@ app.controller('ItemsStockCtrl', ['$scope', '$compile', '$location', 'ajaxReques
             DTColumnBuilder.newColumn('manufacture_id').withTitle('Note')
               .renderWith(function(data, type, full, meta) { 
                   //console.log(full)
-                  return  'GRN: '+full.grn+' / '+full.bat_qty+'x'+full.pkg_qty;
+                  return  'GRN: '+full.grn+' / '+full.bat_qty+'x'+full.pkg_qty
               }), 
             
             DTColumnBuilder.newColumn('rm_stock').withTitle('Stock'), 
@@ -787,7 +789,11 @@ app.controller('ItemsStockCtrl', ['$scope', '$compile', '$location', 'ajaxReques
                   return  label_;
 
               }),  
-         
+              DTColumnBuilder.newColumn(null).withTitle('Note')
+              .renderWith(function(data, type, full, meta) { 
+                  //console.log(full)
+                  return  'Edit'
+              }),
             
         ];
         
@@ -864,6 +870,8 @@ app.controller('ItemsStockCtrl', ['$scope', '$compile', '$location', 'ajaxReques
         $scope.discount = 0;
         $scope.discount_type = '1';
         $scope.net_amount = 0;
+
+        $scope.total_qty = 0;
 
         $scope.invoice_id = $scope.grn = $scope.manufacture_id = $scope.pkg_qty  =  $scope.bat_qty  = 0;
 
@@ -972,10 +980,11 @@ app.controller('ItemsStockCtrl', ['$scope', '$compile', '$location', 'ajaxReques
           sup_id: $scope.supplier,
           package_id: '0',
           status: '1',
-
+          note: $scope.note,
         });
          
 
+ 
  
         $scope.count = 0;
 

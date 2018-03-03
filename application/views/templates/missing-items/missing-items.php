@@ -12,9 +12,9 @@
  
 	<div class="body"> 
 	 
-	    <table id="datatableData" datatable="" dt-options="dtOptions" dt-columns="dtColumns" class="row-border hover table table-responsive table-bordered table-striped">
-
-		</table>
+	   <table id="datatableData" datatable="" dt-options="dtOptions" dt-columns="dtColumns" class="row-border hover table table-responsive table-bordered table-striped">
+		
+		</table> 
 		 
 	</div>
 </div>

@@ -120,8 +120,6 @@ class SupplierController extends CommonController {
 		return $this->deleteData__('supplier', " sup_id =".$dataset['sup_id']);
 
 	}
-	
-
- 
+	 
 
 }

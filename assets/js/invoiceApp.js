@@ -96,6 +96,13 @@ app.controller('newinvoiceCtrl', ['$scope','ajaxRequest', '$q', 'goTo', 'Notific
 
     	var data = $.param({ barcode: $scope.item_barcode })
 
+    		ajaxRequest.post('InvoiceController/getGrn', data ).then(function(response) { 
+
+	    		$scope.getGrn =  response.data.data;  
+	 			console.log($scope.getGrn);
+
+		    });
+
     	if ($scope.item_barcode.startsWith("P")) {
 
 

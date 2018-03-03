@@ -59,13 +59,14 @@ class MissingItemsController extends CommonController {
     public function getMissingList(){ 
 
     	$tbl_name = 'missing'; 
-    	$start = $this->input->post('start');
-    	$length = $this->input->post('length');
-    	$get_column = $this->input->post('order[0][column]');
-    	$get_column_name = $this->input->post('columns['.$get_column.'][data]');
-    	$get_order = $this->input->post('order[0][dir]');
-    	$search_from_value = '';
+    	$start = $this->input->get('start');
+    	$length = $this->input->get('length');
+    	$get_column = $this->input->get('order[0][column]');
+    	$get_column_name = $this->input->get('columns['.$get_column.'][data]');
+    	$get_order = $this->input->get('order[0][dir]');
+    	$search_from_value = '1';
 
+ 
      
 
     	if (intval($this->input->post('draw')) == 1) {
@@ -81,7 +82,7 @@ class MissingItemsController extends CommonController {
 		$search_index = array(
 			'columns' => 'm.*' ,   
 			'table' => 'missing m',
-			'data' => '1',
+			'data' => ' '.$search_from_value.' order by '.$get_column_name.' '.$get_order.' LIMIT '.$start.', '.$length.'',
 		);
 
 
@@ -107,8 +108,5 @@ class MissingItemsController extends CommonController {
 
 
     }
-
-
-    
 
 }

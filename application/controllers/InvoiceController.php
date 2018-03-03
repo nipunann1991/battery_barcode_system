@@ -47,6 +47,19 @@ class InvoiceController extends CommonController {
 		return $this->selectCustomData__($search_index);    
     }
 
+
+    public function getGrn(){
+    	//SELECT DISTINCT ib2.grn, (SELECT SUM(ib1.status) FROM `item_bulk_stock` ib1 WHERE ib1.grn=ib2.grn AND ib1.item_id=1 ) as stat FROM `item_bulk_stock` ib2 having stat <> 0
+
+    	 $search_index = array(
+			'columns' => ' DISTINCT ib2.grn, (SELECT SUM(ib1.status) FROM `item_bulk_stock` ib1 WHERE ib1.grn=ib2.grn AND ib1.item_id='.$this->input->post('item_id').' ) as stat ' ,   
+			'table' => '`item_bulk_stock` ib2',
+			'data' => 'stat <> 0',
+		);
+ 
+		return $this->selectCustomDataAlias__($search_index);  
+    }
+
   
     public function getSingleInvoice(){   
 
@@ -90,7 +103,7 @@ class InvoiceController extends CommonController {
         $search_index = array(
 			'columns' => 'i.item_name, c.cat_name, ibs.*, ib.* ' ,   
 			'table' => 'item_bulk_stock ibs, item_barcode ib, item i, categories c',
-			'data' => 'i.cat_id = c.id AND i.item_id=ibs.item_id AND ibs.stock_id = ib.stock_id AND ib.stock_id="'.$this->input->post('stock_id').'"',
+			'data' => 'i.cat_id = c.id AND i.item_id=ibs.item_id AND ibs.stock_id = ib.stock_id AND ib.stock_id="'.$this->input->post('stock_id').'" AND ib.invoice_id='.$this->input->post('invoice_id').' ',
 		);
 
 		return $this->selectCustomData__($search_index); 

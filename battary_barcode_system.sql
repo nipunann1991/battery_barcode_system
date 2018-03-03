@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 26, 2018 at 12:48 PM
+-- Generation Time: Mar 03, 2018 at 05:25 AM
 -- Server version: 10.1.19-MariaDB
 -- PHP Version: 5.6.28
 
@@ -32,13 +32,16 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_addInvoice` (IN `invoice_no` VAR
 SELECT item_barcodes;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_insert_bulk_stock` (IN `barcode` VARCHAR(50), IN `invoice_no` VARCHAR(20), IN `item_id` INT(0), IN `grn` INT(0), IN `bat_qty` INT(0), IN `pkg_qty` INT(0), IN `sup_id` VARCHAR(50), IN `package_id` INT(0), IN `status` INT(0))  BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_insert_bulk_stock` (IN `barcode` VARCHAR(50), IN `invoice_no` VARCHAR(20), IN `item_id` INT(0), IN `grn` INT(0), IN `bat_qty` INT(0), IN `pkg_qty` INT(0), IN `sup_id` VARCHAR(50), IN `package_id` INT(0), IN `status` INT(0), IN `note` VARCHAR(200))  BEGIN
 
 DECLARE stk_id int;
 DECLARE x int;
 DECLARE count1 int;
 DECLARE new_barcode VARCHAR(50);
 DECLARE new_barcode_pkg VARCHAR(50);
+DECLARE total_stock int;
+
+SET total_stock = bat_qty * pkg_qty;
 
 SET stk_id = (SELECT stock_id FROM item_bulk_stock ORDER BY stock_id DESC LIMIT 1);
 
@@ -51,34 +54,59 @@ END IF;
 SET x = 1;
 SET count1 = 1;
 
-WHILE x <= bat_qty * pkg_qty  DO
- 	
-    IF (x % (bat_qty) = 1) THEN
+IF (pkg_qty = 1) THEN
+
+    SET new_barcode = CONCAT('P', invoice_no, grn, count1, pkg_qty , bat_qty); 
+            
+    INSERT INTO item_bulk_stock
+    (stock_id, barcode, invoice_no, item_id, grn, bat_qty, pkg_qty, sup_id, package_id, status, note) VALUES (stk_id, CONCAT(new_barcode), invoice_no, item_id, grn, bat_qty , pkg_qty, CONCAT(sup_id), package_id, status, note);
+
+    SET new_barcode = CONCAT(invoice_no,grn,count1,pkg_qty,bat_qty,x);  
+
+    INSERT INTO `item_barcode`(`stock_id`, `barcode`, `status`) VALUES (stk_id, new_barcode ,'1');
     
-    	IF (x != 1) THEN
-        	SET stk_id = stk_id + 1;
-        END IF;
-    	
-        SET new_barcode = CONCAT('P', invoice_no, grn, count1, pkg_qty , bat_qty); 
-    	
-        INSERT INTO item_bulk_stock
-        (stock_id, barcode, invoice_no, item_id, grn, bat_qty, pkg_qty, sup_id, package_id, status) VALUES (stk_id, CONCAT(new_barcode), invoice_no, item_id, grn, bat_qty , pkg_qty, CONCAT(sup_id), package_id, status );
+    
+    INSERT INTO `grn`( `grn`, `item_id`, `total_stock`, `remaining_stock`) VALUES (grn, item_id, bat_qty, bat_qty);
+    
+ELSE
+
+    WHILE x <= bat_qty * pkg_qty  DO
+     	
+        	 IF ( x = total_stock ) THEN
+       
+       	  INSERT INTO `grn`( `grn`, `item_id`, `total_stock`, `remaining_stock`) VALUES (grn, item_id, total_stock, total_stock);
+          
+       END IF;
+       
+        IF (x % (bat_qty) = 1) THEN
         
-    	
-        SET count1 = count1 + 1;  
-      
-    END IF;
-     
+        	IF (x != 1) THEN
+            	SET stk_id = stk_id + 1;
+            END IF;
+        	
+            SET new_barcode = CONCAT('P', invoice_no, grn, count1, pkg_qty , bat_qty); 
+        	
+            INSERT INTO item_bulk_stock
+            (stock_id, barcode, invoice_no, item_id, grn, bat_qty, pkg_qty, sup_id, package_id, status, note) VALUES (stk_id, CONCAT(new_barcode), invoice_no, item_id, grn, bat_qty , pkg_qty, CONCAT(sup_id), package_id, status, note);
+            
+        	
+            SET count1 = count1 + 1;  
+          
+        END IF;
+         
 
-	SET new_barcode = CONCAT(invoice_no,grn,count1,pkg_qty,bat_qty,x);  
+    	SET new_barcode = CONCAT(invoice_no,grn,count1,pkg_qty,bat_qty,x);  
 
-    INSERT INTO `item_barcode`(`stock_id`, `barcode`, `status`) VALUES
-    (stk_id, new_barcode ,'1');
+        INSERT INTO `item_barcode`(`stock_id`, `barcode`, `status`) VALUES
+        (stk_id, new_barcode ,'1');
 
-    SET  x = x + 1; 
-   
-    
-END WHILE;
+        SET  x = x + 1; 
+       
+
+        
+    END WHILE;
+
+END IF;
 
 END$$
 
@@ -140,6 +168,28 @@ INSERT INTO `company` (`id`, `name`, `address`, `tel`, `email`, `note`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `grn`
+--
+
+CREATE TABLE `grn` (
+  `id` int(11) NOT NULL,
+  `grn` int(11) NOT NULL,
+  `item_id` int(11) NOT NULL,
+  `total_stock` int(11) NOT NULL,
+  `remaining_stock` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `grn`
+--
+
+INSERT INTO `grn` (`id`, `grn`, `item_id`, `total_stock`, `remaining_stock`) VALUES
+(2, 1, 1, 40, 40),
+(3, 1, 3, 30, 30);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `invoice`
 --
 
@@ -150,16 +200,6 @@ CREATE TABLE `invoice` (
   `no_of_items` int(11) NOT NULL,
   `invoiced_by` varchar(25) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `invoice`
---
-
-INSERT INTO `invoice` (`invoice_id`, `invoice_no`, `invoice_date`, `no_of_items`, `invoiced_by`) VALUES
-(6, 'INV24022018130413', '2018-02-24', 10, 'Super Admin'),
-(7, 'INV24022018130559', '2018-02-24', 2, 'Super Admin'),
-(8, 'INV24022018143256', '2018-02-24', 13, 'Super Admin'),
-(9, 'INV24022018155055', '2018-02-24', 22, 'Super Admin');
 
 -- --------------------------------------------------------
 
@@ -205,116 +245,76 @@ CREATE TABLE `item_barcode` (
 --
 
 INSERT INTO `item_barcode` (`id`, `stock_id`, `barcode`, `invoice_id`, `single_item`, `status`) VALUES
-(4472, 0, '11451150210101', 6, 0, 0),
-(4473, 0, '11451150210102', 6, 0, 0),
-(4474, 0, '11451150210103', 6, 0, 0),
-(4475, 0, '11451150210104', 6, 0, 0),
-(4476, 0, '11451150210105', 6, 0, 0),
-(4477, 0, '11451150210106', 6, 0, 0),
-(4478, 0, '11451150210107', 6, 0, 0),
-(4479, 0, '11451150210108', 6, 0, 0),
-(4480, 0, '11451150210109', 6, 0, 0),
-(4481, 0, '114511502101010', 6, 0, 0),
-(4482, 1, '114511503101011', 8, 0, 0),
-(4483, 1, '114511503101012', 8, 0, 0),
-(4484, 1, '114511503101013', 8, 0, 0),
-(4485, 1, '114511503101014', 9, 0, 0),
-(4486, 1, '114511503101015', 9, 0, 0),
-(4487, 1, '114511503101016', 0, 0, -1),
-(4488, 1, '114511503101017', 0, 0, 1),
-(4489, 1, '114511503101018', 7, 0, 0),
-(4490, 1, '114511503101019', 0, 0, 1),
-(4491, 1, '114511503101020', 7, 0, 0),
-(4492, 2, '114511504101021', 8, 0, 0),
-(4493, 2, '114511504101022', 8, 0, 0),
-(4494, 2, '114511504101023', 8, 0, 0),
-(4495, 2, '114511504101024', 8, 0, 0),
-(4496, 2, '114511504101025', 8, 0, 0),
-(4497, 2, '114511504101026', 8, 0, 0),
-(4498, 2, '114511504101027', 8, 0, 0),
-(4499, 2, '114511504101028', 8, 0, 0),
-(4500, 2, '114511504101029', 8, 0, 0),
-(4501, 2, '114511504101030', 8, 0, 0),
-(4502, 3, '114511505101031', 0, 0, 1),
-(4503, 3, '114511505101032', 0, 0, 1),
-(4504, 3, '114511505101033', 0, 0, 1),
-(4505, 3, '114511505101034', 0, 0, 1),
-(4506, 3, '114511505101035', 0, 0, 1),
-(4507, 3, '114511505101036', 0, 0, 1),
-(4508, 3, '114511505101037', 0, 0, 1),
-(4509, 3, '114511505101038', 0, 0, 1),
-(4510, 3, '114511505101039', 0, 0, 1),
-(4511, 3, '114511505101040', 0, 0, 1),
-(4512, 4, '114511506101041', 0, 0, 1),
-(4513, 4, '114511506101042', 0, 0, 1),
-(4514, 4, '114511506101043', 0, 0, 1),
-(4515, 4, '114511506101044', 0, 0, 1),
-(4516, 4, '114511506101045', 0, 0, 1),
-(4517, 4, '114511506101046', 0, 0, 1),
-(4518, 4, '114511506101047', 0, 0, 1),
-(4519, 4, '114511506101048', 0, 0, 1),
-(4520, 4, '114511506101049', 0, 0, 1),
-(4521, 4, '114511506101050', 0, 0, 1),
-(4522, 5, '114511507101051', 0, 0, 1),
-(4523, 5, '114511507101052', 0, 0, 1),
-(4524, 5, '114511507101053', 0, 0, 1),
-(4525, 5, '114511507101054', 0, 0, 1),
-(4526, 5, '114511507101055', 0, 0, 1),
-(4527, 5, '114511507101056', 0, 0, 1),
-(4528, 5, '114511507101057', 0, 0, 1),
-(4529, 5, '114511507101058', 0, 0, 1),
-(4530, 5, '114511507101059', 0, 0, 1),
-(4531, 5, '114511507101060', 0, 0, 1),
-(4532, 6, '114511508101061', 0, 0, 1),
-(4533, 6, '114511508101062', 0, 0, 1),
-(4534, 6, '114511508101063', 0, 0, 1),
-(4535, 6, '114511508101064', 0, 0, 1),
-(4536, 6, '114511508101065', 0, 0, 1),
-(4537, 6, '114511508101066', 0, 0, 1),
-(4538, 6, '114511508101067', 0, 0, 1),
-(4539, 6, '114511508101068', 0, 0, 1),
-(4540, 6, '114511508101069', 0, 0, 1),
-(4541, 6, '114511508101070', 0, 0, 1),
-(4542, 7, '114511509101071', 0, 0, 1),
-(4543, 7, '114511509101072', 0, 0, 1),
-(4544, 7, '114511509101073', 0, 0, 1),
-(4545, 7, '114511509101074', 0, 0, 1),
-(4546, 7, '114511509101075', 0, 0, 1),
-(4547, 7, '114511509101076', 0, 0, 1),
-(4548, 7, '114511509101077', 0, 0, 1),
-(4549, 7, '114511509101078', 0, 0, 1),
-(4550, 7, '114511509101079', 0, 0, 1),
-(4551, 7, '114511509101080', 0, 0, 1),
-(4552, 8, '1145115010101081', 0, 0, 1),
-(4553, 8, '1145115010101082', 0, 0, 1),
-(4554, 8, '1145115010101083', 0, 0, 1),
-(4555, 8, '1145115010101084', 0, 0, 1),
-(4556, 8, '1145115010101085', 0, 0, 1),
-(4557, 8, '1145115010101086', 0, 0, 1),
-(4558, 8, '1145115010101087', 0, 0, 1),
-(4559, 8, '1145115010101088', 0, 0, 1),
-(4560, 8, '1145115010101089', 0, 0, 1),
-(4561, 8, '1145115010101090', 0, 0, 1),
-(4562, 9, '1145115011101091', 9, 0, 0),
-(4563, 9, '1145115011101092', 9, 0, 0),
-(4564, 9, '1145115011101093', 9, 0, 0),
-(4565, 9, '1145115011101094', 9, 0, 0),
-(4566, 9, '1145115011101095', 9, 0, 0),
-(4567, 9, '1145115011101096', 9, 0, 0),
-(4568, 9, '1145115011101097', 9, 0, 0),
-(4569, 9, '1145115011101098', 9, 0, 0),
-(4570, 9, '1145115011101099', 9, 0, 0),
-(4571, 9, '11451150111010100', 9, 0, 0),
-(4572, 10, '1563115121101', 9, 0, 0),
-(4573, 10, '1563115121102', 9, 0, 0),
-(4574, 10, '1563115121103', 9, 0, 0),
-(4575, 10, '1563115121104', 9, 0, 0),
-(4576, 10, '1563115121105', 9, 0, 0),
-(4577, 10, '1563115121106', 9, 0, 0),
-(4578, 10, '1563115121107', 9, 0, 0),
-(4579, 10, '1563115121108', 9, 0, 0),
-(4580, 10, '1563115121109', 9, 0, 0),
-(4581, 10, '15631151211010', 9, 0, 0);
+(4945, 0, '103512581', 0, 0, 1),
+(4946, 0, '103512582', 0, 0, 1),
+(4947, 0, '103512583', 0, 0, 1),
+(4948, 0, '103512584', 0, 0, 1),
+(4949, 0, '103512585', 0, 0, 1),
+(4950, 0, '103512586', 0, 0, 1),
+(4951, 0, '103512587', 0, 0, 1),
+(4952, 0, '103512588', 0, 0, 1),
+(4953, 1, '103513589', 0, 0, 1),
+(4954, 1, '1035135810', 0, 0, 1),
+(4955, 1, '1035135811', 0, 0, 1),
+(4956, 1, '1035135812', 0, 0, 1),
+(4957, 1, '1035135813', 0, 0, 1),
+(4958, 1, '1035135814', 0, 0, 1),
+(4959, 1, '1035135815', 0, 0, 1),
+(4960, 1, '1035135816', 0, 0, 1),
+(4961, 2, '1035145817', 0, 0, 1),
+(4962, 2, '1035145818', 0, 0, 1),
+(4963, 2, '1035145819', 0, 0, 1),
+(4964, 2, '1035145820', 0, 0, 1),
+(4965, 2, '1035145821', 0, 0, 1),
+(4966, 2, '1035145822', 0, 0, 1),
+(4967, 2, '1035145823', 0, 0, 1),
+(4968, 2, '1035145824', 0, 0, 1),
+(4969, 3, '1035155825', 0, 0, 1),
+(4970, 3, '1035155826', 0, 0, 1),
+(4971, 3, '1035155827', 0, 0, 1),
+(4972, 3, '1035155828', 0, 0, 1),
+(4973, 3, '1035155829', 0, 0, 1),
+(4974, 3, '1035155830', 0, 0, 1),
+(4975, 3, '1035155831', 0, 0, 1),
+(4976, 3, '1035155832', 0, 0, 1),
+(4977, 4, '1035165833', 0, 0, 1),
+(4978, 4, '1035165834', 0, 0, 1),
+(4979, 4, '1035165835', 0, 0, 1),
+(4980, 4, '1035165836', 0, 0, 1),
+(4981, 4, '1035165837', 0, 0, 1),
+(4982, 4, '1035165838', 0, 0, 1),
+(4983, 4, '1035165839', 0, 0, 1),
+(4984, 4, '1035165840', 0, 0, 1),
+(4985, 5, '1123101', 0, 0, 1),
+(4986, 5, '1123102', 0, 0, 1),
+(4987, 5, '1123103', 0, 0, 1),
+(4988, 5, '1123104', 0, 0, 1),
+(4989, 5, '1123105', 0, 0, 1),
+(4990, 5, '1123106', 0, 0, 1),
+(4991, 5, '1123107', 0, 0, 1),
+(4992, 5, '1123108', 0, 0, 1),
+(4993, 5, '1123109', 0, 0, 1),
+(4994, 5, '11231010', 0, 0, 1),
+(4995, 6, '11331011', 0, 0, 1),
+(4996, 6, '11331012', 0, 0, 1),
+(4997, 6, '11331013', 0, 0, 1),
+(4998, 6, '11331014', 0, 0, 1),
+(4999, 6, '11331015', 0, 0, 1),
+(5000, 6, '11331016', 0, 0, 1),
+(5001, 6, '11331017', 0, 0, 1),
+(5002, 6, '11331018', 0, 0, 1),
+(5003, 6, '11331019', 0, 0, 1),
+(5004, 6, '11331020', 0, 0, 1),
+(5005, 7, '11431021', 0, 0, 1),
+(5006, 7, '11431022', 0, 0, 1),
+(5007, 7, '11431023', 0, 0, 1),
+(5008, 7, '11431024', 0, 0, 1),
+(5009, 7, '11431025', 0, 0, 1),
+(5010, 7, '11431026', 0, 0, 1),
+(5011, 7, '11431027', 0, 0, 1),
+(5012, 7, '11431028', 0, 0, 1),
+(5013, 7, '11431029', 0, 0, 1),
+(5014, 7, '11431030', 0, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -334,25 +334,23 @@ CREATE TABLE `item_bulk_stock` (
   `sup_id` varchar(50) NOT NULL,
   `package_id` int(11) NOT NULL DEFAULT '0',
   `invoice_id` int(11) NOT NULL,
-  `status` int(11) NOT NULL
+  `status` int(11) NOT NULL,
+  `note` varchar(200) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `item_bulk_stock`
 --
 
-INSERT INTO `item_bulk_stock` (`stock_id`, `barcode`, `invoice_no`, `manufacture_id`, `item_id`, `grn`, `bat_qty`, `pkg_qty`, `sup_id`, `package_id`, `invoice_id`, `status`) VALUES
-(0, 'P1145115011010', '1145', '', 1, '1150', 10, 10, '1', 0, 6, 0),
-(1, 'P1145115021010', '1145', '', 1, '1150', 10, 10, '1', 0, 0, 1),
-(2, 'P1145115031010', '1145', '', 1, '1150', 10, 10, '1', 0, 8, 0),
-(3, 'P1145115041010', '1145', '', 1, '1150', 10, 10, '1', 0, 0, 1),
-(4, 'P1145115051010', '1145', '', 1, '1150', 10, 10, '1', 0, 0, 1),
-(5, 'P1145115061010', '1145', '', 1, '1150', 10, 10, '1', 0, 0, 1),
-(6, 'P1145115071010', '1145', '', 1, '1150', 10, 10, '1', 0, 0, 1),
-(7, 'P1145115081010', '1145', '', 1, '1150', 10, 10, '1', 0, 0, 1),
-(8, 'P1145115091010', '1145', '', 1, '1150', 10, 10, '1', 0, 0, 1),
-(9, 'P11451150101010', '1145', '', 1, '1150', 10, 10, '1', 0, 9, 0),
-(10, 'P156311511110', '1563', '', 1, '1151', 10, 1, '03A', 0, 9, 0);
+INSERT INTO `item_bulk_stock` (`stock_id`, `barcode`, `invoice_no`, `manufacture_id`, `item_id`, `grn`, `bat_qty`, `pkg_qty`, `sup_id`, `package_id`, `invoice_id`, `status`, `note`) VALUES
+(0, 'P10351158', '1035', '', 1, '1', 8, 5, '03A', 0, 0, 1, 'first stock'),
+(1, 'P10351258', '1035', '', 1, '1', 8, 5, '03A', 0, 0, 1, 'first stock'),
+(2, 'P10351358', '1035', '', 1, '1', 8, 5, '03A', 0, 0, 1, 'first stock'),
+(3, 'P10351458', '1035', '', 1, '1', 8, 5, '03A', 0, 0, 1, 'first stock'),
+(4, 'P10351558', '1035', '', 1, '1', 8, 5, '03A', 0, 0, 1, 'first stock'),
+(5, 'P111310', '1', '', 3, '1', 10, 3, '1', 0, 0, 1, ''),
+(6, 'P112310', '1', '', 3, '1', 10, 3, '1', 0, 0, 1, ''),
+(7, 'P113310', '1', '', 3, '1', 10, 3, '1', 0, 0, 1, '');
 
 -- --------------------------------------------------------
 
@@ -415,8 +413,9 @@ CREATE TABLE `log_tbl` (
 CREATE TABLE `missing` (
   `id` int(11) NOT NULL,
   `barcode` varchar(50) NOT NULL,
-  `date` varchar(20) NOT NULL,
-  `remarks` varchar(200) NOT NULL
+  `date` date DEFAULT NULL,
+  `remarks` varchar(200) NOT NULL,
+  `status` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -448,13 +447,6 @@ CREATE TABLE `return_stock` (
   `return_date` varchar(20) NOT NULL,
   `remarks` varchar(150) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `return_stock`
---
-
-INSERT INTO `return_stock` (`id`, `barcode`, `rep_name`, `return_date`, `remarks`) VALUES
-(1, '114511503101019', 'Nuwan', 'Wed Feb 14 2018 00:0', 'Not working');
 
 -- --------------------------------------------------------
 
@@ -517,6 +509,12 @@ ALTER TABLE `company`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `grn`
+--
+ALTER TABLE `grn`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `invoice`
 --
 ALTER TABLE `invoice`
@@ -555,6 +553,12 @@ ALTER TABLE `login`
   ADD PRIMARY KEY (`login_id`);
 
 --
+-- Indexes for table `missing`
+--
+ALTER TABLE `missing`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `package`
 --
 ALTER TABLE `package`
@@ -583,15 +587,20 @@ ALTER TABLE `supplier`
 --
 
 --
+-- AUTO_INCREMENT for table `grn`
+--
+ALTER TABLE `grn`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+--
 -- AUTO_INCREMENT for table `invoice`
 --
 ALTER TABLE `invoice`
-  MODIFY `invoice_id` double NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `invoice_id` double NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `item_barcode`
 --
 ALTER TABLE `item_barcode`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4582;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5015;
 --
 -- AUTO_INCREMENT for table `item_stock`
 --
@@ -603,6 +612,11 @@ ALTER TABLE `item_stock`
 ALTER TABLE `login`
   MODIFY `login_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
+-- AUTO_INCREMENT for table `missing`
+--
+ALTER TABLE `missing`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
 -- AUTO_INCREMENT for table `package`
 --
 ALTER TABLE `package`
@@ -611,7 +625,7 @@ ALTER TABLE `package`
 -- AUTO_INCREMENT for table `return_stock`
 --
 ALTER TABLE `return_stock`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

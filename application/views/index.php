@@ -9,8 +9,8 @@
 
     <!-- Bootstrap -->
     <link href="assets/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
-    <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css//angular-material.min.css">
+    <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css//jquery.mCustomScrollbar.min.css">
+    <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/angular-material.min.css">
     <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/angular-datatables.min.css">
     <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/animated.css">
     <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/angular-ui-notification.min.css">
@@ -59,8 +59,8 @@
 
       <script src="<?php echo base_url(); ?>assets/js/dist/angular-material.min.js"></script>
       <script src="<?php echo base_url(); ?>assets/js/dist/angular-route.js"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.js"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
+      <script src="<?php echo base_url(); ?>assets/js/dist/jquery.mCustomScrollbar.min.js"></script>
+      <script src="<?php echo base_url(); ?>assets/js/dist/moment.min.js"></script>
 
 
       <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->

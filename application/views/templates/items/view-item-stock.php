@@ -307,7 +307,18 @@
 						                                <label class="error">This field is required.</label> 
 						                            </div> 
 						                        </div>
-						                     </div>
+						                    </div>
+
+						                    <div class="col-md-4">
+						                        <div class="form-group" ng-class="{ 'has-error' : editItemStockForm.total_qty.$touched && editItemStockForm.total_qty.$invalid }">
+						                            <label class="control-label col-sm-12" for="total_qty">Total Quantity: <small class="help-block hide ">Must be a numeric value</small></label>
+						                            <div class="col-sm-12">
+						                                <input type="text" class="form-control" id="total_qty" name="total_qty" ng-model="total_qty" ng-change="getBarcode()" required>  
+						                                <label class="error">This field is required.</label> 
+						                            </div> 
+						                        </div>
+						                    </div>
+ 
 
 						                    <div class="clearfix"></div>
 					                  	</div>
@@ -318,6 +329,17 @@
 						                    	<svg id="code128" class=barcode></svg>
 						                    </div>
 					                	</div> 
+
+					                	<div class="row_">  
+							  				<div class="col-md-12">
+						                        <div class="form-group" ng-class="{ 'has-error' : editItemStockForm.note.$touched && editItemStockForm.note.$invalid }">
+						                            <label class="control-label col-sm-12" for="note">Note : 
+						                            
+						                               	<textarea name="" cols="30" rows="4" id="note" ng-model="note" class="form-control"></textarea> 
+						                           
+						                        </div>
+						                    </div>
+					                	</div>
 						                <div class="clearfix"></div>
 					                </div>
 					              </form>
