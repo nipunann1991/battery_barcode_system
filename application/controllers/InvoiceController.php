@@ -47,14 +47,34 @@ class InvoiceController extends CommonController {
 		return $this->selectCustomData__($search_index);    
     }
 
+    public function getAllGrn(){ 
+    	
+    	$search_index = array(
+			'columns' => '*' ,   
+			'table' => 'grn',
+			'data' => ' `archived`= 0 AND remaining_stock != 0 ',
+		);
+ 
+		return $this->selectCustomData__($search_index);  
+    }
 
-    public function getGrn(){
-    	//SELECT DISTINCT ib2.grn, (SELECT SUM(ib1.status) FROM `item_bulk_stock` ib1 WHERE ib1.grn=ib2.grn AND ib1.item_id=1 ) as stat FROM `item_bulk_stock` ib2 having stat <> 0  SELECT grn FROM `grn` WHERE archived = 0 AND grn <> 3 AND remaining_stock <> 0 
+    public function getGrnPackage(){ 
+    	
+    	$search_index = array(
+			'columns' => '*' ,   
+			'table' => 'grn',
+			'data' => ' `archived`= 0 AND grn < (SELECT grn FROM item_bulk_stock WHERE barcode="'.$this->input->post('barcode').'") AND remaining_stock != 0 ',
+		);
+ 
+		return $this->selectCustomData__($search_index);  
+    }
 
-    	 $search_index = array(
-			'columns' => ' g.grn' ,   
-			'table' => '`item_bulk_stock` ibs, `grn` g, `item_barcode1` ib ',
-			'data' => 'ib.stock_id=ibs.stock_id AND g.grn=ibs.grn AND g.archived = 0 AND ibs.item_id'.$this->input->post('item_id').'',
+    public function getGrnItem(){ 
+
+    	$search_index = array(
+			'columns' => 'grn' ,   
+			'table' => 'grn',
+			'data' => ' `archived`= 0 AND grn < (SELECT grn FROM item_bulk_stock ibs, item_barcode ib WHERE ib.barcode="'.$this->input->post('barcode').'" AND ibs.stock_id=ib.stock_id) AND remaining_stock != 0 ',
 		);
  
 		return $this->selectCustomData__($search_index);  
