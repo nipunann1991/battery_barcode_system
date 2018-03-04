@@ -284,17 +284,20 @@
 						                        <div class="form-group" ng-class="{ 'has-error' : editItemStockForm.grn.$touched && editItemStockForm.grn.$invalid }">
 						                            <label class="control-label col-sm-12" for="grn">Goods Recieve No (GRN): <small class="help-block hide ">Must be a numeric value</small></label>
 						                            <div class="col-sm-12">
-						                                <input type="text" class="form-control" id="grn" name="grn" ng-model="grn" ng-change="getBarcode()" required>  
+						                                <input type="number" class="form-control" id="grn" name="grn" ng-model="grn" ng-change="getBarcode()" required>  
 						                                <label class="error">This field is required.</label> 
 						                            </div> 
 						                        </div>
-						                     </div>
+						                     </div> 
+						                    <div class="clearfix"></div>
+					                  	</div>
 
-						                     <div class="col-md-4">
+					                  	<div class="row_">	
+											<div class="col-md-4">
 						                        <div class="form-group">
 						                          <label class="control-label col-sm-12" for="bat_qty">Battery Quantity : <small class="help-block hide">Can't be empty</small></label>
 						                          <div class="col-sm-12"  ng-class="{ 'has-error' : editItemStockForm.bat_qty.$touched && editItemStockForm.bat_qty.$invalid }"> 
-						                              <input type="text" class="form-control" id="bat_qty" ng-change="getBarcode()" name="bat_qty" ng-model="bat_qty" required>
+						                              <input type="number" class="form-control" id="bat_qty" ng-change="getBarcode()" name="bat_qty" ng-model="bat_qty" required>
 						                              <label class="error">This field is required.</label>  
 						                          </div>
 						                        </div>
@@ -303,7 +306,7 @@
 						                        <div class="form-group" ng-class="{ 'has-error' : editItemStockForm.pkg_qty.$touched && editItemStockForm.pkg_qty.$invalid }">
 						                            <label class="control-label col-sm-12" for="pkg_qty">Package Quantity: <small class="help-block hide ">Must be a numeric value</small></label>
 						                            <div class="col-sm-12">
-						                                <input type="text" class="form-control" id="pkg_qty" name="pkg_qty" ng-model="pkg_qty" ng-change="getBarcode()" required>  
+						                                <input type="number" class="form-control" id="pkg_qty" name="pkg_qty" ng-model="pkg_qty" ng-change="getBarcode()" required>  
 						                                <label class="error">This field is required.</label> 
 						                            </div> 
 						                        </div>
@@ -313,14 +316,11 @@
 						                        <div class="form-group" ng-class="{ 'has-error' : editItemStockForm.total_qty.$touched && editItemStockForm.total_qty.$invalid }">
 						                            <label class="control-label col-sm-12" for="total_qty">Total Quantity: <small class="help-block hide ">Must be a numeric value</small></label>
 						                            <div class="col-sm-12">
-						                                <input type="text" class="form-control" id="total_qty" name="total_qty" ng-model="total_qty" ng-change="getBarcode()" required>  
+						                                <input type="number" class="form-control" id="total_qty" name="total_qty" ng-model="total_qty" ng-change="getBarcode()" required>  
 						                                <label class="error">This field is required.</label> 
 						                            </div> 
 						                        </div>
 						                    </div>
- 
-
-						                    <div class="clearfix"></div>
 					                  	</div>
 
 					                   	 
@@ -347,7 +347,7 @@
 					             
 					            <div class="clearfix"></div>
 					      </div>
-					      <div class="modal-footer">
+					      <div class="modal-footer" ng-hide="editItemStockForm.$invalid || grn==0">
 
 					      	<md-button class="btn_add" type="button" id="edit_item"   ng-click="addBulkStockItem()">Add Bulk Stock</md-button>
 							<md-button class="btn-default"  data-dismiss="modal">Close</md-button>

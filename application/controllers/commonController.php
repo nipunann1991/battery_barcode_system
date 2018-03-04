@@ -96,11 +96,21 @@ class commoncontroller extends CI_Controller {
     }
 
 
-    public function insertInvoiceSP__($table, $dataset){
+	public function deletePackageItemsSP__($table, $dataset){
+
+    	$insert_vals = $this->setDataToSP($table, $dataset); 
+ 
+  
+		$data["results"] = $this->commonQueryModel->deletePackageItemsSP($insert_vals);
+		return $this->output->set_output(json_encode($data["results"], JSON_PRETTY_PRINT));
+    }
+
+
+    public function updateStockSP__($table, $dataset){
 
     	$insert_vals = $this->setDataToSP($table, $dataset); 
   
-		$data["results"] = $this->commonQueryModel->insertInvoiceSP($insert_vals);
+		$data["results"] = $this->commonQueryModel->updateStockSP($insert_vals);
 		return $this->output->set_output(json_encode($data["results"], JSON_PRETTY_PRINT));
     }
     

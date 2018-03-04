@@ -68,7 +68,10 @@ app.controller('ItemsCtrl', ['$scope', '$compile','$location', 'ajaxRequest', 'g
 
 
         function createdRow(row, data, dataIndex) { 
+
             $compile(angular.element(row).contents())($scope);
+
+
         }
  
     }
@@ -755,7 +758,7 @@ app.controller('ItemsStockCtrl', ['$scope', '$compile', '$location', 'ajaxReques
       .withOption('stateSave', false)
       .withDisplayLength(10) 
       .withOption('createdRow', createdRow) 
-      .withOption('aaSorting',[0,'asc']);
+      .withOption('aaSorting',[0,'desc']);
         $scope.dtColumns = [
             DTColumnBuilder.newColumn('stock_id').withTitle('# Stock ID'), 
             DTColumnBuilder.newColumn('barcode').withTitle('Package Barcode')
@@ -772,7 +775,15 @@ app.controller('ItemsStockCtrl', ['$scope', '$compile', '$location', 'ajaxReques
                   return  'GRN: '+full.grn+' / '+full.bat_qty+'x'+full.pkg_qty
               }), 
             
-            DTColumnBuilder.newColumn('rm_stock').withTitle('Stock'), 
+            DTColumnBuilder.newColumn('rm_stock').withTitle('Stock')
+            .renderWith(function(data, type, full, meta) { 
+                //console.log(full)
+                var rm_stock = full.rm_stock
+                if (rm_stock < 0) {
+                  rm_stock = '-'
+                }
+                return rm_stock;
+            }),  
             DTColumnBuilder.newColumn('status').withTitle('Status')
               .renderWith(function(data, type, full, meta) {  
 
@@ -784,6 +795,8 @@ app.controller('ItemsStockCtrl', ['$scope', '$compile', '$location', 'ajaxReques
                     label_ = '<span class="label label-success"  >In Stock</span>'
                   }else if(full.status == -1){
                     label_ = '<span ng-click="viewPackage('+full.package_id+')" title="Click to view package" class="label label-warning packed"  >Missing</span>'
+                  }else if(full.status == -2){
+                    label_ = '<span ng-click="viewPackage('+full.package_id+')" title="Click to view package" class="label label-warning packed"  >Archived</span>'
                   } 
                
                   return  label_;
@@ -791,15 +804,24 @@ app.controller('ItemsStockCtrl', ['$scope', '$compile', '$location', 'ajaxReques
               }),  
               DTColumnBuilder.newColumn(null).withTitle('Note')
               .renderWith(function(data, type, full, meta) { 
-                  //console.log(full)
-                  return  'Edit'
+                  console.log(full.total_stock, full.remaining_stock)
+                  var edit = ''
+                  if (full.total_stock == full.remaining_stock) {
+                      edit = "<a  ng-click='archivePackage("+full.grn+", "+full.invoice_no+")' ><i class='icon-rubbish-bin' ></i></a>"
+                  }
+                  return  edit
               }),
             
         ];
         
 
         function createdRow(row, data, dataIndex) { 
-          $compile(angular.element(row).contents())($scope);
+           if (data.rm_stock < 0) { 
+              $compile(angular.element(row).contents().addClass('highlight'))($scope);
+           }else{ 
+              $compile(angular.element(row).contents())($scope);
+           }
+         
         }
 
         ajaxRequest.post('ItemsController/getSupplierList').then(function(response) {
@@ -968,45 +990,131 @@ app.controller('ItemsStockCtrl', ['$scope', '$compile', '$location', 'ajaxReques
 
      $scope.addBulkStockItem = function(){
 
-      $('.loader1').removeClass('hide');
+     
 
-        var data_add_item_stock = $.param({ 
-          barcode: $scope.barcode,
-          invoice_no: $scope.invoice_id, 
+        var get_grn = $.param({  
           item_id: $routeParams.id, 
-          grn: $scope.grn,
-          bat_qty: $scope.bat_qty,
-          pkg_qty: $scope.pkg_qty, 
-          sup_id: $scope.supplier,
-          package_id: '0',
-          status: '1',
-          note: $scope.note,
-        });
-         
-
- 
- 
-        $scope.count = 0;
+          grn: $scope.grn, 
+        }); 
 
 
-        ajaxRequest.post('ItemsController/addBulkItemStock', data_add_item_stock ).then(function(response) {
+        ajaxRequest.post('ItemsController/searchGrn', get_grn ).then(function(response1) {
 
-            if (response.status == 200) {
+              if (response1.status == 200 && response1.data.data.length==0) {
 
-                Notification.success('New Stock has been added successfully.');  
-                $scope.reInitTable();
-                $('#addBulkStock').modal('hide');
-                $('.loader1').addClass('hide');
+                  var data_add_item_stock = $.param({ 
+                    barcode: $scope.barcode,
+                    invoice_no: $scope.invoice_id, 
+                    item_id: $routeParams.id, 
+                    grn: $scope.grn,
+                    bat_qty: $scope.bat_qty,
+                    pkg_qty: $scope.pkg_qty, 
+                    sup_id: $scope.supplier,
+                    package_id: '0',
+                    status: '1',
+                    note: $scope.note,
+                  });
+                    
+                  $scope.count = 0;
 
-                
-            }else if(response.status == 500 || response.status == 404){
-                Notification.error('An error occured while adding item. Please try again.'); 
-            }   
+                  $('.loader1').removeClass('hide');
 
-        });
+                  ajaxRequest.post('ItemsController/addBulkItemStock', data_add_item_stock ).then(function(response) {
+
+                      if (response.status == 200) {
+
+                          Notification.success('New Stock has been added successfully.');  
+                          $scope.reInitTable();
+                          $('#addBulkStock').modal('hide');
+                          $('.loader1').addClass('hide');
+
+                          
+                      }else if(response.status == 500 || response.status == 404){
+                          Notification.error('An error occured while adding item. Please try again.'); 
+                      }   
+
+                  }); 
+                  
+              }else if (response1.status == 200 && response1.data.data.length != 0) {
+                  Notification.error('Some Items with GRN: '+$scope.grn+' exist. Please enter items with new GRN.');
+
+              }else if(response1.status == 500 || response1.status == 404){
+                  Notification.error('An error occured while adding item. Please try again.'); 
+
+              }   
+
+          });
+
 
 
      };
+
+
+    $scope.archivePackage = function(grn, invoice_no){
+  
+
+      var options = {
+            title:'Delete Package',
+            message:
+                  `Please note that the full package with GRN: `+grn+` and Invoice No: `+invoice_no+` will be deleted and Can not be undone.
+                  <br/>Are you sure you want to delete? <br/><br/>   <strong>Delete Note: </strong><textarea name="" cols="10" rows="4" id="delete_note" class="form-control"></textarea> `, 
+            id: grn,
+            className: 'short_modal',
+        }
+
+        messageBox.delete(options).then(function(post) {
+
+          if (post == 1) {
+
+            var getPkg =  $.param({ grn: grn, invoice_no: invoice_no })
+
+            var delete_note = $('html #delete_note').val();
+          
+            ajaxRequest.post('ItemsController/getPackagesToDelete',getPkg ).then(function(response) {
+                 
+                if (response.status == 200) {
+                     
+                     console.log(response.data.data)
+
+                     var results = response.data.data.length
+
+                      for (var i = 0; i < results; i++) {
+
+                         var del_pkg_items = $.param({ 
+                            stock_id: response.data.data[i].stock_id,
+                            grn: response.data.data[i].grn,
+                            item_id: response.data.data[i].item_id,
+                            delete_note: $('html #delete_note').val()
+                         });
+
+                         ajaxRequest.post('ItemsController/deletePackageItems',del_pkg_items ).then(function(response) {
+                       
+                              if (response.status == 200) {
+
+                                  Notification.success('Item has been deleted successfully.'); 
+                                  $scope.reInitTable();
+                                  
+                               }else if(response.status == 500 || response.status == 404){
+                                  Notification.error('An error occured while deleting item. Please try again.'); 
+                               } 
+                          });
+
+                         console.log(del_pkg_items);
+                      }
+
+                    
+                    
+                 }else if(response.status == 500 || response.status == 404){
+                    Notification.error('An error occured while deleting item. Please try again.'); 
+                 } 
+            });
+          }
+
+
+        });
+
+
+    }
 
 
     $scope.deleteItem = function(stock_id){

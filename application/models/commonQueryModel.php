@@ -436,6 +436,63 @@ class CommonQueryModel extends CI_Model{
        
     }
 
+    public function deletePackageItemsSP($table){
+
+ 
+        $select_query = " CALL `archive_items_sp`(".$table['values'].")";
+        $query = $this->db->query($select_query); 
+ 
+        if (!$query) {
+
+        	$output = array(
+				'status' => 500 , 
+				'data' => 'Query Error',
+			);
+
+			return $output;
+
+		}else{
+  
+			$output = array(
+				'status' => 200 , 
+				'data' => $query->result(),
+			);
+			return $output;
+		}
+
+       
+    }
+
+    
+
+
+    public function updateStockSP($table){
+
+ 
+        $select_query = " CALL `sp_update_stock`(".$table['values'].")";
+        $query = $this->db->query($select_query); 
+ 
+        if (!$query) {
+
+        	$output = array(
+				'status' => 500 , 
+				'data' => 'Query Error',
+			);
+
+			return $output;
+
+		}else{
+  
+			$output = array(
+				'status' => 200 , 
+				'data' => $query->result(),
+			);
+			return $output;
+		}
+
+       
+    }
+
 
     public function insertInvoiceSP($table){
 

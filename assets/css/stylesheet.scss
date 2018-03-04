@@ -44,6 +44,8 @@ md-content 											{ background: transparent; }
 .inner_form 										{ background: #f9f9f9; border: 1px $form_border solid; margin: 20px 0 0 0; padding: 20px 0; }
 .btn 												{ border: 0; border-radius: 0%; @include transitions(all,1s,ease); font-weight: 500; font-size: $font_size; letter-spacing: 0.03rem; text-transform: uppercase;  padding: 8px 20px; }
 .quick_summery										{ margin-bottom: 40px}
+.highlight 											{ color: #ff8080; background: #fdebeb; }
+.highlight a										{ color: #ff8080; }
 .net_price 											{ text-align: right; padding-top: 10px; margin-top: 10px;  border-top: 3px #e2e2e2 solid; 
 	p 												{ margin-bottom: 3px; }
 } 
@@ -443,7 +445,8 @@ button.btn_cancel 									{ float: right; margin-left: 5px; }
 		.modal-title 								{ font-size: $font_size + 1; letter-spacing: 0.03rem; font-weight: 500;}
 		.modal-content 								{ border-radius: 0; position: relative;
 			.modal-header 							{ padding: 12px 15px; background: $base_nav_color;  color: #fff; }
-			.modal-body 							{ font-size: $font_size; 
+			.modal-body 							{ font-size: $font_size; line-height:  $font_size + 5;
+				strong 								{ font-weight: 600;}
 				h2 									{ text-align: center; padding: 10px; background: #333333; color: white; font-size: 19px; }
 				.net_price 							{ border: 0; }
 			}

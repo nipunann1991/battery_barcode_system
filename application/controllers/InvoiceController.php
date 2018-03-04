@@ -49,15 +49,15 @@ class InvoiceController extends CommonController {
 
 
     public function getGrn(){
-    	//SELECT DISTINCT ib2.grn, (SELECT SUM(ib1.status) FROM `item_bulk_stock` ib1 WHERE ib1.grn=ib2.grn AND ib1.item_id=1 ) as stat FROM `item_bulk_stock` ib2 having stat <> 0
+    	//SELECT DISTINCT ib2.grn, (SELECT SUM(ib1.status) FROM `item_bulk_stock` ib1 WHERE ib1.grn=ib2.grn AND ib1.item_id=1 ) as stat FROM `item_bulk_stock` ib2 having stat <> 0  SELECT grn FROM `grn` WHERE archived = 0 AND grn <> 3 AND remaining_stock <> 0 
 
     	 $search_index = array(
-			'columns' => ' DISTINCT ib2.grn, (SELECT SUM(ib1.status) FROM `item_bulk_stock` ib1 WHERE ib1.grn=ib2.grn AND ib1.item_id='.$this->input->post('item_id').' ) as stat ' ,   
-			'table' => '`item_bulk_stock` ib2',
-			'data' => 'stat <> 0',
+			'columns' => ' g.grn' ,   
+			'table' => '`item_bulk_stock` ibs, `grn` g, `item_barcode1` ib ',
+			'data' => 'ib.stock_id=ibs.stock_id AND g.grn=ibs.grn AND g.archived = 0 AND ibs.item_id'.$this->input->post('item_id').'',
 		);
  
-		return $this->selectCustomDataAlias__($search_index);  
+		return $this->selectCustomData__($search_index);  
     }
 
   
@@ -127,6 +127,13 @@ class InvoiceController extends CommonController {
 		return $this->updateData__('item_barcode', $dataset, " barcode ='".$dataset['barcode']."'");
  
 	}
+
+
+	public function saveInvoiceSP(){
+		$dataset = $this->input->post();
+		return $this->updateStockSP__('item_barcode', $dataset); 
+	}
+
 
 
 	public function savePackageInfo(){ 

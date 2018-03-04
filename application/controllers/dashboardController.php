@@ -32,8 +32,8 @@ class DashboardController extends CommonController {
 	public function getCountProducts(){  
 
 		$search_index = array(  
-			'table' => 'item',
-			'data' => '1',
+			'table' => 'item_barcode',
+			'data' => 'status = 1',
 		);
 
        return $this->getTotalRowData__($search_index);    
@@ -64,8 +64,8 @@ class DashboardController extends CommonController {
     public function getTodaysPackages(){  
 
     	$search_index = array(  
-			'table' => 'package',
-			'data' => 'created_date LIKE  "%'.date("Y-m-d").'%"',
+			'table' => 'item_bulk_stock',
+			'data' => 'status = 1',
 		);
 
        	return $this->getTotalRowData__($search_index);    
@@ -83,9 +83,9 @@ class DashboardController extends CommonController {
  	public function getRecentProducts(){   
 
         $search_index = array(
-			'columns' => 'i.*, c.cat_name' ,   
-			'table' => 'item i, categories c',
-			'data' => 'i.cat_id = c.id order by item_id DESC LIMIT 5',
+			'columns' => ' DISTINCT i.item_id, i.item_name, c.cat_name ' ,   
+			'table' => 'item i, categories c, item_bulk_stock ibs',
+			'data' => 'i.cat_id = c.id AND ibs.item_id = i.item_id order by i.item_id DESC LIMIT 5',
 		);
 
 		return $this->selectCustomData__($search_index);   

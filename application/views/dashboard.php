@@ -24,14 +24,14 @@
 			<div class="col-sm-3 iblock">
 				<div class="iblock_inner blue">
 					<h2>{{items}}</h2>
-					<h3>Total Items</h3>
+					<h3>Total Items in Stock</h3>
 					<i class="icon-car-battery"></i>
 				</div>
 			</div>
 			<div class="col-sm-3 iblock">
 				<div class="iblock_inner yellow"> 
 					<h2>{{packages}}</h2>
-					<h3>Packages Today</h3>
+					<h3>Packages in Stock</h3>
 					<i class="icon-box"></i>
 				</div>
 			</div>
@@ -72,7 +72,7 @@
 							<div class="item_img_container" style="background-image: url('{{grp.image_url}}')"></div>
 							<div class="item_details">
 								<ul>
-									<li class="name">{{grp.item_display_name}}</li>
+									<li class="name">{{grp.item_name}}</li>
 									<li class="category">{{grp.cat_name}}</li>
 								</ul>
 							</div>

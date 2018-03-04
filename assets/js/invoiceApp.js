@@ -94,14 +94,15 @@ app.controller('newinvoiceCtrl', ['$scope','ajaxRequest', '$q', 'goTo', 'Notific
 
     $scope.searchItem = function(){ 
 
-    	var data = $.param({ barcode: $scope.item_barcode })
+		var data = $.param({ barcode: $scope.item_barcode })
 
-    		ajaxRequest.post('InvoiceController/getGrn', data ).then(function(response) { 
+		ajaxRequest.post('InvoiceController/getGrn', data ).then(function(response) { 
 
-	    		$scope.getGrn =  response.data.data;  
-	 			console.log($scope.getGrn);
+    		$scope.getGrn =  response.data.data;  
+ 			console.log($scope.getGrn);
 
-		    });
+	    });
+
 
     	if ($scope.item_barcode.startsWith("P")) {
 
@@ -111,8 +112,7 @@ app.controller('newinvoiceCtrl', ['$scope','ajaxRequest', '$q', 'goTo', 'Notific
     			$scope.getItemsInPackage = response.data.data;  
   
     			for (var i = 0; i < $scope.getItemsInPackage.length; i++) {
-    				 
-    				
+    				  
 
     					if($scope.item_barcodes.indexOf($scope.item_barcode) != -1) {
 			            	Notification.error('Package exists in current invoice. Please try again with a new Package.');
@@ -121,7 +121,6 @@ app.controller('newinvoiceCtrl', ['$scope','ajaxRequest', '$q', 'goTo', 'Notific
 
 							$scope.item_barcodes.push($scope.getItemsInPackage[i].barcode);
 							
-
 						} 
     				
 
@@ -161,7 +160,6 @@ app.controller('newinvoiceCtrl', ['$scope','ajaxRequest', '$q', 'goTo', 'Notific
 							$scope.itemList.push($scope.getSingleItem[0]);
 			    			$scope.item_barcodes.push($scope.item_barcode);
 			    			$scope.item_barcode = ''; 
-			    			console.log($scope.item_barcodes);
 							Notification.success('Item added to invoice.');
 
 
@@ -213,7 +211,7 @@ app.controller('newinvoiceCtrl', ['$scope','ajaxRequest', '$q', 'goTo', 'Notific
 					 
 					var invoice_data = $.param({ invoice_id: getInsertedId ,  barcode: value, status: 0  })
 					
-					ajaxRequest.post('InvoiceController/saveInvoice' ,invoice_data ).then(function(response) {
+					ajaxRequest.post('InvoiceController/saveInvoiceSP' ,invoice_data ).then(function(response) {
 										
 						if (response.status == 200) { 
 				 			Notification.success('Invoice has been added saved.');
