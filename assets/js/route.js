@@ -34,6 +34,7 @@ app.config(['$routeProvider', '$locationProvider', function ($routeProvider, $lo
 
     .when("/invoice", { templateUrl : "index.php/Pages/invoice",  css: 'style.css' })
     .when("/invoice/new-invoice", { templateUrl : "index.php/Pages/newInvoice",  css: 'style.css' })
+    .when("/invoice/missing-items", { templateUrl : "index.php/Pages/missingItemsInvoice",  css: 'style.css' })
     .when("/invoice/view-invoice/:id", { templateUrl : "index.php/Pages/viewInvoice",  css: 'style.css' })
 
     .when("/returns", {  templateUrl : "index.php/Pages/returns",  css: 'style.css' })

@@ -1,5 +1,5 @@
 var currency = 'Rs.'
-var app = angular.module('pos_app', ['ngRoute','ngMaterial','ngMessages','datatables', 'ngBootbox','validation', 'validation.rule', 'ui-notification', 'ui.bootstrap.datetimepicker']);
+var app = angular.module('pos_app', ['ngRoute', 'ngSanitize', 'ui.select','ngMaterial','ngMessages','datatables', 'ngBootbox','validation', 'validation.rule', 'ui-notification', 'ui.bootstrap.datetimepicker']);
 
 app.config(function(NotificationProvider) {
     NotificationProvider.setOptions({

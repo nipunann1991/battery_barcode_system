@@ -1,5 +1,5 @@
 
-<div ng-controller="newinvoiceCtrl" class="page_inner {{animated_class}}">
+<div ng-controller="missingItemsCtrl" class="page_inner {{animated_class}}">
 	<div class="head">
 		<div class="top"> 
 			<h2>{{title}}</h2>
@@ -9,18 +9,13 @@
 	  	 
 
 		<md-button ng-click="navigateTo('invoice')" ><i class="icon-plus-sign-in-a-black-circle" aria-hidden="true"></i> View Invoice List</md-button> 
-		<md-button class="dark_purple" ng-click="navigateTo('invoice/missing-items')" ><i class="icon-plus-sign-in-a-black-circle" aria-hidden="true"></i> Missing Items</md-button> 
 	</div>
  
 	<div class="body invoice"> 
 
-
-
-
-
  		<div class="col-md-12 ">
  			<div class="header row">
- 				<div class="col-md-6 block left">
+ 				<div class="col-md-6 block left hide">
  					<h3 class="company_name">
 
  						<div class="select-box">
@@ -46,15 +41,15 @@
 	 				<p><strong>Address: </strong>{{company_address}}</p> 
 	 				<p><strong>Tel: </strong>{{tel}}</p>
  				</div>
- 				<div class="col-md-6 block right">
- 					<h3>Invoice No: <span><input type="text" class="pull-right form-control col-md-4" style="width: 200px; margin-top: -7px; margin-left: 10px;" ng-model="invoice_no" placeholder="Search for item"></span><div class="clearfix">	</div></h3>
+ 				<div class="col-md-6 block">
+ 					<h3>Invoice No: {{invoice_no}}</h3>
  					<p>Date: {{date}} {{time}}</p>
  					<p>Invoiced By: {{role}}</p>
  				</div>
  			</div>
  			<div class="invoice_body row">
  				<div class="col-md-12">
- 					<h2>Items Summery</h2>
+ 					<h2>Lost Items Summery</h2>
  					<div class="row">	
 						<div class="col-lg-6">
 						    <div class="input-group">
@@ -124,8 +119,7 @@
  				 
 				<div class="col-md-12 invoice_btn" ng-show="item_barcodes.length > 0 " > 
 					<div class="pull-right">
-						<md-button class="btn_purple " type="button" ng-click="saveInvoice()">Save Invoice</md-button>
-						<md-button class="btn-default" ng-click="print()">Print</md-button> 
+						<md-button class="btn_purple " type="button" ng-click="saveMissingItems()">Save Missing Items</md-button> 
 					</div> 
 					<div class="clearfix"></div>
 				</div> 
@@ -135,59 +129,6 @@
 		<div class="clearfix"></div>
 	</div>	
 
-	<div id="myModalAddCustomer"  class="modal fade" role="dialog">
-			<div class="modal-dialog">
-
-			    <!-- Modal content-->
-			    <div class="modal-content">
-			     	<div class="modal-header"> 
-				        <h4 class="modal-title">Add Customer</h4>
-				      </div>
-			      	<div class="modal-body">
-
-						<form class="form-horizontal" name="addCustomer" id="addCustomer">
-							<div class="row">
-								 
-							  	<div class="col-md-6">
-								  	<div class="form-group" ng-class="{ 'has-error' : !addCustomer.customer_name.$pristine && addCustomer.customer_name.$touched && addCustomer.customer_name.$invalid }">
-									    <label class="control-label col-sm-12" for="customer_name">Customer Name: <small class="help-block hide">Can't be empty</small></label>
-									    <div class="col-sm-12">  
-									      	<input type="text" class="form-control" id="customer_name" name="customer_name" ng-pattern="/^[a-zA-Z0-9 ]*$/" ng-model="customer_name" required> 
-									      	<label class="error" >This field is required.</label>
-									    </div>
-								  	</div>
-								</div>
-
-								<div class="col-md-6">
-								  	<div class="form-group" ng-class="{ 'has-error' : !addCustomer.customer_tel.$pristine && addCustomer.customer_tel.$touched && addCustomer.customer_tel.$invalid }">
-									    <label class="control-label col-sm-12" for="customer_tel">Telephone: <small class="help-block hide">Can't be empty</small></label>
-									    <div class="col-sm-12">  
-									      	<input type="text" class="form-control" id="customer_tel" name="customer_tel" ng-pattern="/^[a-zA-Z0-9 ]*$/" ng-model="customer_tel" required> 
-									      	<label class="error" >This field is required.</label>
-									    </div>
-								  	</div>
-								</div>
-							</div> 
-						  	<div class="form-group">
-							    <label class="control-label col-sm-12" for="customer_address">Address: <small class="help-block hide">Can't be empty</small> </label>
-							    <div class="col-sm-12"> 
-							    	<textarea name="" cols="30" rows="4" id="customer_address" ng-model="customer_address" class="form-control"></textarea> 
-							    </div>
-						  	</div>  
-						  	<div class="form-group">
-								<div class="col-md-12" ng-hide="addCustomer.$invalid">
-									<md-button class="btn btn_add submit" type="submit" ng-click="addCustomer1()">Add Customer</md-button>
-									<md-button class="btn btn-default" type="button" id="cancel" ng-click="close()">Close</md-button>
-								</div> 
-							</div> 
-						</form>
-			            <div class="clearfix"></div>
-			      </div>
-			     
-			    </div>
-
-			  </div>
-		</div>
 
 </div>
 

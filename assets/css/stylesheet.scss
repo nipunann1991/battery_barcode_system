@@ -363,7 +363,11 @@ $item_width: 120px;
 								&.right				{ text-align: right; }
 							}
 							h3 						{ font-size: $font_size + 4; margin-bottom: 5px; 
-								&.company_name 		{ font-size: $font_size + 7;}
+								&.company_name 		{ font-size: $font_size + 2;
+									strong 			{  display: inline-block; margin-bottom: 5px;  margin-right: 5px; }
+									.select2-container { display: inline-block; width: 350px; }
+									a 				{ display: block; margin-bottom: 5px; font-size: $font_size; color: #6254b2;  cursor: pointer;}
+								}
 								span 				{ font-weight: 300; }
 							}
 							p 						{ line-height: 18px; font-size: $font_size; letter-spacing: 0.01rem;
@@ -466,8 +470,8 @@ button.btn_cancel 									{ float: right; margin-left: 5px; }
 .md-icon-button+.md-datepicker-input-container 		{ @include calc('width','100% - 65px'); }
 md-checkbox .md-label 								{ margin-top: 3px; }
 md-checkbox 										{ margin-bottom: 5px}
-
-
+.select2-container .select2-choice 					{ height: 34px;	line-height: 34px; background-image: none;}
+.select2-results .select2-result-label 				{ font-size: $font_size + 1;}
 
 
 @media print {

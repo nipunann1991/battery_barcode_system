@@ -9,6 +9,8 @@
 
     <!-- Bootstrap -->
     <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+    
+    <link rel="stylesheet" href="http://angular-ui.github.io/ui-select/dist/select.css">
     <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css//jquery.mCustomScrollbar.min.css">
     <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/angular-material.min.css">
     <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/angular-datatables.min.css">
@@ -16,6 +18,9 @@
     <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/angular-ui-notification.min.css">
     <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/c3.min.css">
     <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/datetimepicker.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/3.4.5/select2.css">   
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.8.5/css/selectize.default.css"> 
+
     <link rel="stylesheet" href="assets/css/stylesheet.css">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -50,9 +55,11 @@
 
       <script src="<?php echo base_url(); ?>assets/js/dist/jquery.min.js"></script>
       <script src="<?php echo base_url(); ?>assets/js/dist/JsBarcode.all.min.js"></script>
-      <script src="<?php echo base_url(); ?>assets/js/dist/moment.min.js"></script>
+      <script src="<?php echo base_url(); ?>assets/js/dist/moment.min.js"></script> 
 
       <script src="<?php echo base_url(); ?>assets/js/dist/angular.min.js"></script>
+      <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-sanitize.js"></script>
+
       <script src="<?php echo base_url(); ?>assets/js/dist/angular-animate.min.js"></script>
       <script src="<?php echo base_url(); ?>assets/js/dist/angular-aria.min.js"></script>
       <script src="<?php echo base_url(); ?>assets/js/dist/angular-messages.min.js"></script>
@@ -60,10 +67,10 @@
       <script src="<?php echo base_url(); ?>assets/js/dist/angular-material.min.js"></script>
       <script src="<?php echo base_url(); ?>assets/js/dist/angular-route.js"></script>
       <script src="<?php echo base_url(); ?>assets/js/dist/jquery.mCustomScrollbar.min.js"></script>
-      <script src="<?php echo base_url(); ?>assets/js/dist/moment.min.js"></script>
+      <script src="<?php echo base_url(); ?>assets/js/dist/moment.min.js"></script> 
+      
 
-
-      <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+      <!-- jQuery (necessary for Bootstrap's JavaScript plugins) https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.full.min.js -->
       <!-- Include all compiled plugins (below), or include individual files as needed -->
 
       <script src="<?php echo base_url(); ?>assets/js/dist/jquery.dataTables.js"></script>
@@ -71,6 +78,7 @@
       <script src="<?php echo base_url(); ?>assets/js/dist/c3.min.js"></script>
       <script src="<?php echo base_url(); ?>assets/js/dist/datetimepicker.js"></script>
       <script src="<?php echo base_url(); ?>assets/js/dist/datetimepicker.templates.js"></script>
+      <script src="http://angular-ui.github.io/ui-select/dist/select.js"></script>
 
 
       <script src="<?php echo base_url(); ?>assets/js/angular-datatables.min.js"></script>

@@ -58,7 +58,7 @@ class MissingItemsController extends CommonController {
 
     public function getMissingList(){ 
 
-    	$tbl_name = 'missing'; 
+    	$tbl_name = 'item_barcode'; 
     	$start = $this->input->get('start');
     	$length = $this->input->get('length');
     	$get_column = $this->input->get('order[0][column]');
@@ -80,17 +80,17 @@ class MissingItemsController extends CommonController {
 
 
 		$search_index = array(
-			'columns' => 'm.*' ,   
-			'table' => 'missing m',
-			'data' => ' '.$search_from_value.' order by '.$get_column_name.' '.$get_order.' LIMIT '.$start.', '.$length.'',
+			'columns' => 'ib.*, i.*' ,   
+			'table' => 'item_barcode ib, invoice i',
+			'data' => 'ib.status=-1 AND ib.invoice_id=i.invoice_id AND '.$search_from_value.' order by '.$get_column_name.' '.$get_order.' LIMIT '.$start.', '.$length.'',
 		);
 
 
   
 		$get_all_data = array(
-			'columns' => 'm.*' ,   
-			'table' => 'missing m ',
-			'data' => '1',
+			'columns' => 'ib.*, i.*' ,   
+			'table' => 'item_barcode ib, invoice i ',
+			'data' => 'ib.status=-1 AND ib.invoice_id = i.invoice_id',
 		);
 
 

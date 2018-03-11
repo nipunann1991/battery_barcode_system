@@ -14,9 +14,9 @@ class InvoiceController extends CommonController {
  		$result = $this->getAllDataDT__('invoice');
 
  		$get_all_data = array(
-			'columns' => '*' ,   
-			'table' => 'invoice',
-			'data' => '1',
+			'columns' => 'i.*, c.*' ,   
+			'table' => 'invoice i, customer c',
+			'data' => 'i.customer_id = c.customer_id',
 		);
 
 
@@ -58,6 +58,20 @@ class InvoiceController extends CommonController {
 		return $this->selectCustomData__($search_index);  
     }
 
+
+    public function getAllCustomers(){ 
+    	
+    	$search_index = array(
+			'columns' => '*' ,   
+			'table' => 'customer',
+			'data' => 	'1',
+		);
+ 
+		return $this->selectCustomData__($search_index);  
+    }
+
+    
+
     public function getGrnPackage(){ 
     	
     	$search_index = array(
@@ -85,8 +99,8 @@ class InvoiceController extends CommonController {
 
         $search_index = array(
 			'columns' => '*' ,   
-			'table' => 'invoice',
-			'data' => 'invoice_id="'.$this->input->post('invoice_id').'" ',
+			'table' => 'invoice i, customer c',
+			'data' => 'i.invoice_id="'.$this->input->post('invoice_id').'" AND i.customer_id=c.customer_id ',
 		);
 
 		return $this->selectCustomData__($search_index);   
@@ -167,6 +181,12 @@ class InvoiceController extends CommonController {
 
 		$dataset = $this->input->post();
 		return $this->insertData__('invoice', $dataset); 
+	}
+
+	public function addCustomer(){
+
+		$dataset = $this->input->post();
+		return $this->insertData__('customer', $dataset); 
 	}
  
 	public function getAutoIncrementID(){   

@@ -45,39 +45,24 @@ app.controller('MissingCtrl', ['$scope','$compile', '$location', 'ajaxRequest', 
 	            DTColumnBuilder.newColumn('barcode').withTitle('Barcode')
 	              .renderWith(function(data, type, full, meta) { 
 	                  return  '<a href="javascript:void(0)" ng-click="viewItem('+full.barcode+')">'+full.barcode+'</a>';
-	              }), 
-	            DTColumnBuilder.newColumn('remarks').withTitle('remarks'),
+	              }),  
+
+	            DTColumnBuilder.newColumn('invoice_no').withTitle('Invoice No'),
+	             DTColumnBuilder.newColumn('invoice_date').withTitle('Date'),
 	            DTColumnBuilder.newColumn('status').withTitle('Status')
+	            
 	             .renderWith(function(data, type, full, meta) { 
 
 	               
 	  				var label_ = '';
 
-	                if (full.status == 1) {
-	                    label_ = '<span class="label label-success " title="Click to view invoice">Back In Stock</span>';
-	                }else if(full.status == 0){
-	                    label_ = '<span class="label label-danger">Lost</span>'
-	                } 
+	                 
+	                 label_ = '<span class="label label-danger">Lost</span>'
+	                 
 
 	                return label_;
 	            }), 
-	            DTColumnBuilder.newColumn(null).withTitle(' ')
-	             .renderWith(function(data, type, full, meta) { 
-
-	              var class_ = '', action_btns = '', hide_ = '';
-	 
-
-	                  if (!$scope.role_access) {
-	                    hide_ = 'hide';
-	                  }
-
-	                  return  `<div class="w100"> 
-	                          <a href="" id="edit`+full.item_id+`"  class="edit `+class_+`" title="Edit Items" ng-click="editMissing(`+full.id+`)">
-	                            <i class="icon-pencil-edit-button" aria-hidden="true"></i>
-	                          </a>
-	                          
-	                          `;
-	              }), 
+	            
 	            
 	        ];
 

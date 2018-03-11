@@ -185,6 +185,12 @@ class Pages extends CI_Controller {
 		$this->load->view('templates/invoice/view-invoice');
 	}
 
+	public function missingItemsInvoice(){ 
+		$this->load->view('templates/invoice/missing-items');
+	}
+
+	
+
 
 	
 
