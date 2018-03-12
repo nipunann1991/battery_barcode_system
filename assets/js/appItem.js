@@ -796,7 +796,7 @@ app.controller('ItemsStockCtrl', ['$scope', '$compile', '$location', 'ajaxReques
                   }else if(full.status == -1){
                     label_ = '<span ng-click="viewPackage('+full.package_id+')" title="Click to view package" class="label label-warning packed"  >Missing</span>'
                   }else if(full.status == -2){
-                    label_ = '<span ng-click="viewPackage('+full.package_id+')" title="Click to view package" class="label label-warning packed"  >Archived</span>'
+                    label_ = '<span title="Click to view package" class="label label-warning packed"  >Archived</span>'
                   } 
                
                   return  label_;
@@ -806,7 +806,7 @@ app.controller('ItemsStockCtrl', ['$scope', '$compile', '$location', 'ajaxReques
               .renderWith(function(data, type, full, meta) { 
                   console.log(full.total_stock, full.remaining_stock)
                   var edit = ''
-                  if (full.total_stock == full.remaining_stock) {
+                  if (full.total_stock == full.remaining_stock && full.status != -2) {
                       edit = "<a  ng-click='archivePackage("+full.grn+", "+full.invoice_no+")' ><i class='icon-rubbish-bin' ></i></a>"
                   }
                   return  edit

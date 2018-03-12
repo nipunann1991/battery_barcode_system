@@ -441,8 +441,9 @@ app.controller('missingItemsCtrl', ['$scope','ajaxRequest', '$q', 'goTo', 'Notif
  			ajaxRequest.post('InvoiceController/getItemsInPackageBK', data ).then(function(response) { 
 			
     			$scope.getItemsInPackage = response.data.data;  
+ 
 
-    			if ($scope.getItemsInPackage.lenght > 0 ) {
+    			if ($scope.getItemsInPackage.length > 0 ) {
   
 	    			for (var i = 0; i < $scope.getItemsInPackage.length; i++) {
 	    				  
@@ -602,6 +603,7 @@ app.controller('viewInvoiceCtrl', ['$scope','ajaxRequest', '$q', 'goTo', 'Notifi
  	$scope.package_item = [];
  	$scope.item_package_id = [];
  	$scope.item_package_barcodes = [];
+ 	$scope.isCustomerInvoice = true;
 
  	 
 
@@ -617,15 +619,32 @@ app.controller('viewInvoiceCtrl', ['$scope','ajaxRequest', '$q', 'goTo', 'Notifi
 	ajaxRequest.post('InvoiceController/getSingleInvoice', data ).then(function(response) {
 		
 		if (response.status == 200) { 
-			
-			$scope.getInvoiceDetails =  response.data.data[0]; 
-			$scope.invoice_no = $scope.getInvoiceDetails.invoice_no;
-			$scope.invoice_date = $scope.getInvoiceDetails.invoice_date;
-			$scope.invoiced_by = $scope.getInvoiceDetails.invoiced_by;
 
-			$scope.customer_name = $scope.getInvoiceDetails.customer_name;
-			$scope.address = $scope.getInvoiceDetails.address;
-			$scope.tel = $scope.getInvoiceDetails.tel;
+			if (response.data.data.length == 0) {
+
+				ajaxRequest.post('InvoiceController/getLostItemInvoice', data ).then(function(response1) {
+					if (response.status == 200) {
+						$scope.isCustomerInvoice = false;
+						$scope.getInvoiceDetails =  response1.data.data[0]; 
+						$scope.invoice_no = $scope.getInvoiceDetails.invoice_no;
+						$scope.invoice_date = $scope.getInvoiceDetails.invoice_date;
+						$scope.invoiced_by = $scope.getInvoiceDetails.invoiced_by;
+					}
+				});
+
+				
+			}else{
+
+			  
+				$scope.getInvoiceDetails =  response.data.data[0]; 
+				$scope.invoice_no = $scope.getInvoiceDetails.invoice_no;
+				$scope.invoice_date = $scope.getInvoiceDetails.invoice_date;
+				$scope.invoiced_by = $scope.getInvoiceDetails.invoiced_by;
+
+				$scope.customer_name = $scope.getInvoiceDetails.customer_name;
+				$scope.address = $scope.getInvoiceDetails.address;
+				$scope.tel = $scope.getInvoiceDetails.tel;
+			}
  
 	    }else if(response.status == 500 || response.status == 404){
 	       console.log('An error occured while updating package. Please try again.'); 

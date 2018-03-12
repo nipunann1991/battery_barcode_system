@@ -107,6 +107,18 @@ class InvoiceController extends CommonController {
     }
 
 
+    public function getLostItemInvoice(){   
+
+        $search_index = array(
+			'columns' => '*' ,   
+			'table' => 'invoice i',
+			'data' => 'i.invoice_id="'.$this->input->post('invoice_id').'" ',
+		);
+
+		return $this->selectCustomData__($search_index);   
+    }
+
+
 
     public function getSingleItemsInvoiced(){   
 

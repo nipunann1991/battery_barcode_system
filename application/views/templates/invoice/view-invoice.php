@@ -15,13 +15,13 @@
 
 	 	<div class="col-md-12 " id="invoice">
  			<div class="header row">
- 				<div class="col-md-6 block left">
+ 				<div class="col-md-6 block left" ng-if="isCustomerInvoice">
  					<h3 class="company_name">Customer Details</h3>
  					<p><strong>Customer Name: </strong>{{customer_name}}</p> 
 	 				<p><strong>Address: </strong>{{address}}</p> 
 	 				<p><strong>Tel: </strong>{{tel}}</p>
  				</div>
- 				<div class="col-md-6 block right">
+ 				<div class="col-md-6 block " ng-class="{'right': isCustomerInvoice}">
  					<h3>Invoice No: <span>{{invoice_no}}</span></h3>
  					<p>Date: {{invoice_date}}</p>
  					<p>Invoiced By: {{invoiced_by}}</p>
