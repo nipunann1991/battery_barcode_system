@@ -191,6 +191,30 @@ class ItemsController extends CommonController {
     }
 
 
+    public function getInvoiceDetails(){ 
+
+        $search_index = array(
+            'columns' => 'inv.*'  ,   
+            'table' => 'invoice inv',
+            'data' => 'inv.invoice_id = "'.$this->input->post('invoice_id').'"',
+        );
+
+        return $this->selectCustomData__($search_index); 
+    }
+
+    public function getCustomerDetails(){ 
+
+        $search_index = array(
+            'columns' => 'c.*'  ,   
+            'table' => 'customer c',
+            'data' => 'c.customer_id = "'.$this->input->post('customer_id').'"',
+        );
+
+        return $this->selectCustomData__($search_index); 
+    }
+
+
+
 
 
     public function getSingleItemStock(){ 

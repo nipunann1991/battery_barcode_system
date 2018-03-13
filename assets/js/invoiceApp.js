@@ -242,7 +242,7 @@ app.controller('newinvoiceCtrl', ['$scope','ajaxRequest', '$q', 'goTo', 'Notific
 						}else{
 
 
-							if (!$scope.checkPrevGrnStock($scope.getItemsInPackage[i].grn, $scope.getItemsInPackage[i].item_id)) {
+							//if (!$scope.checkPrevGrnStock($scope.getItemsInPackage[i].grn, $scope.getItemsInPackage[i].item_id)) {
 								
 								$scope.setGrnStock($scope.getItemsInPackage[i].grn, $scope.getItemsInPackage[i].item_id);
 								$scope.item_barcodes.push($scope.getItemsInPackage[i].barcode);
@@ -259,11 +259,11 @@ app.controller('newinvoiceCtrl', ['$scope','ajaxRequest', '$q', 'goTo', 'Notific
 								}
 								
 
-							}else{ 
-								//console.log($scope.grnList, $scope.item_package_barcodes)
-								Notification.error('Items with previous grn exist in stock. please empty them first');
-								break; 
-							} 
+							// }else{ 
+							// 	//console.log($scope.grnList, $scope.item_package_barcodes)
+							// 	Notification.error('Items with previous grn exist in stock. please empty them first');
+							// 	break; 
+							// } 
 
 						}
     				
@@ -297,16 +297,16 @@ app.controller('newinvoiceCtrl', ['$scope','ajaxRequest', '$q', 'goTo', 'Notific
 
 							console.log($scope.getSingleItem[0]);
 
-							if (!$scope.checkPrevGrnStock($scope.getSingleItem[0].grn, $scope.getSingleItem[0].item_id)) {
+							//if (!$scope.checkPrevGrnStock($scope.getSingleItem[0].grn, $scope.getSingleItem[0].item_id)) {
 
 								$scope.itemList.push($scope.getSingleItem[0]);
 				    			$scope.item_barcodes.push($scope.item_barcode);
 				    			$scope.item_barcode = ''; 
 								Notification.success('Item added to invoice.');
 
-							}else{ 
-								Notification.error('Items with previous grn exist in stock. please empty them first'); 
-							}
+							// }else{ 
+							// 	Notification.error('Items with previous grn exist in stock. please empty them first'); 
+							// }
 
 
 						} 

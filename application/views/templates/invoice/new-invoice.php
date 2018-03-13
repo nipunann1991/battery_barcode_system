@@ -75,18 +75,13 @@
 									</li>
 									<li ng-repeat="gip in pkg.package">    
 										<div class="col-md-6">
-											<p>{{gip.barcode}}</p>
-											<i>{{gip.item_name}} / {{gip.cat_name}} / manufacture: {{gip.manufacture_id}} ~  PKGid{{gip.package_id}}</i>
+											<p>{{gip.barcode}} - STK{{gip.id}}</p>
+											<i>{{gip.item_name}} / {{gip.cat_name}} / manufacture: {{gip.manufacture_id}} ~  PKGid{{gip.package_id}} / GRN : {{gip.grn}}</i>
 										</div>
-										<div class="col-md-5">   
+										<div class="col-md-6">   
 											<svg class="barcode code128sm pull-right" jsbarcode-value="{{gip.barcode}}"  jsbarcode-height="20" jsbarcode-width="1.5"  jsbarcode-fontSize="12"></svg>  
 
-										</div>
-										<div class="col-md-1 text-center">
-											<a href="" ng-click="deleteItem(gip.barcode)" class="delete" title="Delete Items" >
-								        		<i class="icon-rubbish-bin" aria-hidden="true"></i>
-								        	</a>
-										</div>
+										</div> 
 									</li>
 								</ul>
 
@@ -101,20 +96,15 @@
 									</li>
 									<li ng-repeat="il in itemList">   <!--  -->
 										<div class="col-md-6">
-											<p>{{il.barcode}}</p>
-											<i>{{il.item_name}} / {{il.cat_name}} / manufacture: {{il.manufacture_id}} </i>
+											<p>{{il.barcode}} - STK{{il.id}}</p>
+											<i>{{il.item_name}} / {{il.cat_name}} / manufacture: {{il.manufacture_id}} / GRN : {{il.grn}}</i>
 										</div>
-										<div class="col-md-5">  
+										<div class="col-md-6">  
 
 											<script>JsBarcode("html .barcode" ).init();</script>
 											<svg class="barcode code128sm pull-right" jsbarcode-value="{{il.barcode}}"  jsbarcode-height="20" jsbarcode-width="1.5"  jsbarcode-fontSize="12"></svg>  
 
-										</div>
-										<div class="col-md-1 text-center">
-											<a href="" ng-click="deleteItem(il.barcode)" class="delete" title="Delete Items" >
-								        		<i class="icon-rubbish-bin" aria-hidden="true"></i>
-								        	</a>
-										</div>
+										</div> 
 									</li>
 								</ul>
 							</div> 

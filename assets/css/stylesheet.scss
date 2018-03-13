@@ -27,6 +27,7 @@ h1,h2,h3 											{ font-weight: 500; }
 h1 													{ font-size: 32px; }
 h2 													{ font-size: 28px; }
 h3 													{ font-size: 22px; }
+h4 													{ font-size: 19px; }
 a, a:hover, a:focus									{ outline: 0; }
 button 												{ 
 	&:hover, &:focus 								{ outline: 0 !important; }
@@ -49,14 +50,27 @@ md-content 											{ background: transparent; }
 .net_price 											{ text-align: right; padding-top: 10px; margin-top: 10px;  border-top: 3px #e2e2e2 solid; 
 	p 												{ margin-bottom: 3px; }
 } 
-.battery_details 									{ padding: 30px 0; margin-top: 20px; border-top: 1px #e6e6e6 solid;
+.battery_details 									{ padding: 30px 0; margin-top: 20px; border-top: 1px #dedede solid;
 	h3 												{ margin-bottom: 12px; text-align: center; }
+	h4 												{ margin: 30px 0 0 0; padding: 10px 15px; font-weight: 500; text-align: center; background: #f3f3f3;}
 	svg 											{ display: block; margin: auto;}
-	ul 												{ overflow: hidden; width: 80%;	margin: auto; font-size: 14px; border-right: 1px #e6e6e6 solid; margin-top: 15px; border-top: 1px #eee solid;
-		li 											{ width: 50%; border-bottom: 1px #e6e6e6 solid; border-left: 1px #e6e6e6 solid; padding: 10px 30px; float: left; letter-spacing: 0.01rem; 
-			strong  								{ font-weight: 500;}
+	.detail_row 									{ width: 80%; margin: auto; overflow: hidden; 
+		&.last 										{
+			ul 										{ margin: 0; }
+		}
+		ul 											{ overflow: hidden; font-size: 14px;  margin-top: 15px; border-top: 1px #dedede solid;
+			li 										{ width: 50%; border-bottom: 1px #dedede solid; border-left: 1px #dedede solid;  padding: 10px 30px; float: left; letter-spacing: 0.01rem; 
+				&:nth-child(2n) 					{ border-right: 1px #dedede solid; }
+				&.customer_details 					{ border-right: 1px #dedede solid; width: 100%; }
+				strong  							{ font-weight: 500;}
+				span 								{ display: block; margin-bottom: 8px; 
+					&:last-child 					{ margin-bottom: 0;}
+				}
+				span.label 							{ display: inline; margin-left: 10px; }
+			}
 		}
 	}
+	
 }
 .md-button 											{ margin: 0;  border-radius: 0; padding: 2px 30px; min-height:34px; text-transform: capitalize; line-height: 15px; margin-right: 5px; }
 .btn-default 										{ background-color: $default_yellow; color: #fff;  

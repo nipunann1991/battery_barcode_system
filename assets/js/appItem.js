@@ -146,6 +146,11 @@ app.controller('ItemsCtrl', ['$scope', '$compile','$location', 'ajaxRequest', 'g
 app.controller('SearchItemsCtrl', ['$scope', '$compile','$location', 'ajaxRequest', 'goTo', 'messageBox' , 'Notification', 'DTOptionsBuilder', 'DTColumnBuilder', '$routeParams',
   function($scope, $compile, $location, ajaxRequest, goTo, messageBox, Notification, DTOptionsBuilder, DTColumnBuilder,$routeParams) {
 
+    $scope.foundItem = false;
+    $scope.soldItem = false;
+    $scope.isCustomer = false;
+    $scope.invoice_title = 'Sales Details';
+
     $scope.initBk = function(barcode){
         JsBarcode("#code128",  barcode , {  
           width:2,
@@ -159,6 +164,11 @@ app.controller('SearchItemsCtrl', ['$scope', '$compile','$location', 'ajaxReques
 
      
   $scope.searchBAttery = function(item_barcode=null){  
+
+      $scope.foundItem = false;
+      $scope.soldItem = false;
+      $scope.isCustomer = false;
+      $scope.invoice_title = 'Sales Details';
         
       var barcode = '';
 
@@ -177,7 +187,7 @@ app.controller('SearchItemsCtrl', ['$scope', '$compile','$location', 'ajaxReques
               var result = response.data.data[0]
 
               if (typeof result != 'undefined') {
-      
+                $scope.foundItem = true;
                 $scope.barcode = result.barcode;
                 $scope.cat_name = result.cat_name;
                 $scope.invoice_no = result.invoice_no;
@@ -185,6 +195,70 @@ app.controller('SearchItemsCtrl', ['$scope', '$compile','$location', 'ajaxReques
                 $scope.item_name = result.item_name; 
                 $scope.package_barcode = result.package_barcode; 
                 $scope.sup_name = result.sup_name; 
+
+                $scope.status = result.status;
+
+                switch(result.status){
+                    case '-1': 
+                      $scope.status_text = 'Missing';
+                      $scope.invoice_title = 'Missing Item Details'; 
+                      break;
+
+                    case '0': 
+                      $scope.status_text = 'Sold';
+                       break;
+
+                    case '1': 
+                      $scope.status_text = 'In Stock'; 
+                      break;
+                }
+
+                console.log(result)
+
+                if (result.invoice_id !=  0) {
+
+                  invoice_id = $.param({ invoice_id: result.invoice_id });
+
+                  ajaxRequest.post('ItemsController/getInvoiceDetails', invoice_id).then(function(response1) { 
+
+                      if (response1.status == 200) {
+
+                        var invoice_data = response1.data.data[0];
+
+                        $scope.soldItem = true;
+                       
+                        $scope.invoice_number = invoice_data.invoice_no;
+                        $scope.invoice_date = invoice_data.invoice_date;
+                        $scope.invoiced_by = invoice_data.invoiced_by;
+                        $scope.no_of_items = invoice_data.no_of_items;
+
+                        if (invoice_data.customer_id != 0) {
+
+                          customer_id = $.param({ customer_id: invoice_data.customer_id }); 
+
+                          ajaxRequest.post('ItemsController/getCustomerDetails', customer_id).then(function(response2) { 
+
+                              var customer_data = response2.data.data[0];
+
+                              if (response2.status == 200) {
+                                $scope.isCustomer = true;
+                                $scope.customer_name = customer_data.customer_name;
+                                $scope.address = customer_data.address;
+                                $scope.tel = customer_data.tel; 
+
+                              }
+
+                          });
+
+                        }
+                        
+
+                      } 
+                  });
+
+                  
+
+                }
                 
                 $scope.initBk($scope.barcode);
 

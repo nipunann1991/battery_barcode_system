@@ -25,21 +25,37 @@
 			</div>
 			<div class="clearfix"></div>
 		</div>
-		<div class="battery_details"> 
+		<div class="battery_details" > 
 			<h3>Battery Details Summery</h3>
 			<svg id="code128" class=barcode></svg>
-			<ul>
-				<li><strong>Item Barcode :</strong> {{barcode}}</li> 
-				<li><strong>Package Barcode :</strong> {{package_barcode}}</li>
-				<li><strong>Category Name :</strong> {{cat_name}}</li>
-				<li><strong>Manufacture ID :</strong>  </li> 
-				<li><strong>Item Name :</strong> {{item_name}}</li>
-				<li><strong>Invoice No :</strong> {{invoice_no}}</li>
-				<li><strong>GRN :</strong> {{grn}}</li> 
-				<li><strong>Supplier Name :</strong> {{sup_name}}</li> 
+			<div class="detail_row" ng-show="foundItem">
+				<ul>
+					<li><strong>Item Barcode :</strong> {{barcode}} <span class="label" ng-class="{ 'label-success' : status == '1', 'label-danger': status == '0', 'label-warning': status == '-1' }">{{status_text}}</span></li> 
+					<li><strong>Package Barcode :</strong> {{package_barcode}}</li>
+					<li><strong>Category Name :</strong> {{cat_name}}</li>
+					<li><strong>Manufacture ID :</strong>  </li> 
+					<li><strong>Item Name :</strong> {{item_name}}</li>
+					<li><strong>Invoice No :</strong> {{invoice_no}}</li>
+					<li><strong>GRN :</strong> {{grn}}</li> 
+					<li><strong>Supplier Name :</strong> {{sup_name}}</li>  
+				</ul>
+			</div>
 
-				<!-- <li></li> -->
-			</ul>
+			<div class="detail_row last" ng-show="soldItem">
+				<h4>{{invoice_title}}</h4>
+				<ul>
+					<li><strong>Invoice no :</strong> {{invoice_number}}</li> 
+					<li><strong>Invoice Date :</strong> {{invoice_date}}</li>
+					<li><strong>Invoiced By :</strong> {{invoiced_by}}</li> 
+					<li><strong>No of Items :</strong> {{no_of_items}}</li> 
+					<li class="customer_details" ng-show="isCustomer">
+						<span><strong>Customer Name :</strong> {{customer_name}}</span>
+						<span><strong>Address :</strong> {{address}}</span>
+						<span><strong>Telephone :</strong> {{tel}}</span> 
+					</li>   
+				</ul>
+			</div>
+			 
 		</div>
 	 
 	    
