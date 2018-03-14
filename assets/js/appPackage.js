@@ -5,7 +5,7 @@ app.controller('PackageCtrl', ['$scope','$compile', '$location', 'ajaxRequest', 
 	    $scope.title = 'View Packages';
 	    $scope.breadcrumb = 'Package > View Packages';
 	    $scope.animated_class = 'animated fadeIn';
-
+ 
 
 	    $scope.navigateTo = function ( path ) {
 	        goTo.page( path );
