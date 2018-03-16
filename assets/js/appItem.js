@@ -142,6 +142,64 @@ app.controller('ItemsCtrl', ['$scope', '$compile','$location', 'ajaxRequest', 'g
 
 }]);
 
+app.controller('ItemsGrnCtrl', ['$scope', '$compile','$location', 'ajaxRequest', 'goTo', 'messageBox' , 'Notification', 'DTOptionsBuilder', 'DTColumnBuilder',
+  function($scope, $compile, $location, ajaxRequest, goTo, messageBox, Notification, DTOptionsBuilder, DTColumnBuilder) {
+
+    $scope.title = 'View GRN List';
+    $scope.breadcrumb = 'Warn';
+    $scope.animated_class = 'animated fadeIn';
+
+          $scope.getItemsList = function (){ 
+
+        var vm = this;
+        vm.dtOptions = DTOptionsBuilder.newOptions()
+          .withOption('ajax', { 
+           url: 'index.php/ItemsController/getGrnList',
+           type: 'GET',
+
+       })
+        
+      .withDataProp('data')
+      .withOption('processing', true) 
+      .withOption('serverSide', true) 
+      .withOption('paging', true) 
+      .withDisplayLength(10) 
+      .withOption('createdRow', createdRow)
+      .withOption('aaSorting',[0,'desc']);
+        vm.dtColumns = [
+            DTColumnBuilder.newColumn('id').withTitle('Id'),
+            DTColumnBuilder.newColumn('grn').withTitle('GRN'),
+            DTColumnBuilder.newColumn('item_id').withTitle('Item Id'),
+            DTColumnBuilder.newColumn('total_stock').withTitle('Total Stock'),
+            DTColumnBuilder.newColumn('remaining_stock').withTitle('Remaining'),
+            DTColumnBuilder.newColumn('in_date').withTitle('Date'),
+            DTColumnBuilder.newColumn('id').withTitle(' ')
+            .renderWith(function(data, type, full, meta) { 
+                  return  '';
+              }),,
+               
+ 
+        ];
+
+
+        function createdRow(row, data, dataIndex) { 
+
+            $compile(angular.element(row).contents())($scope);
+
+
+        }
+ 
+    }
+
+    $scope.getItemsList();
+   
+    $scope.navigateTo = function ( path ) {
+        goTo.page( path );
+    };
+
+
+}]);
+
 
 app.controller('SearchItemsCtrl', ['$scope', '$compile','$location', 'ajaxRequest', 'goTo', 'messageBox' , 'Notification', 'DTOptionsBuilder', 'DTColumnBuilder', '$routeParams',
   function($scope, $compile, $location, ajaxRequest, goTo, messageBox, Notification, DTOptionsBuilder, DTColumnBuilder,$routeParams) {
@@ -194,7 +252,8 @@ app.controller('SearchItemsCtrl', ['$scope', '$compile','$location', 'ajaxReques
                 $scope.grn = result.grn;
                 $scope.item_name = result.item_name; 
                 $scope.package_barcode = result.package_barcode; 
-                $scope.sup_name = result.sup_name; 
+                $scope.sup_name = result.sup_name;
+                $scope.manufacture_id = result.manufacture_id;
 
                 $scope.status = result.status;
 
@@ -281,6 +340,64 @@ app.controller('SearchItemsCtrl', ['$scope', '$compile','$location', 'ajaxReques
     $scope.navigateTo = function ( path ) {
         goTo.page( path );
     };
+
+
+ 
+    $scope.returnItem = function(){
+  
+
+      var options = {
+            title:'Add to Returns',
+            message:
+                  `Are you sure you want to add <strong>`+$scope.barcode+`</strong> item to returns? If yes please submit. The changes cannot be undone.
+                  <br/>Do you want to add this to returns? <br/><br/>   <strong>Note: </strong><textarea name="" cols="10" rows="4" id="note" class="form-control"></textarea> `, 
+            className: 'short_modal',
+        }
+
+        messageBox.delete(options).then(function(post) {
+
+          if (post == 1) {
+
+          //  var getPkg =  $.param({ grn: grn, invoice_no: invoice_no })
+
+            var delete_note = $('html #note').val();
+
+            console.log(delete_note, $scope.barcode);
+
+            var data = $.param({ 
+               
+                barcode: $scope.barcode, 
+                rep_name: $scope.customer_name,
+                remarks: delete_note,  
+                added_by: $scope.name,
+
+            });
+ 
+
+            ajaxRequest.post('ReturnsController/addReturns', data ).then(function(response) {
+
+
+              if (response.status == 200) {
+
+                    Notification.success('Item has been added to returns successfully.');
+                    $scope.navigateTo('returns');
+
+
+                   }else if(response.status == 500 || response.status == 404){
+                      Notification.error('An error occured while adding package. Please try again.'); 
+                   } 
+
+            });
+          
+            
+
+          }
+
+
+        });
+
+
+    }
 
 
 }]);
@@ -806,7 +923,7 @@ app.controller('ItemsStockCtrl', ['$scope', '$compile', '$location', 'ajaxReques
       
       $scope.total_qty = $scope.pkg_qty * $scope.bat_qty;
  
-      $scope.barcode = ($scope.invoice_id + $scope.grn) +$scope.manufacture_id+ $scope.pkg_qty +$scope.bat_qty;
+      $scope.barcode = ($scope.invoice_id + $scope.grn) +'0'+ $scope.pkg_qty +$scope.bat_qty;
       barcodeNo.generateBarcode($scope.barcode);
     };
 
@@ -1077,7 +1194,7 @@ app.controller('ItemsStockCtrl', ['$scope', '$compile', '$location', 'ajaxReques
               if (response1.status == 200 && response1.data.data.length==0) {
 
                   var data_add_item_stock = $.param({ 
-                    barcode: $scope.barcode,
+                    barcode: $scope.barcode, 
                     invoice_no: $scope.invoice_id, 
                     item_id: $routeParams.id, 
                     grn: $scope.grn,
@@ -1087,6 +1204,7 @@ app.controller('ItemsStockCtrl', ['$scope', '$compile', '$location', 'ajaxReques
                     package_id: '0',
                     status: '1',
                     note: $scope.note,
+                    manufacture_id: $scope.manufacture_id,
                   });
                     
                   $scope.count = 0;

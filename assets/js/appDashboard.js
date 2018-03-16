@@ -39,8 +39,8 @@ console.log(prevMonthName);
 
   $scope.getChart = function(data){
 
-      console.log(data)
-      data.total_invoices = ['Invoices',12,60,70,55,46];
+      //console.log(data)
+      //data.total_invoices = ['Invoices',12,60,70,55,46];
 
     	var chart = c3.generate({
 		    bindto: '#chart',

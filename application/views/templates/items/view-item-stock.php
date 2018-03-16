@@ -45,7 +45,7 @@
 					<div class="top_bar"> 
 
 						<md-button ng-click="navigateTo('items')"  class="top"><i class="icon-list-with-dots" aria-hidden="true"></i> View Items List</md-button> 
-						<md-button ng-click="openAddBulkStock()" class="top"><i class="icon-plus-sign-in-a-black-circle" aria-hidden="true"></i> Add New Packages</md-button>
+						<md-button ng-click="openAddBulkStock()" class="top"><i class="icon-plus-sign-in-a-black-circle" aria-hidden="true"></i> Add New Packages</md-button> 
 					 
 						 
 						<div class="clearfix"></div>
@@ -269,7 +269,16 @@
 										  	<div class="clearfix"></div>
 										</div>
 					                  	<div class="row_"> 
-					                  		<div class="col-md-6">
+					                  		<div class="col-md-4">
+						                        <div class="form-group">
+						                          <label class="control-label col-sm-12" for="manufacture_id">Manufacture ID : <small class="help-block hide">Can't be empty</small></label>
+						                          <div class="col-sm-12"  ng-class="{ 'has-error' : editItemStockForm.manufacture_id.$touched && editItemStockForm.manufacture_id.$invalid }"> 
+						                              <input type="text" class="form-control" id="manufacture_id" ng-change="getBarcode()" name="manufacture_id" ng-model="manufacture_id" required>
+						                              <label class="error">This field is required.</label>  
+						                          </div>
+						                        </div>
+						                    </div>
+					                  		<div class="col-md-4">
 						                        <div class="form-group" ng-class="{ 'has-error' : editItemStockForm.invoice_id.$touched && editItemStockForm.invoice_id.$invalid }">
 						                            <label class="control-label col-sm-12" for="invoice_id">Invoice No : <small class="help-block hide ">Must be a numeric value</small></label>
 						                            <div class="col-sm-12">
@@ -279,7 +288,7 @@
 						                        </div>
 						                     </div> 
 						                  
-						                    <div class="col-md-6">
+						                    <div class="col-md-4">
 						                        <div class="form-group" ng-class="{ 'has-error' : editItemStockForm.grn.$touched && editItemStockForm.grn.$invalid }">
 						                            <label class="control-label col-sm-12" for="grn">Goods Recieve No (GRN): <small class="help-block hide ">Must be a numeric value</small></label>
 						                            <div class="col-sm-12">

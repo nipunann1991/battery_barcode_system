@@ -8,8 +8,7 @@
 		</div> 
 	  	 
 
-		<md-button ng-click="navigateTo('invoice')" ><i class="icon-plus-sign-in-a-black-circle" aria-hidden="true"></i> View Invoice List</md-button> 
-		<md-button class="dark_purple" ng-click="navigateTo('invoice/missing-items')" ><i class="icon-plus-sign-in-a-black-circle" aria-hidden="true"></i> Missing Items</md-button> 
+		<md-button ng-click="navigateTo('invoice')" ><i class="icon-plus-sign-in-a-black-circle" aria-hidden="true"></i> View Invoice List</md-button>  
 	</div>
  
 	<div class="body invoice"> 

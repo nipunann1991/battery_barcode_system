@@ -353,15 +353,20 @@ app.controller('newinvoiceCtrl', ['$scope','ajaxRequest', '$q', 'goTo', 'Notific
 			if (response.status == 200) { 
 
 				var getInsertedId = response.data.data.inserted_id; 
-				 
+				var count = 0
 				angular.forEach($scope.item_barcodes, function(value, key) { 
-					 
+					 count++;
+
 					var invoice_data = $.param({ invoice_id: getInsertedId ,  barcode: value, status: 0  })
 					
 					ajaxRequest.post('InvoiceController/saveInvoiceSP' ,invoice_data ).then(function(response) {
 										
 						if (response.status == 200) { 
-				 			Notification.success('Invoice has been added saved.');
+
+							if(count == 1){
+								Notification.success('Invoice has been added saved.');
+							}
+				 			
 
 				 			$scope.navigateTo('invoice');
 

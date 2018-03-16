@@ -11,13 +11,15 @@ class InvoiceController extends CommonController {
 
  		$tbl_name = 'invoice';
 
- 		$result = $this->getAllDataDT__('invoice');
+ 		//$result = $this->getAllDataDT__('invoice');
 
  		$get_all_data = array(
 			'columns' => 'i.*, c.*' ,   
 			'table' => 'invoice i, customer c',
-			'data' => 'i.customer_id = c.customer_id',
+			'data' => 'i.customer_id = c.customer_id AND i.customer_id <> 0 order by i.invoice_id desc',
 		);
+
+		$result = $this->selectCustomDataDT__($get_all_data);
 
 
  		$output['result'] = array(

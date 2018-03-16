@@ -7,7 +7,7 @@
 		</div> 
 	  	 
 
-		<md-button ng-click="navigateTo('categories/add-category')" ><i class="icon-list-with-dots" aria-hidden="true"></i> Add Category</md-button>
+		<md-button ng-click="navigateTo('categories/add-category')" ><i class="icon-plus-sign-in-a-black-circle" aria-hidden="true"></i> Add Category</md-button>
 	</div>
 	<div class="body"> 
 		

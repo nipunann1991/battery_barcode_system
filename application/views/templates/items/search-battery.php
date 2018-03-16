@@ -33,7 +33,7 @@
 					<li><strong>Item Barcode :</strong> {{barcode}} <span class="label" ng-class="{ 'label-success' : status == '1', 'label-danger': status == '0', 'label-warning': status == '-1' }">{{status_text}}</span></li> 
 					<li><strong>Package Barcode :</strong> {{package_barcode}}</li>
 					<li><strong>Category Name :</strong> {{cat_name}}</li>
-					<li><strong>Manufacture ID :</strong>  </li> 
+					<li><strong>Manufacture ID :</strong> {{manufacture_id}} </li> 
 					<li><strong>Item Name :</strong> {{item_name}}</li>
 					<li><strong>Invoice No :</strong> {{invoice_no}}</li>
 					<li><strong>GRN :</strong> {{grn}}</li> 
@@ -54,6 +54,8 @@
 						<span><strong>Telephone :</strong> {{tel}}</span> 
 					</li>   
 				</ul>
+
+				<md-button ng-click="returnItem()" class="btn_purple btn" >Return Item</md-button> 
 			</div>
 			 
 		</div>

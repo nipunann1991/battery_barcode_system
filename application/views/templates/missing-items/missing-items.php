@@ -7,7 +7,7 @@
 		</div> 
 	  	 
 
-		<md-button ng-click="navigateTo('missing-items/add-missing-items')" ><i class="icon-plus-sign-in-a-black-circle" aria-hidden="true"></i> Add Missing Item</md-button> 
+		<md-button ng-click="navigateTo('invoice/missing-items')" ><i class="icon-plus-sign-in-a-black-circle" aria-hidden="true"></i> Add Missing Item</md-button> 
 	</div>
  
 	<div class="body"> 

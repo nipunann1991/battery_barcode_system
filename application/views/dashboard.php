@@ -13,26 +13,26 @@
  
 	<div class="body">
 		
-		<div class="row_ quick_summery">
+		<div class="row_ quick_summery"> 
 			<div class="col-sm-3 iblock">
-				<div class="iblock_inner purple"> 
-					<h2>{{invoices}}</h2>
-					<h3>Invoices Today</h3>
-					<i class="icon-list"></i>
-				</div>
-			</div>
-			<div class="col-sm-3 iblock">
-				<div class="iblock_inner blue">
+				<div class="iblock_inner  green">
 					<h2>{{items}}</h2>
 					<h3>Total Items in Stock</h3>
 					<i class="icon-car-battery"></i>
 				</div>
 			</div>
 			<div class="col-sm-3 iblock">
-				<div class="iblock_inner yellow"> 
+				<div class="iblock_inner blue"> 
 					<h2>{{packages}}</h2>
 					<h3>Packages in Stock</h3>
 					<i class="icon-box"></i>
+				</div>
+			</div>
+			<div class="col-sm-3 iblock">
+				<div class="iblock_inner purple"> 
+					<h2>{{invoices}}</h2>
+					<h3>Invoices Today</h3>
+					<i class="icon-list"></i>
 				</div>
 			</div>
 			<div class="col-sm-3 iblock">

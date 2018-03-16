@@ -16,6 +16,8 @@ app.config(['$routeProvider', '$locationProvider', function ($routeProvider, $lo
     .when("/items/view-item-stock/:id", { templateUrl : "index.php/Pages/viewItemStock",  css: 'style.css' })
     .when("/items/view-barcode/:barcode", { templateUrl : "index.php/Pages/viewBarcode",  css: 'style.css' })
     .when("/items/view-package_items/:id", {  templateUrl : "index.php/Pages/viewPackageItems",  css: 'style.css' })
+    .when("/items/view-grn-list/", {  templateUrl : "index.php/Pages/viewGrnList",  css: 'style.css' })
+
 
     .when("/package", {  templateUrl : "index.php/Pages/package",  css: 'style.css' })
     .when("/package/add-package", {  templateUrl : "index.php/Pages/addPackage",  css: 'style.css' })
@@ -78,9 +80,9 @@ app.controller('navCtrl', function($scope) {
 
     { page_name: 'Suppliers' ,page_icon: 'icon-truck' , page_link: '#suppliers' , page_sublinks: ''},
  
-    { page_name: 'Missing Items' ,page_icon: 'icon-settings' , page_link: '#/missing-items', page_sublinks: '' },
+    { page_name: 'Missing Items' ,page_icon: 'icon-question' , page_link: '#/missing-items', page_sublinks: '' },
 
-    { page_name: 'Returns' ,page_icon: 'icon-settings' , page_link: '#/returns', page_sublinks: '' },
+    { page_name: 'Returns' ,page_icon: 'icon-previous' , page_link: '#/returns', page_sublinks: '' },
     
     { page_name: 'Settings' ,page_icon: 'icon-settings' , page_link: '#/settings', page_sublinks: '' },
   ];

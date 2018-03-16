@@ -10,7 +10,7 @@ $letter_spacing: 0.03rem;
 $form_border: #cfdadd;
 $green_btn : #00b356;
 $default_purple: #6254b2;
-$default_blue: #19a9d5;
+$default_blue: #118fff;
 $dafault_light_blue: #00bff9;
 $default_yellow: #f9d21a;
 $default_red: #ee3939;
@@ -69,6 +69,8 @@ md-content 											{ background: transparent; }
 				span.label 							{ display: inline; margin-left: 10px; }
 			}
 		}
+
+		button 										{ float: right; margin: 0; margin-top: 20px;}
 	}
 	
 }
@@ -92,7 +94,10 @@ md-content 											{ background: transparent; }
  
 .flat_pink 											{ background: #dc0070 !important; color: #fff; }
 .dark_purple 										{ background: $default_purple !important; color: #fff; }
-.yellow_btn 										{ background: $default_yellow !important; color: #fff; }
+.yellow_btn 										{ background: darken( $default_yellow, 5%) !important; color: #fff; 
+	&:hover, &:focus, &:active						{ color: #fff; background-color: darken( $default_yellow, 10%) !important; }
+	
+}
 .light_blue 										{ background: #00a9dc !important; color: #fff; }
 button.blue 										{ background: $dafault_light_blue !important; color: #fff;
 	&:hover, &:focus, &:active						{ color: #fff; background-color: darken( $dafault_light_blue, 10%) !important; }

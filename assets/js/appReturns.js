@@ -167,10 +167,8 @@ app.controller('editReturnsCtrl', ['$scope','$compile', '$location', 'ajaxReques
 
 	    	var data = $.param({ 
 	           	id: $routeParams.id,
-	            barcode: $scope.barcode, 
-	            rep_name: $scope.rep_name,
-	            remarks: $scope.remarks,   
-	            return_date: $scope.return_date,
+	            barcode: $scope.barcode,   
+	            remarks: $scope.remarks,    
 
 	        });
 

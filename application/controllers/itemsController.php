@@ -71,6 +71,61 @@ class ItemsController extends CommonController {
         return $this->output->set_output(json_encode($output['result']));
     }
 
+    public function getGrnList(){ 
+ 
+
+        $tbl_name = 'item'; 
+        $start = $this->input->get('start');
+        $length = $this->input->get('length');
+        $get_column = $this->input->get('order[0][column]');
+        $get_column_name = $this->input->get('columns['.$get_column.'][data]');
+        $get_order = $this->input->get('order[0][dir]');
+        $search_from_value = '';
+
+        switch ($get_column_name) {
+            case 'cat_name':
+                $get_column_name = 'c.'.$get_column_name;
+                break;
+            
+            default:
+                $get_column_name = 'g.'.$get_column_name;
+                break;
+        }
+
+        if (intval($this->input->get('draw')) == 1) {
+            $get_order = 'desc';
+        }
+
+        if ($this->input->get('search[value]') != '') {
+            $search_from_value = "AND i.item_name LIKE '%".$this->input->get('search[value]')."%' OR i.item_id LIKE '%".$this->input->get('search[value]')."%'";
+        }
+
+        $search_index = array(
+            'columns' => 'g.*' ,   
+            'table' => 'grn g',
+            'data' => ' 1 '.$search_from_value.' order by '.$get_column_name.' '.$get_order.' LIMIT '.$start.', '.$length.'',
+
+        );
+
+        $get_all_data = array(
+            'columns' => 'g.*' ,   
+            'table' => 'grn g',
+            'data' => '1 ',
+        );
+
+
+        $result = $this->selectCustomDataDT__($search_index); 
+        
+        $output['result'] = array(
+            "draw" => intval($this->input->get('draw')),
+            "recordsTotal" => $this->commonQueryModel->count_filtered($get_all_data),
+            "recordsFiltered" => $this->commonQueryModel->count_filtered($get_all_data),
+            "data" => $result,
+        ); 
+
+        return $this->output->set_output(json_encode($output['result']));
+    }
+
 
     public function getCategoryList(){
 

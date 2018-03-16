@@ -93,6 +93,10 @@ class Pages extends CI_Controller {
 		$this->load->view('templates/items/view-package-items');
 	}
 
+	public function viewGrnList(){  
+		$this->load->view('templates/items/view-grn-list');
+	}
+
 
 
 	

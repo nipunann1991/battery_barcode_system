@@ -7,7 +7,7 @@
 		</div> 
 	  	 
 
-		<md-button ng-click="navigateTo('returns/add-return')" ><i class="icon-plus-sign-in-a-black-circle" aria-hidden="true"></i> Add New Return</md-button> 
+		<md-button ng-click="navigateTo('items/search-battery')" ><i class="icon-plus-sign-in-a-black-circle" aria-hidden="true"></i> Add New Return</md-button> 
 	</div>
  
 	<div class="body"> 

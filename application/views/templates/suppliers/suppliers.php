@@ -7,7 +7,7 @@
 		</div> 
 	  	 
 
-		<md-button ng-click="navigateTo('suppliers/add-suppliers')" ><i class="icon-list-with-dots" aria-hidden="true"></i> Add Supplier</md-button>
+		<md-button ng-click="navigateTo('suppliers/add-suppliers')" ><i class="icon-plus-sign-in-a-black-circle" aria-hidden="true"></i> Add Supplier</md-button>
 	</div>
 	<div class="body"> 
 		

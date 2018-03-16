@@ -8,11 +8,11 @@
 	        <span class="icon-bar"></span>
 	        <span class="icon-bar"></span>
 	    </button>
-	    <!-- <a class="navbar-brand" href="#">Project name</a> -->
+	   
 	</div>
 	<div class="navigation_items pull-right">
 	      
-		<ul>
+		<ul> 
 			<li><md-button href="javascript:void(0)"  class="md-icon-button" ng-click="logout()"><i class="glyphicon glyphicon-off"></i></<md-button></li>
 		</ul>
 	</div> 
